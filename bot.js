@@ -3022,17 +3022,6 @@ if (err) console.error(err);
 
 
 
-
-
-      client.on('message', message => {
-        if(message.content.startsWith(prefix + 'botinvite')) {
-              let id = message.content.split(" ").slice(1).join(" ");
-          if(!id) return message.reply('اكتب ايدي البوت')
-                               let idembed = new Discord.RichEmbed()
-                               .addField('Link:', `https://discordapp.com/oauth2/authorize?client_id=${id}&scope=bot&permissions=2080374975`)
-                               .setFooter('اذا الرابط ما شتغل اعرف ان الايدي غلط او ان البوت برايفت')
-      message.channel.sendEmbed(idembed)
-
         const math = require('math-expression-evaluator');
       const stripIndents = require('common-tags').stripIndents;
 
@@ -4551,11 +4540,10 @@ return;
 
 }
 }); 
-        }}
-        )}
-        )
-      }
-        )})}
+        })
       })
-		client.login(process.env.BOT_TOKEN)
+    })
+  }})
+
+      		client.login(process.env.BOT_TOKEN)
 		client3.login(process.env.BOT_TOKEN)
