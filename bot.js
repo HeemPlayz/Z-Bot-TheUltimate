@@ -43,8 +43,1141 @@ client.on('ready', () => {
 });
 
 
+
+client.on("message", message => {
+  var prefix = "p#";
+if (message.content === "p#help") {
+const embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`
+╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+
+
+👑Commands Plex Bot♧|أوامر البوت الأسطورية👑
+
+─════════════ {🎇PlexBot🎇} ════════════─
+❧ p#help-admin ➺ 🔰اوامر الادارة🔰
+
+❧ p#help-public ➺ 👑اوامر العامة👑
+
+❧ p#help-games ➺ 🎮اوامر الالعاب🎮
+
+❧ p#help-music ➺ 🎵اوامر الاغاني🎶
+
+❧ p#help-welcome ➺ 👋معلومات الترحيب في البوت👋
+
+❧ p#help-color ➺ ✏أوامر الألوان🎉
+
+❧ p#help-use ➺🚩للمزيد من المعلومات للبوت🚩
+
+❧ p#help-tr ➺:regional_indicator_a: :regional_indicator_r: امر هيلب خاص لقسم الترجمه :regional_indicator_e: :regional_indicator_n:
+─════════════ {🎇PlexBot🎇} ════════════─
+    `)
+ message.channel.sendEmbed(embed)
+
+ }
+ });
+
+
+
+
+
+
+
+
+
+
+
+client.on('message', message => {
+   if(message.content.startsWith(prefix +"bans")) {
+      message.guild.fetchBans()
+      .then(bans => message.channel.send(`The ban count **${bans.size}** Person`))
+.catch(console.error);
+}
+});
+
+client.on('message', message => {
+  if (message.content === "p#banslist") {
+  if(!message.channel.guild) return;
+      var bans = message.guild.fetchBans.map(banslist => `${bans.name}, `).join(' ')
+      const embed = new Discord.RichEmbed()
+      .setColor('RANDOM')
+      .addField('bans:',`**[${bans}]**`)
+      message.channel.sendEmbed(embed);
+  }
+});
+
+
+  client.on('message', message => {
+            if(!message.channel.guild) return;
+  if(message.content.startsWith('p#bc')) {
+  if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
+if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
+  let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
+  let copy = "Plex Bot";
+  let request = `Requested By ${message.author.username}`;
+  if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
+  msg.react('✅')
+  .then(() => msg.react('❌'))
+  .then(() =>msg.react('✅'))
+
+  let reaction1Filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
+  let reaction2Filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+     let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
+  let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
+  reaction1.on("collect", r => {
+  message.channel.send(`☑ |   ${message.guild.members.size} يتم ارسال البرودكاست الى عضو `).then(m => m.delete(5000));
+  message.guild.members.forEach(m => {
+var bc = new
+Discord.RichEmbed()
+.setColor('RANDOM')
+.setTitle(':mega: برودكاست')
+.addField('🔰السيرفر🔰', message.guild.name)
+.addField('🚩المرسل🚩', message.author.username)
+.addField('📜الرسالة📜', args)
+.setThumbnail(message.author.avatarURL)
+.setFooter(copy, client.user.avatarURL);
+  m.send({ embed: bc })
+  msg.delete();
+  })
+  })
+  reaction2.on("collect", r => {
+  message.channel.send(`**Broadcast Canceled.**`).then(m => m.delete(5000));
+  msg.delete();
+  })
+  })
+  }
+  })
+
+  const child_process = require("child_process"); //npm i child_process
+client.on('ready' , function (){
+var time = 7200000;
+client.setInterval(function() {
+client.destroy();
+    child_process.fork(__dirname + "/bc.js");
+}, time);
+});
+
+
+
+client.on("message", message => {
+if (message.content === "p#help-color") {
+const embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`
+╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+
+👑اوامر الالوان👑`)
+.addField('❖-|=colors', `👑لعرض قائمة الألوان💯`)
+    .addField('❖-|=createcolors', `☺لأنشاء 50 لون💯`)
+      .addField('❖-|=deletecolors', `☺حذف 50 لون💯`)
+    .addField('❖-|=color', `😊لتحط ايا لون من هول الالوان اكتب الأمر و الرقم من 1 ل50 انت اختر😉`)
+message.author.send({embed});
+    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+}
+});
+
+
+
+
+client.on("message", message => {
+if (message.content === "p#help-games") {
+const embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`
+╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+
+👑اوامر الألعاب👑`)
+        .addField('❖-|p#صراحة🎮', `لعبة صراحه🎮`)
+        .addField('❖-|p#عواصم🎮', `لعبة عواصم🎮`)
+  .addField('❖-|p#عقاب🎮', `لعبة عقاب🎮`)
+        .addField('❖-|p#خواطر🎮', `لعبة خواط🎮`)
+        .addField('❖-|p#حجرة أو ورقة أو مقص🎮', `لعبة حجرة ورقة مقص🎮`)
+  .addField('❖-|p#كت تويت🎮', `لعبة كت تويت🎮`)
+  .addField('❖-|p#لو خيروك🎮', `لعبة لو خيروك🎮`)
+        .addField('❖-|p#قرعة🎮', `لاستعمال القرعة🎮`)
+        .addField('❖-|p#فكك🎮', `لعبة فكك🎮`)
+        .addField('❖-|p#لغز🎮', `لعبة لغز🎮`)
+        .addField('❖-|p#شقلب🎮', `لعبة شقلب🎮`)
+        .addField('❖-|p#كتابة🎮', `لعبة كتابة🎮`)
+        .addField('❖-|p#ركب🎮', `لعبة ركب🎮`)
+        .addField('❖-|p#رياضيات🎮', `لعبة الرياضيات🎮`)
+        .addField('❖-|p#solts🎮', `لعبة الإيموجي🎮`)
+          .addField('❖-|p#xo🎮', `لعبه اكس او🎮`)
+message.author.send({embed});
+    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+}
+});
+
+client.on("message", message => {
+if (message.content === "p#help-use") {
+const embed = new Discord.RichEmbed()
+    .setColor("RANDOM")
+    .setDescription(`
+╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+
+─════════════ {✯PlexBot♧✯} ════════════─
+❖-|welcomeleft|🚩لتفيل امر المغادرة أنشاء غرفة أسمها welcome🚩
+❖-|suggest|🚩لتفعيل الريبورت أنشاء غرفة أسمها suggestions🚩
+❖-|log|🚩لوق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياذ كثيرة🚩
+❖-|all adminstrator commands|🚩 يحتاج روم incidents + logل وق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياء كثير🚩
+❖-|setwelcomer|🚩setup welcome code🚩
+❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
+─════════════ {✯PlexBot♧✯} ════════════─
+    `)
+ message.channel.sendEmbed(embed)
+  }
+ });
+
+client.on('message', message => {
+ if (message.content.startsWith("p#help-tr")) {
+   let embed = new Discord.RichEmbed()
+.setDescription(`
+╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+
+p#tr لاستخدام امر الترجمه**
+
+اللغات في البوت : -
+\`\`\`
+Albanian
+Amharic
+Arabic
+Armenian
+Azeerbaijani
+Basque
+Belarusian
+Bengali
+Bosnian
+Bulgarian
+Catalan
+Cebuano
+Chinese
+Chinese
+Corsican
+Croatian
+Czech
+Danish
+Dutch
+English
+Esperanto
+Estonian
+Finnish
+French
+Frisian
+Galician
+Georgian
+German
+Greek
+Gujarati
+Haitian Creole
+Hausa
+Hawaiian
+Hebrew
+Hindi
+Hmong
+Hungarian
+Icelandic
+Igbo
+Indonesian
+Irish
+Italian
+Japanese
+Javanese
+Kannada
+Kazakh
+Khmer
+Korean
+Kurdish
+Kyrgyz
+Lao
+Latin
+Latvian
+Lithuanian
+Luxembourgish
+Macedonian
+Malagasy
+Malay
+Malayalam
+Maltese
+Maori
+Marathi
+Mongolian
+Myanmar
+Nepali
+Norwegian
+Nyanja
+Pashto
+Persian
+Polish
+Portuguese
+Punjabi
+Romanian
+Russian
+Samoan
+Scots Gaelic
+Serbian
+Sesotho
+Shona
+Sindhi
+Sinhala
+Slovak
+Slovenian
+Somali
+Spanish
+Sundanese
+Swahili
+Swedish
+Tagalog
+Tajik
+Tamil
+Telugu
+Thai
+Turkish
+Ukrainian
+Urdu
+Uzbek
+Vietnamese
+Welsh
+Xhosa
+Yiddish
+Yoruba
+Zulu	\`\`\`
+**`)
+.setFooter('PlexBot.')
+message.author.send(embed)
+    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+}
+});
+
+client3.on('message', message => {
+if (message.content.startsWith("p#tr")) {
+
+const translate = require('google-translate-api');
+
+
+let toTrans = message.content.split(' ').slice(1);
+let language;
+
+language = toTrans[toTrans.length - 2] === 'to' ? toTrans.slice(toTrans.length - 2, toTrans.length)[1].trim() : undefined;
+if (!language) {
+return message.reply(`Please supply valid agruments.\n**Example** \`p#tr [text] to [language]\``);
+}
+let finalToTrans = toTrans.slice(toTrans.length - toTrans.length, toTrans.length - 2).join(' ');
+translate(finalToTrans, {to: language}).then(res => {
+   message.channel.send({embed: {
+       color: 3447003,
+       author: {
+         name: 'Plex translator',
+         icon_url: client3.user.avatarURL
+       },
+       fields: [{
+           name: "Plex",
+           value: `**From:** ${res.from.language.iso}\n\`\`\`${finalToTrans}\`\`\`\n**To: **${language}\n\`\`\`${res.text}\`\`\``
+         }
+       ],
+       timestamp: new Date(),
+       footer: {
+         icon_url: client3.user.avatarURL,
+         text: "Plex"
+       }
+     }
+   });
+}).catch(err => {
+message.channel.send({
+   embed: {
+       description: '❌ We could not find the supplied language.',
+       color: 0xE8642B
+   }
+});
+});
+}
+});
+
+client3.on('message', message => {
+var prefix = "p#"
+let args = message.content.split(' ').slice(1);
+if(message.content.startsWith(prefix + 'role')) {
+let member = message.mentions.users.first();
+let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
+console.log(role);
+if(member) {
+     if(role.startsWith('-')) {
+       let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+       console.log(roleRe);
+       let role1 = message.guild.roles.find('name', roleRe);
+       console.log(`hi`);
+const ee =new Discord.RichEmbed()
+.setDescription('**:x: I can’t find the role.**')
+.setFooter('Requested By '+message.author.username,message.author.avatarURL)
+if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1.id);
+
+            const e = new Discord.RichEmbed()
+
+        .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
+       .setFooter('Requested By '+message.author.username,message.author.avatarURL)
+       .setColor('BLACK')
+        message.channel.send(e)
+   } else if(!role.startsWith('-')) {
+       let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+       let role1 = message.guild.roles.find('name', roleRe);
+const ee =new Discord.RichEmbed()
+.setDescription('**:x: I can’t find the role.**')
+.setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+if(!role1) return message.channel.send(ee);                message.guild.member(member).addRole(role1);
+       const e = new Discord.RichEmbed()
+
+       .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
+       .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+       .setColor('BLACK')
+        message.channel.send(e)
+   } else {
+       message.reply(`يجب عليك كتابة اسم الرتبة`);
+   }
+}
+else if(args[0] == 'all') {
+if(role.startsWith('p#')) {
+let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+let role1 = message.guild.roles.find('name', roleRe);
+          message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
+  message.guild.members.forEach(m => {
+   message.guild.member(m).removeRole(role1.id);
+});
+msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+});
+}
+if(role) {
+let role1 = message.guild.roles.find('name', role);
+if(!role1) return;
+message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
+message.guild.members.forEach(m => {
+   message.guild.member(m).addRole(role1);
+});
+msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
+});
+}
+} else if(args[0] == 'humans') {
+if(role.startsWith('p#')) {
+let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+let role1 = message.guild.roles.find('name', roleRe);
+          message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
+  message.guild.members.forEach(m => {
+   message.guild.member(m).removeRole(role1.id);
+});
+msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+});
+}
+
+if(role) {
+let role1 = message.guild.roles.find('name', role);
+
+const ee =new Discord.RichEmbed()
+.setDescription('I Cann’t Find This Role')
+.setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+if(!role1) return message.channel.send(ee);
+message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
+   message.guild.members.filter(m =>m.user.bot == false).forEach(m => {
+       message.guild.member(m).addRole(role1);
+   });
+msg.edit(`** :white_check_mark:   Done...**`);
+});
+}
+} else if(args[0] == 'bots') {
+if(role.startsWith('p#')) {
+let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+let role1 = message.guild.roles.find('name', roleRe);
+          message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
+  message.guild.members.forEach(m => {
+   message.guild.member(m).removeRole(role1.id);
+});
+msg.edit(`** :white_check_mark:  Done...**`);
+});
+}
+if(role) {
+let role1 = message.guild.roles.find('name', role);
+const ee =new Discord.RichEmbed()
+.setDescription('I Cann’t Find This Role')
+.setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+if(!role1) return message.channel.send(ee);
+message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
+   message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
+       message.guild.member(m).addRole(role1);
+   });
+msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
+});
+}
+}
+}
+});
+
+
+
+
+
+client3.on('message' , message => {
+var prefix = "p#";
+if(message.author.bot) return;
+
+if(message.content.startsWith(prefix + "xo")) {
+let array_of_mentions = message.mentions.users.array();
+let symbols = [':o:', ':heavy_multiplication_x:']
+var grid_message;
+
+if (array_of_mentions.length == 1 || array_of_mentions.length == 2) {
+let random1 = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+let random2 = Math.abs(random1 - 1);
+if (array_of_mentions.length == 1) {
+random1 = 0;
+random2 = 0;
+}
+let player1_id = array_of_mentions[random1].id;
+let player2_id = array_of_mentions[random2].id;
+var turn_id = player1_id;
+var symbol = symbols[0];
+let initial_message = `مباراة بين <@${player1_id}> و <@${player2_id}>!`;
+if (player1_id == player2_id) {
+initial_message += '\n_(من الخاسر, انت تلعب هذا الدور مع نفسك :joy:)_'
+}
+message.channel.send(`xo! ${initial_message}`)
+.then(console.log("Successful tictactoe introduction"))
+.catch(console.error);
+message.channel.send(':one::two::three:' + '\n' +
+                ':four::five::six:' + '\n' +
+                ':seven::eight::nine:')
+.then((new_message) => {
+grid_message = new_message;
+})
+.then(console.log("Successful xo game initialization"))
+.catch(console.error);
+message.channel.send('يتم تحميل... انتظر الريئاكشن :ok:')
+.then(async (new_message) => {
+await new_message.react('1⃣');
+await new_message.react('2⃣');
+await new_message.react('3⃣');
+await new_message.react('4⃣');
+await new_message.react('5⃣');
+await new_message.react('6⃣');
+await new_message.react('7⃣');
+await new_message.react('8⃣');
+await new_message.react('9⃣');
+await new_message.react('🆗');
+await new_message.edit(`انه دور <@${turn_id}> علامتك هي${symbol}`)
+.then((new_new_message) => {
+require('./alpha.js')(client3, message, new_new_message, player1_id, player2_id, turn_id, symbol, symbols, grid_message);
+})
+.then(console.log("Successful xo listener initialization"))
+.catch(console.error);
+})
+.then(console.log("Successful xo react initialization"))
+.catch(console.error);
+}
+else {
+message.reply(`_مهلا مهلا_ :anger: \`(استعمل هذا: ${prefix}xo @player1 @player2)\``)
+.then(console.log("Successful error reply"))
+.catch(console.error);
+}
+}
+});
+client3.on('message', message => {
+let args = message.content.split(' ').slice(1);
+if(message.content.split(' ')[0] == 'p#color'){
+const embedd = new Discord.RichEmbed()
+.setFooter('Requested by '+message.author.username, message.author.avatarURL)
+.setDescription(`**لا يوجد لون بهذا الأسم ** :x: `)
+.setColor(`ff0000`)
+
+if(!isNaN(args) && args.length > 0)
+
+
+if    (!(message.guild.roles.find("name",`${args}`))) return  message.channel.sendEmbed(embedd);
+
+
+var a = message.guild.roles.find("name",`${args}`)
+ if(!a)return;
+const embed = new Discord.RichEmbed()
+
+.setFooter('Requested by '+message.author.username, message.author.avatarURL)
+.setDescription(`**Done , تم تغير لونك . :white_check_mark: **`)
+
+.setColor(`${a.hexColor}`)
+message.channel.sendEmbed(embed);
+if (!args)return;
+setInterval(function(){})
+   let count = 0;
+   let ecount = 0;
+for(let x = 1; x < 201; x++){
+
+message.member.removeRole(message.guild.roles.find("name",`${x}`))
+
+}
+ message.member.addRole(message.guild.roles.find("name",`${args}`));
+
+
+}
+});
+
+client3.on('message', msg => {
+if (msg.author.bot) return;
+if (!msg.content.startsWith(prefix)) return;
+let command = msg.content.split(" ")[0];
+command = command.slice(prefix.length);
+let args = msg.content.split(" ").slice(1);
+
+if(command === "clear") {
+const emoji = client3.emojis.find("name", "wastebasket")
+let textxt = args.slice(0).join("");
+if(msg.member.hasPermission("MANAGE_MESSAGES")) {
+if (textxt == "") {
+msg.delete().then
+msg.channel.send("***```ضع عدد الرسائل التي تريد مسحها 👌```***").then(m => m.delete(3000));
+} else {
+msg.delete().then
+msg.delete().then
+msg.channel.bulkDelete(textxt);
+msg.channel.send("```php\nعدد الرسائل التي تم مسحها: " + textxt + "\n```").then(m => m.delete(3000));
+}
+}
+}
+})
+
+client3.on('message', message => {
+if (message.content.startsWith("p#botinfo")) {
+message.channel.send({
+embed: new Discord.RichEmbed()
+   .setAuthor(client3.user.username,client3.user.avatarURL)
+   .setThumbnail(client3.user.avatarURL)
+   .setColor('RANDOM')
+   .setTitle('``INFO  Plex Bot`` ')
+   .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
+   .addField('``servers``', [client3.guilds.size], true)
+   .addField('``channels``' , `[ ${client3.channels.size} ]` , true)
+   .addField('``Users``' ,`[ ${client3.users.size} ]` , true)
+   .addField('``My Name``' , `[ ${client3.user.tag} ]` , true)
+   .addField('``My ID``' , `[ ${client3.user.id} ]` , true)
+         .addField('``My Prefix``' , `p#` , true)
+         .addField('``My Language``' , `[ Java Script ]` , true)
+         .setFooter('By |#5426سفاكء الدماءء@')
+})
+}
+});
+
+client3.on('message', message => {
+if (message.content === "p#bot") {
+   if(!message.channel.guild) return message.reply('** This command only for servers **');
+let embed = new Discord.RichEmbed()
+.setColor('RANDOM')
+.addField("**🔱عدد السيرفرات الي فيها البوت🔱:**" , client3.guilds.size)
+.addField("**👑المستخدمين👑:**", client3.users.size)
+.addField("**🚩قنوات🚩:**", client3.channels.size)
+.setTimestamp()
+message.channel.sendEmbed(embed);
+}
+});
+
+
+client3.on('ready', () => {
+client3.user.setGame(`p#help | p#support`,'https://www.twitch.tv/fofodiscord');
+});
+
+
+client3.on("message", message => {
+if (message.content === "p#help-public") {
+const embed = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setDescription(`
+╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+
+👑أوامر الأعضاء👑`)
+ .addField('❖-|p#invite', `👑لاضافة البوت الى سيرفرك💯`)
+ .addField('❖-|p#profile', `♣لتشوف ملفك الشخصي🌷`)
+.addField('❖-|p#bot', `🔱لمعرفة معلومات البوت🅱`)
+.addField('❖-|p#roles', `👑لمعرفة الرتب الي في السيرفر🔱`)
+ .addField('❖-|p#avatar', `🔰يجبلك الافتار حقك يعني صورة حسابك🔰`)
+.addField('❖-|p#id', `🆔يجبلك الملف الشخصي حقك🆔`)
+.addField('❖-|p#channelinfo', `♣ليعطيك معلومات الغرفة🌷`)
+.addField('❖-|p#userinfo', `➿لمعرفة معلوماتك بلكامل🔱`)
+ .addField('❖-|p#servers', `➰يجبلك عدد السيرفرات التي البوت داخله➰`)
+ .addField('❖-|p#roomsall', `🔰ليقلك اسماء الرومات الموجودة بسيرفر كلها👑`)
+.addField('❖-|p#say', `🎆البوت يكرر الكلام الي انت تقوله بدون امبد📝`)
+.addField('❖-|p#users1', `🎆يعرض لك جميع السيرفراا الموجودة بلبوت📝`)
+.addField('❖-|p#new', `👑يعمل لك تذكره 👑`)
+.addField('❖-|p#close', `👑حذف التذكره👑`)
+.addField('❖-|p#image', `📷يعرض صورة سيرفر⛺`)
+ .addField('❖-|p#credits', `👑عشان تشوف الكردتس الخاصة بك👑`)
+ .addField('❖-|p#daily', `💲عشان تاخذ الكردتس اليومية الخاصة بك💵`)
+ .addField('❖-|p#calc', `📟لاستخدام الالة الحاسبة + للجمع - للطرح * للضرب / للقسمة📝`)
+ .addField('❖-|p#suggest', `🔱لاقتراح شئ و لازم يكون فيه روم اسمه suggestions👑`)
+ .addField('❖-|p#uptime', `🕞عشان تشوف البوت شغال من متى🅱`)
+ .addField('❖-|p#botinfo', `🚩عشان تعرف معلومات البوت🚩`)
+ .addField('❖-|p#cat', `😍يجبلك صورة قطة🐱`)
+.addField('❖-|p#top invites', `📎قائمه متصدرين الانفايتات🖇️`)
+.addField('❖-|p#ping', `🎆يقلك كم بنق البوت🎇`)
+   .addField('❖-|p#report', `⚠عشان تبلغ عن شخص🔞`)
+message.author.send({embed});
+message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+}
+});
+
+
+const request = require('request')
+var Canvas = require('canvas')
+var jimp = require('jimp')
+
+
+
+console.log('hello')
+
+
+
+
+
+
+
+
+
+let points = {}
+
+client3.on('message', message => {
+if (!points[message.author.id]) points[message.author.id] = {
+points: 0,
+};
+if (message.content.startsWith(prefix + 'فكك')) {
+if(!message.channel.guild) return message.reply('**لا تلعب عندي العب بالسيرفرات**').then(m => m.delete(3000));
+
+const type = require('./gamesbombot/fkk.json');
+const item = type[Math.floor(Math.random() * type.length)];
+const filter = response => {
+return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+};
+message.channel.send('**الحق عندك 15 ثانية**').then(msg => {
+
+
+msg.channel.send(`${item.type}`).then(() => {
+ message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
+ .then((collected) => {
+ message.channel.send(`${collected.first().author} ✅ أصلي عليك`);
+     let points = {}
+     let userData = points[message.author.id];
+     let userdata = require('./Points.json');
+     userData.points++;
+   })
+   .catch(collected => {
+     message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
+   })
+ })
+})
+}
+});
+
+client3.on("message", async message => {
+if(message.author.bot) return;
+if(message.channel.type === "dm") return;
+let prefix = 'p#'
+let messageArray = message.content.split (" ");
+let args = messageArray.slice(1);
+
+if (message.content.startsWith(prefix + "8ball")) {
+
+
+if(!args[1]) return message.reply("?");
+let replies = ["يب", "لا.", "ما بعرف.", "اسالني لاحقا لو سمحت"];
+
+let result = Math.floor((Math.random() * replies.length));
+let question = args.slice(1).join(" ");
+
+message.channel.sendMessage(`${replies[Math.floor(Math.random() * replies.length)]}`);   ///Alpha Codes
+            if (!args[0]) {
+       message.edit('1')
+       return;
+     }
+ }
+});
+
+
+
+client3.on('message', message => {
+if(message.content.startsWith("p#slots")) {
+let slot1 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
+let slot2 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
+let slot3 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
+let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
+let slots2 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
+let slots3 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
+let we;
+if(slots1 === slots2 && slots2 === slots3) {
+we = "😀لقد ربحت يا بطل😀"
+} else {
+we = "😣لقد خسرت حظ آوفر😣"
+}
+message.channel.send(`${slots1} | ${slots2} | ${slots3} - ${we}`)
+}
+});
+
+
+
+
+
+client3.on('message', message => {
+if(message.content.startsWith("p#حجرة")) {
+let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
+let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
+let we;
+if(slots1) {
+we = "🎮ألعب مرة آخرى🎮"
+} else {
+we = "😣لقد خسرت حظ آوفر😣"
+}
+message.channel.send(`${slots1} - ${we}`)
+}
+});
+
+
+
+client3.on('message', message => {
+if(message.content.startsWith("p#ورقة")) {
+let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
+let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
+let we;
+if(slots1) {
+we = "🎮ألعب مرة آخرى🎮"
+} else {
+we = "😣لقد خسرت حظ آوفر😣"
+}
+message.channel.send(`${slots1} - ${we}`)
+}
+});
+
+client3.on('message', message => {
+if (message.content === "p#server") {
+let embed = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setThumbnail(message.author.avatarURL)
+.setTitle(`info about ${message.guild.name}`)
+.addField("Server Owner 👑",`➥ ` + `${message.guild.owner.user.username}`, true)
+.addField('Server ID 🆔',`➥` + message.guild.id, true)
+.addField("Owner Tag",`➥ ` +  `#` + message.guild.owner.user.discriminator, true)
+.addField("Owner ID 🆔",`➥ ` + message.guild.owner.user.id, true)
+.addField("Server Region📡",`➥ ` + message.guild.region, true)
+.addField("Server Member Size🏧",`➥ ` + message.guild.memberCount, true)
+.addField("Server Channels Number🏧",`➥ ` + message.guild.channels.size, true)
+.addField("Server Roels Number🏧",`➥ ` + message.guild.roles.size, true)
+.addField("AFK channel💤",`➥ ` + message.guild.afkChannel || 'Null', true)
+.addField("Server Created AT",`➥ ` + message.guild.createdAt, true)
+.addField(`info about ${message.author.username}`, `➥ `)
+.addField("Name",`➥ ` + `${message.author.username}`, true)
+.addField('Tag',`➥ ` + "#" +  message.author.discriminator, true)
+.addField("ID 🆔",`➥ ` + message.author.id, true)
+.addField(" Account Created At",`➥ ` + message.author.createdAt, true)
+.setTimestamp()
+.setFooter(message.author.tag, message.author.avatarURL)
+
+
+message.channel.sendEmbed(embed);
+}
+});
+
+
+
+
+client3.on('message', message => {
+if(message.content.startsWith("p#مقص")) {
+let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
+let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
+let we;
+if(slots1) {
+we = "🎮ألعب مرة آخرى🎮"
+} else {
+we = "😣لقد خسرت حظ آوفر😣"
+}
+message.channel.send(`${slots1} - ${we}`)
+}
+});
+
+
+
+
+client3.on('message', message => {
+if (!points[message.author.id]) points[message.author.id] = {
+points: 0,
+};
+if (message.content.startsWith(prefix + 'عواصم')) {
+if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+const type = require('./gamesbombot/3awasem.json');
+const item = type[Math.floor(Math.random() * type.length)];
+const filter = response => {
+return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+};
+message.channel.send('**👑لديك 15 ثانية للإجابة على السؤال!👑**').then(msg => {
+
+
+msg.channel.send(`${item.type}`).then(() => {
+ message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
+ .then((collected) => {
+ message.channel.send(`${collected.first().author} ✅ **الإجابة صحيحة بطل**`);
+ console.log(`[Typing] ${collected.first().author} typed the word.`);
+     let points = {}
+     let userData = points[message.author.id];
+     let userdata = require('./points.json');
+     userData.points++;
+   })
+   .catch(collected => {
+     message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
+   })
+ })
+})
+}
+});
+
+
+
+
+
+
+
+
+
+client3.on('message', message => {
+if (!points[message.author.id]) points[message.author.id] = {
+points: 0,
+};
+if (message.content.startsWith(prefix + 'لغز')) {
+if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+const type = require('./gamesbombot/quiz.json');
+const item = type[Math.floor(Math.random() * type.length)];
+const filter = response => {
+return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+};
+message.channel.send('**👑لديك 30 ثانية لحل هذا الغز👑**').then(msg => {
+
+
+msg.channel.send(`${item.type}`).then(() => {
+ message.channel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] })
+ .then((collected) => {
+ message.channel.send(`${collected.first().author} ✅ **الجواب صحيح صح عليك**`);
+ console.log(`[Typing] ${collected.first().author} typed the word.`);
+     let points = {}
+     let userData = points[message.author.id];
+     let userdata = require('./points.json');
+     userData.points++;
+   })
+   .catch(collected => {
+     message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
+   })
+ })
+})
+}
+});
+
+
+
+
+
+
+
+
+       client3.on('message', message => {
+         if (!points[message.author.id]) points[message.author.id] = {
+           points: 0,
+           };
+         if (message.content.startsWith(prefix + 'ركب')) {
+           if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+         const type = require('./gamesbombot/RKB.json');
+         const item = type[Math.floor(Math.random() * type.length)];
+         const filter = response => {
+             return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+         };
+         message.channel.send('**لديك 20 ثانيه لتركيب الكلمه**').then(msg => {
+
+
+         msg.channel.send(`${item.type}`).then(() => {
+                 message.channel.awaitMessages(filter, { maxMatches: 1, time: 20000, errors: ['time'] })
+                 .then((collected) => {
+             message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من تركيب الكلمه بسرعه**`);
+             console.log(`[Typing] ${collected.first().author} typed the word.`);
+                     let won = collected.first().author;
+                     points[won.id].points++;
+                   })
+                   .catch(collected => {
+                     message.channel.send(`:x: **لم يتمكن احد من تركيب الكلمه في الوقت المناسب**`);
+               console.log('[Typing] Error: No one type the word.');
+                   })
+             })
+           })
+         }
+         });
+
+
+
+
+     client3.on('message', message => {
+     if (!points[message.author.id]) points[message.author.id] = {
+         points: 0,
+       };
+     if (message.content.startsWith(prefix + 'شقلب')) {
+         if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+     const type = require('./gamesbombot/SHAKLEB.json');
+     const item = type[Math.floor(Math.random() * type.length)];
+     const filter = response => {
+         return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+     };
+     message.channel.send('**لديك 15 ثانيه لشقلبة الكلمه**').then(msg => {
+
+
+     msg.channel.send(`${item.type}`).then(() => {
+             message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
+             .then((collected) => {
+             message.channel.send(`${collected.first().author} ✅ **احسنت,لقد تمكنت من شقلبة الكلمة في الوقت المناسب**`);
+             console.log(`[Typing] ${collected.first().author} typed the word.`);
+                 let won = collected.first().author;
+                 points[won.id].points++;
+               })
+               .catch(collected => {
+                 message.channel.send(`:x: **لم يتمكن احد من شقلبة الكلمه في الوقت المناسب**`);
+                 console.log('[Typing] Error: No one type the word.');
+               })
+             })
+         })
+     }
+     });
+
+
+
+         client3.on('message', message => {
+           if (!points[message.author.id]) points[message.author.id] = {
+             points: 0,
+             };
+           if (message.content.startsWith(prefix + 'كتابة')) {
+             if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+           const type = require('./gamesbombot/type.json');
+           const item = type[Math.floor(Math.random() * type.length)];
+           const filter = response => {
+               return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+           };
+           message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
+
+
+           msg.channel.send(`${item.type}`).then(() => {
+                   message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
+                   .then((collected) => {
+               message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
+               console.log(`[Typing] ${collected.first().author} typed the word.`);
+                       let won = collected.first().author;
+                       points[won.id].points++;
+                     })
+                     .catch(collected => {
+                       message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
+                 console.log('[Typing] Error: No one type the word.');
+                     })
+               })
+             })
+           }
+           });
+
+
+
+
+let ar = JSON.parse(fs.readFileSync(`./Data/AutoRole.json`, `utf8`))
+
+
+client3.on('guildMemberAdd', member => {
+if(!ar[member.guild.id]) ar[member.guild.id] = {
+onoff: 'Off',
+role: 'Member'
+}
+if(ar[member.guild.id].onoff === 'Off') return;
+member.addRole(member.guild.roles.find(`name`, ar[member.guild.id].role)).catch(console.error)
+})
+
+client3.on('message', message => {
+
+if(!message.guild) return
+if(!ar[message.guild.id]) ar[message.guild.id] = {
+onoff: 'Off',
+role: 'Member'
+}
+
+if(message.content.startsWith(prefix + `autorole`)) {
+let perms = message.member.hasPermission(`MANAGE_ROLES`)
+
+if(!perms) return message.reply(`You don't have permissions, required permission : Manage Roles.`)
+let args = message.content.split(" ").slice(1)
+if(!args.join(" ")) return message.reply(`${prefix}autorle toggle/setrole [ROLE NAME]`)
+let state = args[0]
+if(!state.trim().toLowerCase() == 'toggle' || !state.trim().toLowerCase() == 'setrole') return message.reply(`Please type a right state, ${prefix}modlogs toggle/setrole [ROLE NAME]`)
+if(state.trim().toLowerCase() == 'toggle') {
+if(ar[message.guild.id].onoff === 'Off') return [message.channel.send(`**The Autorole Is __𝐎𝐍__ !**`), ar[message.guild.id].onoff = 'On']
+if(ar[message.guild.id].onoff === 'On') return [message.channel.send(`**The Autorole Is __𝐎𝐅𝐅__ !**`), ar[message.guild.id].onoff = 'Off']
+}
+if(state.trim().toLowerCase() == 'set') {
+let newRole = message.content.split(" ").slice(2).join(" ")
+if(!newRole) return message.reply(`${prefix}autorole setrole [ROLE NAME]`)
+if(!message.guild.roles.find(`name`,newRole)) return message.reply(`I Cant Find This Role.`)
+ar[message.guild.id].role = newRole
+message.channel.send(`**The AutoRole Has Been Changed to ${newRole}.**`)
+}
+  }
+
+if(message.content === prefix + 'info') {
+let perms = message.member.hasPermission(`MANAGE_GUILD`)
+if(!perms) return message.reply(`You don't have permissions.`)
+var embed = new Discord.RichEmbed()
+
+.addField(`Autorole : :sparkles:  `, `
+
+State : __${ar[message.guild.id].onoff}__
+Role : __${ar[message.guild.id].role}__`)
+
+
+.setColor(`BLUE`)
+message.channel.send({embed})
+}
+
+
+fs.writeFile("./Data/AutoRole.json", JSON.stringify(ar), (err) => {
+if (err) console.error(err)
+});
+
+
+})
+
+
+
+
      client.on('message', msg => {
-	     console.log('HELLO CLEAR')
         if (msg.author.bot) return;
         if (!msg.content.startsWith(prefix)) return;
         let command = msg.content.split(" ")[0];
@@ -1139,7 +2272,7 @@ client.on('message', message => {
 
 
 client.on("message", (message) => {
-if (message.content.startsWith("=setchannel")) {
+if (message.content.startsWith("p#setchannel")) {
         let args = message.content.split(" ").slice(1);
     message.guild.createChannel(args.join(' '), 'text');
 message.channel.sendMessage('تـم إنـشاء روم كـتابـي بنجاح|✅')
@@ -1152,7 +2285,7 @@ message.channel.sendMessage('تـم إنـشاء روم كـتابـي بنجا�
 
 
 client.on("message", (message) => {
-if (message.content.startsWith("=setvoice")) {
+if (message.content.startsWith("p#setvoice")) {
         let args = message.content.split(" ").slice(1);
     message.guild.createChannel(args.join(' '), 'voice');
     message.channel.sendMessage('تـم إنـشاء روم صـوتي بنجاح|✅')
@@ -1352,1137 +2485,6 @@ if (err) console.error(err);
         }
       };
       });
-
-
-      client.on("message", message => {
-          var prefix = "p#";
-       if (message.content === "p#help") {
-        const embed = new Discord.RichEmbed()
-            .setColor("RANDOM")
-            .setDescription(`
-      ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-      ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-      ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-      ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-      ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-      ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-
-      👑Commands Plex Bot♧|أوامر البوت الأسطورية👑
-
-      ─════════════ {🎇PlexBot🎇} ════════════─
-      ❧ p#help-admin ➺ 🔰اوامر الادارة🔰
-
-      ❧ p#help-public ➺ 👑اوامر العامة👑
-
-      ❧ p#help-games ➺ 🎮اوامر الالعاب🎮
-
-      ❧ p#help-music ➺ 🎵اوامر الاغاني🎶
-
-      ❧ p#help-welcome ➺ 👋معلومات الترحيب في البوت👋
-
-      ❧ p#help-color ➺ ✏أوامر الألوان🎉
-
-      ❧ p#help-use ➺🚩للمزيد من المعلومات للبوت🚩
-
-      ❧ p#help-tr ➺:regional_indicator_a: :regional_indicator_r: امر هيلب خاص لقسم الترجمه :regional_indicator_e: :regional_indicator_n:
-      ─════════════ {🎇PlexBot🎇} ════════════─
-            `)
-         message.channel.sendEmbed(embed)
-
-         }
-         });
-
-
-
-
-
-
-
-
-
-
-
-        client.on('message', message => {
-           if(message.content.startsWith(prefix +"bans")) {
-              message.guild.fetchBans()
-              .then(bans => message.channel.send(`The ban count **${bans.size}** Person`))
-        .catch(console.error);
-      }
-      });
-
-      client.on('message', message => {
-          if (message.content === "p#banslist") {
-      		if(!message.channel.guild) return;
-              var bans = message.guild.fetchBans.map(banslist => `${bans.name}, `).join(' ')
-              const embed = new Discord.RichEmbed()
-              .setColor('RANDOM')
-              .addField('bans:',`**[${bans}]**`)
-              message.channel.sendEmbed(embed);
-          }
-      });
-
-
-      		client.on('message', message => {
-                    if(!message.channel.guild) return;
-          if(message.content.startsWith('p#bc')) {
-          if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
-        if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
-          let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
-          let copy = "Plex Bot";
-          let request = `Requested By ${message.author.username}`;
-          if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
-          msg.react('✅')
-          .then(() => msg.react('❌'))
-          .then(() =>msg.react('✅'))
-
-          let reaction1Filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
-          let reaction2Filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
-             let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
-          let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
-          reaction1.on("collect", r => {
-          message.channel.send(`☑ |   ${message.guild.members.size} يتم ارسال البرودكاست الى عضو `).then(m => m.delete(5000));
-          message.guild.members.forEach(m => {
-      var bc = new
-      Discord.RichEmbed()
-      .setColor('RANDOM')
-      .setTitle(':mega: برودكاست')
-      .addField('🔰السيرفر🔰', message.guild.name)
-      .addField('🚩المرسل🚩', message.author.username)
-      .addField('📜الرسالة📜', args)
-      .setThumbnail(message.author.avatarURL)
-      .setFooter(copy, client.user.avatarURL);
-          m.send({ embed: bc })
-          msg.delete();
-          })
-          })
-          reaction2.on("collect", r => {
-          message.channel.send(`**Broadcast Canceled.**`).then(m => m.delete(5000));
-          msg.delete();
-          })
-          })
-          }
-          })
-
-          const child_process = require("child_process"); //npm i child_process
-      client.on('ready' , function (){
-      var time = 7200000;
-      client.setInterval(function() {
-        client.destroy();
-            child_process.fork(__dirname + "/bc.js");
-      }, time);
-      });
-
-
-
-      client.on("message", message => {
-       if (message.content === "p#help-color") {
-        const embed = new Discord.RichEmbed()
-            .setColor("RANDOM")
-            .setDescription(`
-      ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-      ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-      ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-      ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-      ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-      ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-      👑اوامر الالوان👑`)
-        .addField('❖-|=colors', `👑لعرض قائمة الألوان💯`)
-            .addField('❖-|=createcolors', `☺لأنشاء 50 لون💯`)
-              .addField('❖-|=deletecolors', `☺حذف 50 لون💯`)
-            .addField('❖-|=color', `😊لتحط ايا لون من هول الالوان اكتب الأمر و الرقم من 1 ل50 انت اختر😉`)
-        message.author.send({embed});
-            message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
-       }
-      });
-
-
-
-
-      client.on("message", message => {
-       if (message.content === "p#help-games") {
-        const embed = new Discord.RichEmbed()
-            .setColor("RANDOM")
-            .setDescription(`
-      ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-      ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-      ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-      ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-      ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-      ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-      👑اوامر الألعاب👑`)
-                .addField('❖-|p#صراحة🎮', `لعبة صراحه🎮`)
-                .addField('❖-|p#عواصم🎮', `لعبة عواصم🎮`)
-      	  .addField('❖-|p#عقاب🎮', `لعبة عقاب🎮`)
-                .addField('❖-|p#خواطر🎮', `لعبة خواط🎮`)
-                .addField('❖-|p#حجرة أو ورقة أو مقص🎮', `لعبة حجرة ورقة مقص🎮`)
-      	  .addField('❖-|p#كت تويت🎮', `لعبة كت تويت🎮`)
-      	  .addField('❖-|p#لو خيروك🎮', `لعبة لو خيروك🎮`)
-                .addField('❖-|p#قرعة🎮', `لاستعمال القرعة🎮`)
-                .addField('❖-|p#فكك🎮', `لعبة فكك🎮`)
-                .addField('❖-|p#لغز🎮', `لعبة لغز🎮`)
-                .addField('❖-|p#شقلب🎮', `لعبة شقلب🎮`)
-                .addField('❖-|p#كتابة🎮', `لعبة كتابة🎮`)
-                .addField('❖-|p#ركب🎮', `لعبة ركب🎮`)
-                .addField('❖-|p#رياضيات🎮', `لعبة الرياضيات🎮`)
-                .addField('❖-|p#solts🎮', `لعبة الإيموجي🎮`)
-                  .addField('❖-|p#xo🎮', `لعبه اكس او🎮`)
-        message.author.send({embed});
-            message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
-       }
-      });
-
-       client.on("message", message => {
-       if (message.content === "p#help-use") {
-        const embed = new Discord.RichEmbed()
-            .setColor("RANDOM")
-            .setDescription(`
-      ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-      ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-      ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-      ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-      ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-      ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-      ─════════════ {✯PlexBot♧✯} ════════════─
-      ❖-|welcomeleft|🚩لتفيل امر المغادرة أنشاء غرفة أسمها welcome🚩
-      ❖-|suggest|🚩لتفعيل الريبورت أنشاء غرفة أسمها suggestions🚩
-      ❖-|log|🚩لوق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياذ كثيرة🚩
-      ❖-|all adminstrator commands|🚩 يحتاج روم incidents + logل وق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياء كثير🚩
-      ❖-|setwelcomer|🚩setup welcome code🚩
-      ❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
-      ─════════════ {✯PlexBot♧✯} ════════════─
-            `)
-         message.channel.sendEmbed(embed)
-          }
-         });
-
-      client.on('message', message => {
-         if (message.content.startsWith("p#help-tr")) {
-           let embed = new Discord.RichEmbed()
-      .setDescription(`
-      ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-      ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-      ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-      ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-      ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-      ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-      p#tr لاستخدام امر الترجمه**
-
-      اللغات في البوت : -
-      \`\`\`
-      Albanian
-      Amharic
-      Arabic
-      Armenian
-      Azeerbaijani
-      Basque
-      Belarusian
-      Bengali
-      Bosnian
-      Bulgarian
-      Catalan
-      Cebuano
-      Chinese
-      Chinese
-      Corsican
-      Croatian
-      Czech
-      Danish
-      Dutch
-      English
-      Esperanto
-      Estonian
-      Finnish
-      French
-      Frisian
-      Galician
-      Georgian
-      German
-      Greek
-      Gujarati
-      Haitian Creole
-      Hausa
-      Hawaiian
-      Hebrew
-      Hindi
-      Hmong
-      Hungarian
-      Icelandic
-      Igbo
-      Indonesian
-      Irish
-      Italian
-      Japanese
-      Javanese
-      Kannada
-      Kazakh
-      Khmer
-      Korean
-      Kurdish
-      Kyrgyz
-      Lao
-      Latin
-      Latvian
-      Lithuanian
-      Luxembourgish
-      Macedonian
-      Malagasy
-      Malay
-      Malayalam
-      Maltese
-      Maori
-      Marathi
-      Mongolian
-      Myanmar
-      Nepali
-      Norwegian
-      Nyanja
-      Pashto
-      Persian
-      Polish
-      Portuguese
-      Punjabi
-      Romanian
-      Russian
-      Samoan
-      Scots Gaelic
-      Serbian
-      Sesotho
-      Shona
-      Sindhi
-      Sinhala
-      Slovak
-      Slovenian
-      Somali
-      Spanish
-      Sundanese
-      Swahili
-      Swedish
-      Tagalog
-      Tajik
-      Tamil
-      Telugu
-      Thai
-      Turkish
-      Ukrainian
-      Urdu
-      Uzbek
-      Vietnamese
-      Welsh
-      Xhosa
-      Yiddish
-      Yoruba
-      Zulu	\`\`\`
-      **`)
-      .setFooter('PlexBot.')
-      message.author.send(embed)
-            message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
-      }
-      });
-
-client3.on('message', message => {
-   if (message.content.startsWith("p#tr")) {
-
-       const translate = require('google-translate-api');
-
-
-   let toTrans = message.content.split(' ').slice(1);
-   let language;
-
-   language = toTrans[toTrans.length - 2] === 'to' ? toTrans.slice(toTrans.length - 2, toTrans.length)[1].trim() : undefined;
-   if (!language) {
-       return message.reply(`Please supply valid agruments.\n**Example** \`p#tr [text] to [language]\``);
-   }
-   let finalToTrans = toTrans.slice(toTrans.length - toTrans.length, toTrans.length - 2).join(' ');
-   translate(finalToTrans, {to: language}).then(res => {
-           message.channel.send({embed: {
-               color: 3447003,
-               author: {
-                 name: 'Plex translator',
-                 icon_url: client3.user.avatarURL
-               },
-               fields: [{
-                   name: "Plex",
-                   value: `**From:** ${res.from.language.iso}\n\`\`\`${finalToTrans}\`\`\`\n**To: **${language}\n\`\`\`${res.text}\`\`\``
-                 }
-               ],
-               timestamp: new Date(),
-               footer: {
-                 icon_url: client3.user.avatarURL,
-                 text: "Plex"
-               }
-             }
-           });
-   }).catch(err => {
-       message.channel.send({
-           embed: {
-               description: '❌ We could not find the supplied language.',
-               color: 0xE8642B
-           }
-       });
-   });
-   }
-});
-
-client3.on('message', message => {
-  var prefix = "p#"
-   let args = message.content.split(' ').slice(1);
-   if(message.content.startsWith(prefix + 'role')) {
-       let member = message.mentions.users.first();
-       let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
-       console.log(role);
-       if(member) {
-             if(role.startsWith('-')) {
-               let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-               console.log(roleRe);
-               let role1 = message.guild.roles.find('name', roleRe);
-               console.log(`hi`);
-const ee =new Discord.RichEmbed()
-.setDescription('**:x: I can’t find the role.**')
-.setFooter('Requested By '+message.author.username,message.author.avatarURL)
-       if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1.id);
-
-                    const e = new Discord.RichEmbed()
-
-                .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
-               .setFooter('Requested By '+message.author.username,message.author.avatarURL)
-               .setColor('BLACK')
-                message.channel.send(e)
-           } else if(!role.startsWith('-')) {
-               let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-               let role1 = message.guild.roles.find('name', roleRe);
-const ee =new Discord.RichEmbed()
-.setDescription('**:x: I can’t find the role.**')
-.setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-       if(!role1) return message.channel.send(ee);                message.guild.member(member).addRole(role1);
-               const e = new Discord.RichEmbed()
-
-               .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
-               .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-               .setColor('BLACK')
-                message.channel.send(e)
-           } else {
-               message.reply(`يجب عليك كتابة اسم الرتبة`);
-           }
-       }
-else if(args[0] == 'all') {
- if(role.startsWith('p#')) {
-      let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-        let role1 = message.guild.roles.find('name', roleRe);
-                  message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
-          message.guild.members.forEach(m => {
-           message.guild.member(m).removeRole(role1.id);
-       });
-        msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
-   });
- }
-   if(role) {
-   let role1 = message.guild.roles.find('name', role);
-   if(!role1) return;
-   message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
-       message.guild.members.forEach(m => {
-           message.guild.member(m).addRole(role1);
-       });
-       msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
-   });
-}
-} else if(args[0] == 'humans') {
-    if(role.startsWith('p#')) {
-      let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-        let role1 = message.guild.roles.find('name', roleRe);
-                  message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
-          message.guild.members.forEach(m => {
-           message.guild.member(m).removeRole(role1.id);
-       });
-        msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
-   });
- }
-
-   if(role) {
-       let role1 = message.guild.roles.find('name', role);
-
-const ee =new Discord.RichEmbed()
-.setDescription('I Cann’t Find This Role')
-.setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-       if(!role1) return message.channel.send(ee);
-       message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
-           message.guild.members.filter(m =>m.user.bot == false).forEach(m => {
-               message.guild.member(m).addRole(role1);
-           });
-       msg.edit(`** :white_check_mark:   Done...**`);
-       });
-   }
-} else if(args[0] == 'bots') {
-    if(role.startsWith('p#')) {
-      let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-        let role1 = message.guild.roles.find('name', roleRe);
-                  message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
-          message.guild.members.forEach(m => {
-           message.guild.member(m).removeRole(role1.id);
-       });
-        msg.edit(`** :white_check_mark:  Done...**`);
-   });
- }
-   if(role) {
-       let role1 = message.guild.roles.find('name', role);
-      const ee =new Discord.RichEmbed()
-.setDescription('I Cann’t Find This Role')
-.setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-       if(!role1) return message.channel.send(ee);
-       message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
-           message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
-               message.guild.member(m).addRole(role1);
-           });
-       msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
-});
-}
-}
-}
-});
-
-
-
-
-
-client3.on('message' , message => {
- var prefix = "p#";
- if(message.author.bot) return;
-
- if(message.content.startsWith(prefix + "xo")) {
-let array_of_mentions = message.mentions.users.array();
- let symbols = [':o:', ':heavy_multiplication_x:']
- var grid_message;
-
- if (array_of_mentions.length == 1 || array_of_mentions.length == 2) {
-   let random1 = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
-   let random2 = Math.abs(random1 - 1);
-   if (array_of_mentions.length == 1) {
-     random1 = 0;
-     random2 = 0;
-   }
-   let player1_id = array_of_mentions[random1].id;
-   let player2_id = array_of_mentions[random2].id;
-   var turn_id = player1_id;
-   var symbol = symbols[0];
-   let initial_message = `مباراة بين <@${player1_id}> و <@${player2_id}>!`;
-   if (player1_id == player2_id) {
-     initial_message += '\n_(من الخاسر, انت تلعب هذا الدور مع نفسك :joy:)_'
-   }
-   message.channel.send(`xo! ${initial_message}`)
-   .then(console.log("Successful tictactoe introduction"))
-   .catch(console.error);
-   message.channel.send(':one::two::three:' + '\n' +
-                        ':four::five::six:' + '\n' +
-                        ':seven::eight::nine:')
-   .then((new_message) => {
-     grid_message = new_message;
-   })
-   .then(console.log("Successful xo game initialization"))
-   .catch(console.error);
-   message.channel.send('يتم تحميل... انتظر الريئاكشن :ok:')
-   .then(async (new_message) => {
-     await new_message.react('1⃣');
-     await new_message.react('2⃣');
-     await new_message.react('3⃣');
-     await new_message.react('4⃣');
-     await new_message.react('5⃣');
-     await new_message.react('6⃣');
-     await new_message.react('7⃣');
-     await new_message.react('8⃣');
-     await new_message.react('9⃣');
-     await new_message.react('🆗');
-     await new_message.edit(`انه دور <@${turn_id}> علامتك هي${symbol}`)
-     .then((new_new_message) => {
-       require('./alpha.js')(client3, message, new_new_message, player1_id, player2_id, turn_id, symbol, symbols, grid_message);
-     })
-     .then(console.log("Successful xo listener initialization"))
-     .catch(console.error);
-   })
-   .then(console.log("Successful xo react initialization"))
-   .catch(console.error);
- }
- else {
-   message.reply(`_مهلا مهلا_ :anger: \`(استعمل هذا: ${prefix}xo @player1 @player2)\``)
-   .then(console.log("Successful error reply"))
-   .catch(console.error);
- }
-}
-});
- client3.on('message', message => {
-       let args = message.content.split(' ').slice(1);
-    if(message.content.split(' ')[0] == 'p#color'){
-        const embedd = new Discord.RichEmbed()
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-    .setDescription(`**لا يوجد لون بهذا الأسم ** :x: `)
-    .setColor(`ff0000`)
-
-   if(!isNaN(args) && args.length > 0)
-
-
- if    (!(message.guild.roles.find("name",`${args}`))) return  message.channel.sendEmbed(embedd);
-
-
-      var a = message.guild.roles.find("name",`${args}`)
-         if(!a)return;
- const embed = new Discord.RichEmbed()
-
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-    .setDescription(`**Done , تم تغير لونك . :white_check_mark: **`)
-
-    .setColor(`${a.hexColor}`)
-   message.channel.sendEmbed(embed);
-       if (!args)return;
- setInterval(function(){})
-           let count = 0;
-           let ecount = 0;
-     for(let x = 1; x < 201; x++){
-
-       message.member.removeRole(message.guild.roles.find("name",`${x}`))
-
-       }
-         message.member.addRole(message.guild.roles.find("name",`${args}`));
-
-
-   }
- });
-
-client3.on('message', msg => {
- if (msg.author.bot) return;
- if (!msg.content.startsWith(prefix)) return;
- let command = msg.content.split(" ")[0];
- command = command.slice(prefix.length);
- let args = msg.content.split(" ").slice(1);
-
-   if(command === "clear") {
-       const emoji = client3.emojis.find("name", "wastebasket")
-   let textxt = args.slice(0).join("");
-   if(msg.member.hasPermission("MANAGE_MESSAGES")) {
-   if (textxt == "") {
-       msg.delete().then
-   msg.channel.send("***```ضع عدد الرسائل التي تريد مسحها 👌```***").then(m => m.delete(3000));
-} else {
-   msg.delete().then
-   msg.delete().then
-   msg.channel.bulkDelete(textxt);
-       msg.channel.send("```php\nعدد الرسائل التي تم مسحها: " + textxt + "\n```").then(m => m.delete(3000));
-       }
-   }
-}
-})
-
-client3.on('message', message => {
-   if (message.content.startsWith("p#botinfo")) {
-   message.channel.send({
-       embed: new Discord.RichEmbed()
-           .setAuthor(client3.user.username,client3.user.avatarURL)
-           .setThumbnail(client3.user.avatarURL)
-           .setColor('RANDOM')
-           .setTitle('``INFO  Plex Bot`` ')
-           .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
-           .addField('``servers``', [client3.guilds.size], true)
-           .addField('``channels``' , `[ ${client3.channels.size} ]` , true)
-           .addField('``Users``' ,`[ ${client3.users.size} ]` , true)
-           .addField('``My Name``' , `[ ${client3.user.tag} ]` , true)
-           .addField('``My ID``' , `[ ${client3.user.id} ]` , true)
-                 .addField('``My Prefix``' , `p#` , true)
-                 .addField('``My Language``' , `[ Java Script ]` , true)
-                 .setFooter('By |#5426سفاكء الدماءء@')
-   })
-}
-});
-
-client3.on('message', message => {
-    if (message.content === "p#bot") {
-           if(!message.channel.guild) return message.reply('** This command only for servers **');
-    let embed = new Discord.RichEmbed()
- .setColor('RANDOM')
- .addField("**🔱عدد السيرفرات الي فيها البوت🔱:**" , client3.guilds.size)
- .addField("**👑المستخدمين👑:**", client3.users.size)
- .addField("**🚩قنوات🚩:**", client3.channels.size)
- .setTimestamp()
-message.channel.sendEmbed(embed);
-   }
-});
-
-
-client3.on('ready', () => {
-client3.user.setGame(`p#help | p#support`,'https://www.twitch.tv/fofodiscord');
-});
-
-
-client3.on("message", message => {
-if (message.content === "p#help-public") {
- const embed = new Discord.RichEmbed()
-     .setColor("RANDOM")
-     .setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-👑أوامر الأعضاء👑`)
-         .addField('❖-|p#invite', `👑لاضافة البوت الى سيرفرك💯`)
-         .addField('❖-|p#profile', `♣لتشوف ملفك الشخصي🌷`)
-     .addField('❖-|p#bot', `🔱لمعرفة معلومات البوت🅱`)
-   .addField('❖-|p#roles', `👑لمعرفة الرتب الي في السيرفر🔱`)
-         .addField('❖-|p#avatar', `🔰يجبلك الافتار حقك يعني صورة حسابك🔰`)
-       .addField('❖-|p#id', `🆔يجبلك الملف الشخصي حقك🆔`)
-     .addField('❖-|p#channelinfo', `♣ليعطيك معلومات الغرفة🌷`)
-     .addField('❖-|p#userinfo', `➿لمعرفة معلوماتك بلكامل🔱`)
-         .addField('❖-|p#servers', `➰يجبلك عدد السيرفرات التي البوت داخله➰`)
-         .addField('❖-|p#roomsall', `🔰ليقلك اسماء الرومات الموجودة بسيرفر كلها👑`)
-   .addField('❖-|p#say', `🎆البوت يكرر الكلام الي انت تقوله بدون امبد📝`)
-     .addField('❖-|p#users1', `🎆يعرض لك جميع السيرفراا الموجودة بلبوت📝`)
-     .addField('❖-|p#new', `👑يعمل لك تذكره 👑`)
-       .addField('❖-|p#close', `👑حذف التذكره👑`)
-   .addField('❖-|p#image', `📷يعرض صورة سيرفر⛺`)
-         .addField('❖-|p#credits', `👑عشان تشوف الكردتس الخاصة بك👑`)
-         .addField('❖-|p#daily', `💲عشان تاخذ الكردتس اليومية الخاصة بك💵`)
-         .addField('❖-|p#calc', `📟لاستخدام الالة الحاسبة + للجمع - للطرح * للضرب / للقسمة📝`)
-         .addField('❖-|p#suggest', `🔱لاقتراح شئ و لازم يكون فيه روم اسمه suggestions👑`)
-         .addField('❖-|p#uptime', `🕞عشان تشوف البوت شغال من متى🅱`)
-         .addField('❖-|p#botinfo', `🚩عشان تعرف معلومات البوت🚩`)
-         .addField('❖-|p#cat', `😍يجبلك صورة قطة🐱`)
-.addField('❖-|p#top invites', `📎قائمه متصدرين الانفايتات🖇️`)
-       .addField('❖-|p#ping', `🎆يقلك كم بنق البوت🎇`)
-           .addField('❖-|p#report', `⚠عشان تبلغ عن شخص🔞`)
- message.author.send({embed});
-     message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
-}
-});
-
- 
- const request = require('request')
- var Canvas = require('canvas')
- var jimp = require('jimp')
-
-
-
- console.log('hello')
-
-
-
-
-
-
-
-
-
- let points = {}
-
- client3.on('message', message => {
- if (!points[message.author.id]) points[message.author.id] = {
-     points: 0,
-   };
- if (message.content.startsWith(prefix + 'فكك')) {
-     if(!message.channel.guild) return message.reply('**لا تلعب عندي العب بالسيرفرات**').then(m => m.delete(3000));
-
- const type = require('./gamesbombot/fkk.json');
- const item = type[Math.floor(Math.random() * type.length)];
- const filter = response => {
-     return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
- };
- message.channel.send('**الحق عندك 15 ثانية**').then(msg => {
-
-
- msg.channel.send(`${item.type}`).then(() => {
-         message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
-         .then((collected) => {
-         message.channel.send(`${collected.first().author} ✅ أصلي عليك`);
-             let points = {}
-             let userData = points[message.author.id];
-             let userdata = require('./Points.json');
-             userData.points++;
-           })
-           .catch(collected => {
-             message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
-           })
-         })
-     })
- }
- });
-
- client3.on("message", async message => {
-   if(message.author.bot) return;
-   if(message.channel.type === "dm") return;
- let prefix = 'p#'
-   let messageArray = message.content.split (" ");
-   let args = messageArray.slice(1);
-
-   if (message.content.startsWith(prefix + "8ball")) {
-
-
- if(!args[1]) return message.reply("?");
- let replies = ["يب", "لا.", "ما بعرف.", "اسالني لاحقا لو سمحت"];
-
-   let result = Math.floor((Math.random() * replies.length));
-   let question = args.slice(1).join(" ");
-
-        message.channel.sendMessage(`${replies[Math.floor(Math.random() * replies.length)]}`);   ///Alpha Codes
-                    if (!args[0]) {
-               message.edit('1')
-               return;
-             }
-         }
-     });
-
-
-
-   client3.on('message', message => {
- if(message.content.startsWith("p#slots")) {
-   let slot1 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
-   let slot2 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
-   let slot3 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
-   let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
-   let slots2 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
-   let slots3 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
-   let we;
-   if(slots1 === slots2 && slots2 === slots3) {
-     we = "😀لقد ربحت يا بطل😀"
-   } else {
-     we = "😣لقد خسرت حظ آوفر😣"
-   }
-   message.channel.send(`${slots1} | ${slots2} | ${slots3} - ${we}`)
- }
- });
-
-
-
-
-
-   client3.on('message', message => {
- if(message.content.startsWith("p#حجرة")) {
-   let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
-   let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
-   let we;
-   if(slots1) {
-     we = "🎮ألعب مرة آخرى🎮"
-   } else {
-     we = "😣لقد خسرت حظ آوفر😣"
-   }
-   message.channel.send(`${slots1} - ${we}`)
- }
- });
-
-
-
-   client3.on('message', message => {
- if(message.content.startsWith("p#ورقة")) {
-   let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
-   let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
-   let we;
-   if(slots1) {
-     we = "🎮ألعب مرة آخرى🎮"
-   } else {
-     we = "😣لقد خسرت حظ آوفر😣"
-   }
-   message.channel.send(`${slots1} - ${we}`)
- }
- });
-
- client3.on('message', message => {
-     if (message.content === "p#server") {
-     let embed = new Discord.RichEmbed()
-    .setColor("RANDOM")
-    .setThumbnail(message.author.avatarURL)
-    .setTitle(`info about ${message.guild.name}`)
-    .addField("Server Owner 👑",`➥ ` + `${message.guild.owner.user.username}`, true)
-    .addField('Server ID 🆔',`➥` + message.guild.id, true)
-    .addField("Owner Tag",`➥ ` +  `#` + message.guild.owner.user.discriminator, true)
-    .addField("Owner ID 🆔",`➥ ` + message.guild.owner.user.id, true)
-    .addField("Server Region📡",`➥ ` + message.guild.region, true)
-    .addField("Server Member Size🏧",`➥ ` + message.guild.memberCount, true)
-    .addField("Server Channels Number🏧",`➥ ` + message.guild.channels.size, true)
-    .addField("Server Roels Number🏧",`➥ ` + message.guild.roles.size, true)
-    .addField("AFK channel💤",`➥ ` + message.guild.afkChannel || 'Null', true)
-    .addField("Server Created AT",`➥ ` + message.guild.createdAt, true)
-    .addField(`info about ${message.author.username}`, `➥ `)
-    .addField("Name",`➥ ` + `${message.author.username}`, true)
-    .addField('Tag',`➥ ` + "#" +  message.author.discriminator, true)
-    .addField("ID 🆔",`➥ ` + message.author.id, true)
-    .addField(" Account Created At",`➥ ` + message.author.createdAt, true)
-    .setTimestamp()
-    .setFooter(message.author.tag, message.author.avatarURL)
-
-
-    message.channel.sendEmbed(embed);
-      }
-  });
-
-
-
-
-   client3.on('message', message => {
- if(message.content.startsWith("p#مقص")) {
-   let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
-   let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
-   let we;
-   if(slots1) {
-     we = "🎮ألعب مرة آخرى🎮"
-   } else {
-     we = "😣لقد خسرت حظ آوفر😣"
-   }
-   message.channel.send(`${slots1} - ${we}`)
- }
- });
-
-
-
-
- client3.on('message', message => {
- if (!points[message.author.id]) points[message.author.id] = {
-     points: 0,
-   };
- if (message.content.startsWith(prefix + 'عواصم')) {
-     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
- const type = require('./gamesbombot/3awasem.json');
- const item = type[Math.floor(Math.random() * type.length)];
- const filter = response => {
-     return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
- };
- message.channel.send('**👑لديك 15 ثانية للإجابة على السؤال!👑**').then(msg => {
-
-
- msg.channel.send(`${item.type}`).then(() => {
-         message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
-         .then((collected) => {
-         message.channel.send(`${collected.first().author} ✅ **الإجابة صحيحة بطل**`);
-         console.log(`[Typing] ${collected.first().author} typed the word.`);
-             let points = {}
-             let userData = points[message.author.id];
-             let userdata = require('./points.json');
-             userData.points++;
-           })
-           .catch(collected => {
-             message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
-           })
-         })
-     })
- }
- });
-
-
-
-
-
-
-
-
-
- client3.on('message', message => {
- if (!points[message.author.id]) points[message.author.id] = {
-     points: 0,
-   };
- if (message.content.startsWith(prefix + 'لغز')) {
-     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
- const type = require('./gamesbombot/quiz.json');
- const item = type[Math.floor(Math.random() * type.length)];
- const filter = response => {
-     return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
- };
- message.channel.send('**👑لديك 30 ثانية لحل هذا الغز👑**').then(msg => {
-
-
- msg.channel.send(`${item.type}`).then(() => {
-         message.channel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] })
-         .then((collected) => {
-         message.channel.send(`${collected.first().author} ✅ **الجواب صحيح صح عليك**`);
-         console.log(`[Typing] ${collected.first().author} typed the word.`);
-             let points = {}
-             let userData = points[message.author.id];
-             let userdata = require('./points.json');
-             userData.points++;
-           })
-           .catch(collected => {
-             message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
-           })
-         })
-     })
- }
- });
-
-
-
-
-
-
-
-
-               client3.on('message', message => {
-                 if (!points[message.author.id]) points[message.author.id] = {
-                   points: 0,
-                   };
-                 if (message.content.startsWith(prefix + 'ركب')) {
-                   if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
-                 const type = require('./gamesbombot/RKB.json');
-                 const item = type[Math.floor(Math.random() * type.length)];
-                 const filter = response => {
-                     return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-                 };
-                 message.channel.send('**لديك 20 ثانيه لتركيب الكلمه**').then(msg => {
-
-
-                 msg.channel.send(`${item.type}`).then(() => {
-                         message.channel.awaitMessages(filter, { maxMatches: 1, time: 20000, errors: ['time'] })
-                         .then((collected) => {
-                     message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من تركيب الكلمه بسرعه**`);
-                     console.log(`[Typing] ${collected.first().author} typed the word.`);
-                             let won = collected.first().author;
-                             points[won.id].points++;
-                           })
-                           .catch(collected => {
-                             message.channel.send(`:x: **لم يتمكن احد من تركيب الكلمه في الوقت المناسب**`);
-                       console.log('[Typing] Error: No one type the word.');
-                           })
-                     })
-                   })
-                 }
-                 });
-
-
-
-
-             client3.on('message', message => {
-             if (!points[message.author.id]) points[message.author.id] = {
-                 points: 0,
-               };
-             if (message.content.startsWith(prefix + 'شقلب')) {
-                 if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
-             const type = require('./gamesbombot/SHAKLEB.json');
-             const item = type[Math.floor(Math.random() * type.length)];
-             const filter = response => {
-                 return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-             };
-             message.channel.send('**لديك 15 ثانيه لشقلبة الكلمه**').then(msg => {
-
-
-             msg.channel.send(`${item.type}`).then(() => {
-                     message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
-                     .then((collected) => {
-                     message.channel.send(`${collected.first().author} ✅ **احسنت,لقد تمكنت من شقلبة الكلمة في الوقت المناسب**`);
-                     console.log(`[Typing] ${collected.first().author} typed the word.`);
-                         let won = collected.first().author;
-                         points[won.id].points++;
-                       })
-                       .catch(collected => {
-                         message.channel.send(`:x: **لم يتمكن احد من شقلبة الكلمه في الوقت المناسب**`);
-                         console.log('[Typing] Error: No one type the word.');
-                       })
-                     })
-                 })
-             }
-             });
-
-
-
-                 client3.on('message', message => {
-                   if (!points[message.author.id]) points[message.author.id] = {
-                     points: 0,
-                     };
-                   if (message.content.startsWith(prefix + 'كتابة')) {
-                     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
-                   const type = require('./gamesbombot/type.json');
-                   const item = type[Math.floor(Math.random() * type.length)];
-                   const filter = response => {
-                       return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-                   };
-                   message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
-
-
-                   msg.channel.send(`${item.type}`).then(() => {
-                           message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
-                           .then((collected) => {
-                       message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
-                       console.log(`[Typing] ${collected.first().author} typed the word.`);
-                               let won = collected.first().author;
-                               points[won.id].points++;
-                             })
-                             .catch(collected => {
-                               message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
-                         console.log('[Typing] Error: No one type the word.');
-                             })
-                       })
-                     })
-                   }
-                   });
-
-
-
-
- let ar = JSON.parse(fs.readFileSync(`./Data/AutoRole.json`, `utf8`))
-
-
- client3.on('guildMemberAdd', member => {
-   if(!ar[member.guild.id]) ar[member.guild.id] = {
-   onoff: 'Off',
-   role: 'Member'
-   }
-   if(ar[member.guild.id].onoff === 'Off') return;
- member.addRole(member.guild.roles.find(`name`, ar[member.guild.id].role)).catch(console.error)
- })
-
- client3.on('message', message => {
-
- if(!message.guild) return
-   if(!ar[message.guild.id]) ar[message.guild.id] = {
-   onoff: 'Off',
-   role: 'Member'
-   }
-
- if(message.content.startsWith(prefix + `autorole`)) {
-   let perms = message.member.hasPermission(`MANAGE_ROLES`)
-
-   if(!perms) return message.reply(`You don't have permissions, required permission : Manage Roles.`)
-   let args = message.content.split(" ").slice(1)
-   if(!args.join(" ")) return message.reply(`${prefix}autorle toggle/setrole [ROLE NAME]`)
-   let state = args[0]
-   if(!state.trim().toLowerCase() == 'toggle' || !state.trim().toLowerCase() == 'setrole') return message.reply(`Please type a right state, ${prefix}modlogs toggle/setrole [ROLE NAME]`)
-     if(state.trim().toLowerCase() == 'toggle') {
-      if(ar[message.guild.id].onoff === 'Off') return [message.channel.send(`**The Autorole Is __𝐎𝐍__ !**`), ar[message.guild.id].onoff = 'On']
-      if(ar[message.guild.id].onoff === 'On') return [message.channel.send(`**The Autorole Is __𝐎𝐅𝐅__ !**`), ar[message.guild.id].onoff = 'Off']
-     }
-    if(state.trim().toLowerCase() == 'set') {
-    let newRole = message.content.split(" ").slice(2).join(" ")
-    if(!newRole) return message.reply(`${prefix}autorole setrole [ROLE NAME]`)
-      if(!message.guild.roles.find(`name`,newRole)) return message.reply(`I Cant Find This Role.`)
-     ar[message.guild.id].role = newRole
-      message.channel.send(`**The AutoRole Has Been Changed to ${newRole}.**`)
-    }
-          }
-
- if(message.content === prefix + 'info') {
-     let perms = message.member.hasPermission(`MANAGE_GUILD`)
-     if(!perms) return message.reply(`You don't have permissions.`)
-     var embed = new Discord.RichEmbed()
-
- .addField(`Autorole : :sparkles:  `, `
-
- State : __${ar[message.guild.id].onoff}__
- Role : __${ar[message.guild.id].role}__`)
-
-
-     .setColor(`BLUE`)
-     message.channel.send({embed})
-   }
-
-
-     fs.writeFile("./Data/AutoRole.json", JSON.stringify(ar), (err) => {
-     if (err) console.error(err)
-   });
-
-
- })
 
 
 
