@@ -13,6 +13,7 @@ const moment = require('moment');
 var Canvas = require('canvas')
 const games = JSON.parse(fs.readFileSync('./games.json', "utf8"))
 var jimp = require('jimp')
+const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 
 const prefix = "p#";
 let done = {};
