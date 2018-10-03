@@ -603,7 +603,29 @@ message.channel.sendFile(canvas.toBuffer())
 }
 
 });
+    client.on('message' , async (message) => {
+var prefix = "p#"
+    if(message.content.startsWith(prefix + "topinvites")) {
+if(message.author.bot) return;
+if(!message.channel.guild) return message.reply(' Error : \` Server Command \`');
+  var invites = await message.guild.fetchInvites();
+    invites = invites.array();
+    arraySort(invites, 'uses', { reverse: true });
+    let possibleInvites = ['User Invited |  Uses '];
+    invites.forEach(i => {
+        if (i.uses === 0) { 
+            return;
+        }
+      possibleInvites.push(['\n\ ' +'<@'+ i.inviter.id +'>' + '  :  ' +   i.uses]);
+     //معلومه بسيطه يمديك تكرر العمليهه أكثر من مره
+    })
+    const embed = new Discord.RichEmbed()
+ .setColor('RANDOM')
+    .addField("Top Invites." ,`${(possibleInvites)}`)
 
+    message.channel.send(embed)
+    }
+});
 
 client.on("message", message => {
   var prefix = "p#";
@@ -1300,7 +1322,7 @@ const embed = new Discord.RichEmbed()
  .addField('❖-|p#uptime', `🕞عشان تشوف البوت شغال من متى🅱`)
  .addField('❖-|p#botinfo', `🚩عشان تعرف معلومات البوت🚩`)
  .addField('❖-|p#cat', `😍يجبلك صورة قطة🐱`)
-.addField('❖-|p#top invites', `📎قائمه متصدرين الانفايتات🖇️`)
+.addField('❖-|p#topinvites', `📎قائمه متصدرين الانفايتات🖇️`)
 .addField('❖-|p#ping', `🎆يقلك كم بنق البوت🎇`)
    .addField('❖-|p#report', `⚠عشان تبلغ عن شخص🔞`)
 message.author.send({embed});
