@@ -2034,17 +2034,10 @@ if (err) console.error(err);
 
         }})
 
-        const convert = require("hh-mm-ss")
-        const dateFormat = require('dateformat');
-        const pretty = require('pretty-ms');
-        const rn = require('random-number');
-        const userData = JSON.parse(fs.readFileSync('./userData.json', 'utf8'));
-        const moment = require('moment');
         const request = require('request')
         var Canvas = require('canvas')
         var jimp = require('jimp')
-        const games = JSON.parse(fs.readFileSync('./games.json', "utf8"));
-        let dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
+
 
 
         console.log('hello')
