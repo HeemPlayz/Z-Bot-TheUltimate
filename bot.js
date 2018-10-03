@@ -1683,9 +1683,9 @@ if (err) console.error(err);
             message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
       }
       });
-const client2 = new Discord.client2();
+const client3 = new Discord.client3();
 
-client2.on('message', message => {
+client3.on('message', message => {
    if (message.content.startsWith("p#tr")) {
 
        const translate = require('google-translate-api');
@@ -1704,7 +1704,7 @@ client2.on('message', message => {
                color: 3447003,
                author: {
                  name: 'Plex translator',
-                 icon_url: client2.user.avatarURL
+                 icon_url: client3.user.avatarURL
                },
                fields: [{
                    name: "Plex",
@@ -1713,7 +1713,7 @@ client2.on('message', message => {
                ],
                timestamp: new Date(),
                footer: {
-                 icon_url: client2.user.avatarURL,
+                 icon_url: client3.user.avatarURL,
                  text: "Plex"
                }
              }
@@ -1729,7 +1729,7 @@ client2.on('message', message => {
    }
 });
 
-client2.on('message', message => {
+client3.on('message', message => {
   var prefix = "p#"
    let args = message.content.split(' ').slice(1);
    if(message.content.startsWith(prefix + 'role')) {
@@ -1849,7 +1849,7 @@ const ee =new Discord.RichEmbed()
 
 
 
-client2.on('message' , message => {
+client3.on('message' , message => {
  var prefix = "p#";
  if(message.author.bot) return;
 
@@ -1898,7 +1898,7 @@ let array_of_mentions = message.mentions.users.array();
      await new_message.react('🆗');
      await new_message.edit(`انه دور <@${turn_id}> علامتك هي${symbol}`)
      .then((new_new_message) => {
-       require('./alpha.js')(client2, message, new_new_message, player1_id, player2_id, turn_id, symbol, symbols, grid_message);
+       require('./alpha.js')(client3, message, new_new_message, player1_id, player2_id, turn_id, symbol, symbols, grid_message);
      })
      .then(console.log("Successful xo listener initialization"))
      .catch(console.error);
@@ -1913,7 +1913,7 @@ let array_of_mentions = message.mentions.users.array();
  }
 }
 });
- client2.on('message', message => {
+ client3.on('message', message => {
        let args = message.content.split(' ').slice(1);
     if(message.content.split(' ')[0] == 'p#color'){
         const embedd = new Discord.RichEmbed()
@@ -1951,7 +1951,7 @@ let array_of_mentions = message.mentions.users.array();
    }
  });
 
-client2.on('message', msg => {
+client3.on('message', msg => {
  if (msg.author.bot) return;
  if (!msg.content.startsWith(prefix)) return;
  let command = msg.content.split(" ")[0];
@@ -1959,7 +1959,7 @@ client2.on('message', msg => {
  let args = msg.content.split(" ").slice(1);
 
    if(command === "clear") {
-       const emoji = client2.emojis.find("name", "wastebasket")
+       const emoji = client3.emojis.find("name", "wastebasket")
    let textxt = args.slice(0).join("");
    if(msg.member.hasPermission("MANAGE_MESSAGES")) {
    if (textxt == "") {
@@ -1975,20 +1975,20 @@ client2.on('message', msg => {
 }
 })
 
-client2.on('message', message => {
+client3.on('message', message => {
    if (message.content.startsWith("p#botinfo")) {
    message.channel.send({
        embed: new Discord.RichEmbed()
-           .setAuthor(client2.user.username,client2.user.avatarURL)
-           .setThumbnail(client2.user.avatarURL)
+           .setAuthor(client3.user.username,client3.user.avatarURL)
+           .setThumbnail(client3.user.avatarURL)
            .setColor('RANDOM')
            .setTitle('``INFO  Plex Bot`` ')
            .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
-           .addField('``servers``', [client2.guilds.size], true)
-           .addField('``channels``' , `[ ${client2.channels.size} ]` , true)
-           .addField('``Users``' ,`[ ${client2.users.size} ]` , true)
-           .addField('``My Name``' , `[ ${client2.user.tag} ]` , true)
-           .addField('``My ID``' , `[ ${client2.user.id} ]` , true)
+           .addField('``servers``', [client3.guilds.size], true)
+           .addField('``channels``' , `[ ${client3.channels.size} ]` , true)
+           .addField('``Users``' ,`[ ${client3.users.size} ]` , true)
+           .addField('``My Name``' , `[ ${client3.user.tag} ]` , true)
+           .addField('``My ID``' , `[ ${client3.user.id} ]` , true)
                  .addField('``My Prefix``' , `p#` , true)
                  .addField('``My Language``' , `[ Java Script ]` , true)
                  .setFooter('By |#5426سفاكء الدماءء@')
@@ -1996,26 +1996,26 @@ client2.on('message', message => {
 }
 });
 
-client2.on('message', message => {
+client3.on('message', message => {
     if (message.content === "p#bot") {
            if(!message.channel.guild) return message.reply('** This command only for servers **');
     let embed = new Discord.RichEmbed()
  .setColor('RANDOM')
- .addField("**🔱عدد السيرفرات الي فيها البوت🔱:**" , client2.guilds.size)
- .addField("**👑المستخدمين👑:**", client2.users.size)
- .addField("**🚩قنوات🚩:**", client2.channels.size)
+ .addField("**🔱عدد السيرفرات الي فيها البوت🔱:**" , client3.guilds.size)
+ .addField("**👑المستخدمين👑:**", client3.users.size)
+ .addField("**🚩قنوات🚩:**", client3.channels.size)
  .setTimestamp()
 message.channel.sendEmbed(embed);
    }
 });
 
 
-client2.on('ready', () => {
-client2.user.setGame(`p#help | p#support`,'https://www.twitch.tv/fofodiscord');
+client3.on('ready', () => {
+client3.user.setGame(`p#help | p#support`,'https://www.twitch.tv/fofodiscord');
 });
 
 
-client2.on("message", message => {
+client3.on("message", message => {
 if (message.content === "p#help-public") {
  const embed = new Discord.RichEmbed()
      .setColor("RANDOM")
@@ -2077,7 +2077,7 @@ if (message.content === "p#help-public") {
 
  let points = {}
 
- client2.on('message', message => {
+ client3.on('message', message => {
  if (!points[message.author.id]) points[message.author.id] = {
      points: 0,
    };
@@ -2109,7 +2109,7 @@ if (message.content === "p#help-public") {
  }
  });
 
- client2.on("message", async message => {
+ client3.on("message", async message => {
    if(message.author.bot) return;
    if(message.channel.type === "dm") return;
  let prefix = 'p#'
@@ -2135,7 +2135,7 @@ if (message.content === "p#help-public") {
 
 
 
-   client2.on('message', message => {
+   client3.on('message', message => {
  if(message.content.startsWith("p#slots")) {
    let slot1 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
    let slot2 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
@@ -2157,7 +2157,7 @@ if (message.content === "p#help-public") {
 
 
 
-   client2.on('message', message => {
+   client3.on('message', message => {
  if(message.content.startsWith("p#حجرة")) {
    let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
    let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
@@ -2173,7 +2173,7 @@ if (message.content === "p#help-public") {
 
 
 
-   client2.on('message', message => {
+   client3.on('message', message => {
  if(message.content.startsWith("p#ورقة")) {
    let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
    let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
@@ -2187,7 +2187,7 @@ if (message.content === "p#help-public") {
  }
  });
 
- client2.on('message', message => {
+ client3.on('message', message => {
      if (message.content === "p#server") {
      let embed = new Discord.RichEmbed()
     .setColor("RANDOM")
@@ -2219,7 +2219,7 @@ if (message.content === "p#help-public") {
 
 
 
-   client2.on('message', message => {
+   client3.on('message', message => {
  if(message.content.startsWith("p#مقص")) {
    let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
    let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
@@ -2236,7 +2236,7 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on('message', message => {
+ client3.on('message', message => {
  if (!points[message.author.id]) points[message.author.id] = {
      points: 0,
    };
@@ -2277,7 +2277,7 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on('message', message => {
+ client3.on('message', message => {
  if (!points[message.author.id]) points[message.author.id] = {
      points: 0,
    };
@@ -2317,7 +2317,7 @@ if (message.content === "p#help-public") {
 
 
 
-               client2.on('message', message => {
+               client3.on('message', message => {
                  if (!points[message.author.id]) points[message.author.id] = {
                    points: 0,
                    };
@@ -2352,7 +2352,7 @@ if (message.content === "p#help-public") {
 
 
 
-             client2.on('message', message => {
+             client3.on('message', message => {
              if (!points[message.author.id]) points[message.author.id] = {
                  points: 0,
                };
@@ -2386,7 +2386,7 @@ if (message.content === "p#help-public") {
 
 
 
-                 client2.on('message', message => {
+                 client3.on('message', message => {
                    if (!points[message.author.id]) points[message.author.id] = {
                      points: 0,
                      };
@@ -2424,7 +2424,7 @@ if (message.content === "p#help-public") {
  let ar = JSON.parse(fs.readFileSync(`./Data/AutoRole.json`, `utf8`))
 
 
- client2.on('guildMemberAdd', member => {
+ client3.on('guildMemberAdd', member => {
    if(!ar[member.guild.id]) ar[member.guild.id] = {
    onoff: 'Off',
    role: 'Member'
@@ -2433,7 +2433,7 @@ if (message.content === "p#help-public") {
  member.addRole(member.guild.roles.find(`name`, ar[member.guild.id].role)).catch(console.error)
  })
 
- client2.on('message', message => {
+ client3.on('message', message => {
 
  if(!message.guild) return
    if(!ar[message.guild.id]) ar[message.guild.id] = {
@@ -2490,7 +2490,7 @@ if (message.content === "p#help-public") {
 
 
  const ytdl = require("ytdl-core");
- const { client2, Util } = require('discord.js');
+ const { client3, Util } = require('discord.js');
  const getYoutubeID = require('get-youtube-id');
  const fetchVideoInfo = require('youtube-info');
  const YouTube = require('simple-youtube-api');
@@ -2507,18 +2507,18 @@ if (message.content === "p#help-public") {
  npm install queue
  */
 
- client2.on('ready', () => {
-     console.log(`Logged in as ${client2.user.tag}!`);
-     console.log(`in ${client2.guilds.size} servers `)
-     console.log(`[ ] ${client2.users.size}`)
-     client2.user.setStatus("idle")
+ client3.on('ready', () => {
+     console.log(`Logged in as ${client3.user.tag}!`);
+     console.log(`in ${client3.guilds.size} servers `)
+     console.log(`[ ] ${client3.users.size}`)
+     client3.user.setStatus("idle")
  });
- client2.on('ready', () => {
-      client2.user.setActivity("you",{type: 'WATCHING'});
+ client3.on('ready', () => {
+      client3.user.setActivity("you",{type: 'WATCHING'});
 
  });
 
- client2.on('message', async msg => {
+ client3.on('message', async msg => {
    if (msg.author.bot) return undefined;
    if (!msg.content.startsWith(prefix)) return undefined;
    const args = msg.content.split(' ');
@@ -2530,7 +2530,7 @@ if (message.content === "p#help-public") {
    if (command === `play`) {
      const voiceChannel = msg.member.voiceChannel;
      if (!voiceChannel) return msg.channel.send('يجب توآجد حضرتك بروم صوتي .');
-     const permissions = voiceChannel.permissionsFor(msg.client2.user);
+     const permissions = voiceChannel.permissionsFor(msg.client3.user);
      if (!permissions.has('CONNECT')) {
        return msg.channel.send('لا يتوآجد لدي صلاحية للتكلم بهذآ الروم');
      }
@@ -2813,7 +2813,7 @@ if (message.content === "p#help-public") {
 
 
 
-    client2.on('message', msg => {
+    client3.on('message', msg => {
    //Code By : ‡ ♪ ℬℐℓѦℓ✋ ‡#2026
    if(msg.content.startsWith('p#suggest')) {
      if(!msg.channel.guild) return msg.reply('** هاذا الامر فقط للسيرفرات**');
@@ -2840,7 +2840,7 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on("message", message => {
+ client3.on("message", message => {
   if (message.content === "p#music") {
    const embed = new Discord.RichEmbed()
        .setColor("RANDOM")
@@ -2860,7 +2860,7 @@ if (message.content === "p#help-public") {
   }
  });
 
- client2.on('message', function(message) {
+ client3.on('message', function(message) {
      if(message.content.startsWith(prefix + 'قرعة')) {
          let args = message.content.split(" ").slice(1);
          if (!args[0]) {
@@ -2875,7 +2875,7 @@ if (message.content === "p#help-public") {
      }
  });
 
- client2.on("message", message => {
+ client3.on("message", message => {
   if (message.content === "p#welcome") {
    const embed = new Discord.RichEmbed()
        .setColor("RANDOM")
@@ -2892,7 +2892,7 @@ if (message.content === "p#help-public") {
  ////////////////////بروفايل////////////////////////////
  const profile = JSON.parse(fs.readFileSync('./profile.json', "utf8"));
 
- client2.on("message", message => {
+ client3.on("message", message => {
    if (message.author.bot) return;
    if(!message.channel.guild)return;
    if (!profile[message.author.id]) profile[message.author.id] = {
@@ -2908,10 +2908,10 @@ if (message.content === "p#help-public") {
  })
  });
  //لايك//
- client2.on('message', message => {
+ client3.on('message', message => {
    if (message.author.bot) return;
      var sender = message.author
-     if (message.author.id === client2.user.id) return;
+     if (message.author.id === client3.user.id) return;
    if(!message.channel.guild) return;
      if(message.content.startsWith(prefix + 'لايك')) {
      let ment = message.mentions.users.first()
@@ -2931,7 +2931,7 @@ if (message.content === "p#help-public") {
 
 
  //هدية//
- client2.on("message", (message) => {
+ client3.on("message", (message) => {
    var sender = message.author
  if(message.content.startsWith(prefix + 'daily')) {
  if (games[sender.id].lastDaily != moment().format('day')) {
@@ -2944,18 +2944,18 @@ if (message.content === "p#help-public") {
  }
  })
  //مصاري//
- client2.on("message", (message) => {
+ client3.on("message", (message) => {
    if (message.author.bot) return;
-     if (message.author.id === client2.user.id) return;
+     if (message.author.id === client3.user.id) return;
    if(!message.channel.guild) return;
  if (message.content === '=credits') {
  message.channel.send(`** ${message.author.username}, your :credit_card: balance is ${games[message.author.id].credits}.**`)
  }
  });
  //معلوماتي
- client2.on('message', message => {
+ client3.on('message', message => {
    if (message.author.bot) return;
-     if (message.author.id === client2.user.id) return;
+     if (message.author.id === client3.user.id) return;
    if(!message.channel.guild) return;
          if(message.content.startsWith('p#inforprofile')) {
          let args = message.content.split(' ').slice(1).join(' ')
@@ -2966,9 +2966,9 @@ if (message.content === "p#help-public") {
      }
  });
  //لفل
- client2.on('message', message => {
+ client3.on('message', message => {
    if (message.author.bot) return;
-     if (message.author.id === client2.user.id) return;
+     if (message.author.id === client3.user.id) return;
    if(!message.channel.guild) return;
  var sender = message.author;
  const games =profile;
@@ -3077,7 +3077,7 @@ if (message.content === "p#help-public") {
 
  });
  //**بروفايل**//
- client2.on("message", message => {
+ client3.on("message", message => {
    if (message.author.bot) return;
    if(!message.channel.guild) return;
  if (message.content.startsWith("=profile")) {
@@ -3105,11 +3105,11 @@ if (message.content === "p#help-public") {
              }//var ghost = tf 3lek xD
     var mentionned = message.mentions.users.first();
 
-     var client2;
+     var client3;
        if(mentionned){
-           var client2 = mentionned;
+           var client3 = mentionned;
        } else {
-           var client2 = message.author;
+           var client3 = message.author;
 
        }
    const w = ['./PicsArt_08-28-06.21.07.png'];
@@ -3203,7 +3203,7 @@ if (message.content === "p#help-public") {
 
  });
 
- client2.on('message', message => {
+ client3.on('message', message => {
  if (!points[message.author.id]) points[message.author.id] = {
      points: 0,
    };
@@ -3238,7 +3238,7 @@ if (message.content === "p#help-public") {
 
 
 
-                 client2.on('message', message => {
+                 client3.on('message', message => {
                    if (!points[message.author.id]) points[message.author.id] = {
                      points: 0,
                      };
@@ -3272,7 +3272,7 @@ if (message.content === "p#help-public") {
 
 
                      const afk = require('./afk.json');
- client2.on('message',async rebel => {
+ client3.on('message',async rebel => {
        if(rebel.author.bot) return;
    if (afk[rebel.author.id]) {
      delete afk[rebel.author.id];
@@ -3307,7 +3307,7 @@ if (message.content === "p#help-public") {
  }
  });
 
- client2.on('message',async message => {
+ client3.on('message',async message => {
    var time = moment().format('Do MMMM YYYY , hh:mm');
    var room;
    var title;
@@ -3371,7 +3371,7 @@ if (message.content === "p#help-public") {
                       let re = m.react('🎉');
                       setTimeout(() => {
                         let users = m.reactions.get("🎉").users;
-                        let list = users.array().filter(u => u.id !== m.author.id !== client2.user.id);
+                        let list = users.array().filter(u => u.id !== m.author.id !== client3.user.id);
                         let gFilter = list[Math.floor(Math.random() * list.length) + 0]
                         let endEmbed = new Discord.RichEmbed()
                         .setAuthor(message.author.username, message.author.avatarURL)
@@ -3397,7 +3397,7 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on("guildMemberAdd", member => {
+ client3.on("guildMemberAdd", member => {
    member.createDM().then(function (channel) {
    return channel.send(`👑ولكم نورت السيرفر | Welcome To Server👑
  اسم العضو المحترم |name member🌷  ${member}
@@ -3409,7 +3409,7 @@ if (message.content === "p#help-public") {
 
     const sWlc = {}
  const premium = ['429972030092476437', '', '', '']
- client2.on('message', message => {
+ client3.on('message', message => {
  var prefix = "p#";
  if(message.channel.type === "dm") return;
  if(message.author.bot) return;
@@ -3428,7 +3428,7 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on("guildMemberAdd", member => {
+ client3.on("guildMemberAdd", member => {
        if(!sWlc[member.guild.id]) sWlc[member.guild.id] = {
      channel: "welcome"
    }
@@ -3512,7 +3512,7 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on('message', message => {
+ client3.on('message', message => {
 
  if(message.content.split(' ')[0] == prefix + 'id') {
  if(!message.channel.guild) return;
@@ -3568,11 +3568,11 @@ if (message.content === "p#help-public") {
  })
    var mentionned = message.mentions.users.first();
 
-    var client2;
+    var client3;
       if(mentionned){
-          var client2 = mentionned;
+          var client3 = mentionned;
       } else {
-          var client2 = message.author;
+          var client3 = message.author;
 
       }
 
@@ -3705,7 +3705,7 @@ if (message.content === "p#help-public") {
 
 
 
-   client2.on("message", msg => {
+   client3.on("message", msg => {
             var prefix = "p#";
    if(msg.content.startsWith (prefix + "id")) {
      if(!msg.channel.guild) return msg.reply('**:x: اسف لكن هذا الامر للسيرفرات فقط **');
@@ -3726,7 +3726,7 @@ if (message.content === "p#help-public") {
  });
 
 
- client2.on('message', message => {
+ client3.on('message', message => {
             if (message.content.startsWith(prefix + "user")) {
       var args = message.content.split(" ").slice(1);
       let user = message.mentions.users.first();
@@ -3755,7 +3755,7 @@ if (message.content === "p#help-public") {
      message.channel.send(id)
  }       });
 
- client2.on('message', message => {
+ client3.on('message', message => {
  let al = JSON.parse(fs.readFileSync(`./antilinks.json`, `utf8`));
      var sender = message.author
      if (!message.channel.guild) return;
@@ -3803,7 +3803,7 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on("guildMemberAdd", user => {
+ client3.on("guildMemberAdd", user => {
    user.createDM().then(function (channel) {
 
  let embeddd = new Discord.RichEmbed()
@@ -3826,8 +3826,8 @@ if (message.content === "p#help-public") {
 
 
 
- client2.on("roleCreate", role => {
-   client2.setTimeout(() => {
+ client3.on("roleCreate", role => {
+   client3.setTimeout(() => {
      role.guild.fetchAuditLogs({
          limit: 1,
          type: 30
@@ -3853,8 +3853,8 @@ if (message.content === "p#help-public") {
        })
    }, 1000)
  })
-  client2.on("roleDelete", role => {
-   client2.setTimeout(() => {
+  client3.on("roleDelete", role => {
+   client3.setTimeout(() => {
      role.guild.fetchAuditLogs({
          limit: 1,
          type: 30
@@ -3880,8 +3880,8 @@ if (message.content === "p#help-public") {
        })
    }, 1000)
  })
-    client2.on("roleUpdate", (re,updated) => {
-     client2.setTimeout(() => {
+    client3.on("roleUpdate", (re,updated) => {
+     client3.setTimeout(() => {
        re.guild.fetchAuditLogs({
            limit: 1,
            type: 30
@@ -3909,7 +3909,7 @@ if (message.content === "p#help-public") {
          })
      }, 1000)
    })
-  client2.on("channelDelete",  dc => {
+  client3.on("channelDelete",  dc => {
    const channel = dc.guild.channels.find("name", "log")
    if(channel) {
    var embed = new Discord.RichEmbed()
@@ -3922,7 +3922,7 @@ if (message.content === "p#help-public") {
    });
 
 
- client2.on('messageUpdate', (message, newMessage) => {
+ client3.on('messageUpdate', (message, newMessage) => {
      if (message.content === newMessage.content) return;
      if (!message || !message.id || !message.content || !message.guild || message.author.bot) return;
      const channel = message.guild.channels.find('name', 'log');
@@ -3935,7 +3935,7 @@ if (message.content === "p#help-public") {
         .setTimestamp();
       channel.send({embed:embed});
   });
-  client2.on('messageDelete', message => {
+  client3.on('messageDelete', message => {
      if (!message || !message.id || !message.content || !message.guild || message.author.bot) return;
      const channel = message.guild.channels.find('name', 'log');
      if (!channel) return;
@@ -3948,7 +3948,7 @@ if (message.content === "p#help-public") {
         .setTimestamp();
       channel.send({embed:embed});
   });
-  client2.on('guildMemberAdd', member => {
+  client3.on('guildMemberAdd', member => {
      if (!member || !member.id || !member.guild) return;
      const guild = member.guild;
 
@@ -3966,7 +3966,7 @@ if (message.content === "p#help-public") {
         .setTimestamp();
       channel.send({embed:embed});
  });
-  client2.on('guildMemberRemove', member => {
+  client3.on('guildMemberRemove', member => {
      if (!member || !member.id || !member.guild) return;
      const guild = member.guild;
 
@@ -3983,7 +3983,7 @@ if (message.content === "p#help-public") {
         .setTimestamp();
       channel.send({embed:embed});
  });
-  client2.on('voiceStateUpdate', (oldM, newM) => {
+  client3.on('voiceStateUpdate', (oldM, newM) => {
    let m1 = oldM.serverMute;
    let m2 = newM.serverMute;
     let d1 = oldM.serverDeaf;
@@ -4026,8 +4026,8 @@ if (message.content === "p#help-public") {
      }
    })
  });
-    client2.on("guildBanAdd", (guild, member) => {
-   client2.setTimeout(() => {
+    client3.on("guildBanAdd", (guild, member) => {
+   client3.setTimeout(() => {
      guild.fetchAuditLogs({
          limit: 1,
          type: 22
@@ -4037,7 +4037,7 @@ if (message.content === "p#help-public") {
          try {
            let log = guild.channels.find('name', 'log');
            if (!log) return;
-           client2.fetchUser(member.id).then(myUser => {
+           client3.fetchUser(member.id).then(myUser => {
            let embed = new Discord.RichEmbed()
          .setAuthor(exec)
          .setThumbnail(myUser.avatarURL)
@@ -4057,7 +4057,7 @@ if (message.content === "p#help-public") {
  });
 
 
-client2.on("message", message => {
+client3.on("message", message => {
   if(!message.member.hasPermission('ADMINISTRATOR')) return;
 
 
@@ -4093,7 +4093,7 @@ const prefix = config.prefix;
 const roles = config.roleToDisco;
 
 
-client2.on('message',  async  message  =>  {
+client3.on('message',  async  message  =>  {
     var  user  =  message.mentions.users.first();
     var  reason  =  message.content.split(' ').slice(2).join(' ');
 if(message.content.startsWith(prefix  +  'w'))  {
@@ -4120,13 +4120,13 @@ message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  
 })
 
 
-client2.on('message', async message =>{
+client3.on('message', async message =>{
   var prefix = "p#";
 if (message.author.omar) return;
 if (!message.content.startsWith(prefix)) return;
 if(!message.channel.guild) return message.channel.send('**This Command For Servers Only ! **').then(m => m.delete(5000));
 if(!message.member.hasPermission('MANAGE_ROLES'));
-if(!message.guild.member(client2.user).hasPermission("MANAGE_ROLES")) return message.reply("**I Don't Have `MANAGE_ROLES` Permission**").then(msg => msg.delete(6000))
+if(!message.guild.member(client3.user).hasPermission("MANAGE_ROLES")) return message.reply("**I Don't Have `MANAGE_ROLES` Permission**").then(msg => msg.delete(6000))
 var command = message.content.split(" ")[0];
 command = command.slice(prefix.length);
 var args = message.content.split(" ").slice(1);
@@ -4181,13 +4181,13 @@ var args = message.content.split(" ").slice(1);
 });
 
 
-client2.on('message', async message =>{
+client3.on('message', async message =>{
 var prefix = "p#";
 if (message.author.omar) return;
 if (!message.content.startsWith(prefix)) return;
 if(!message.channel.guild) return message.channel.send('**This Command For Servers Only ! **').then(m => m.delete(5000));
 if(!message.member.hasPermission('MANAGE_ROLES'));
-if(!message.guild.member(client2.user).hasPermission("MANAGE_ROLES")) return message.reply("**I Don't Have `MANAGE_ROLES` Permission**").then(msg => msg.delete(6000))
+if(!message.guild.member(client3.user).hasPermission("MANAGE_ROLES")) return message.reply("**I Don't Have `MANAGE_ROLES` Permission**").then(msg => msg.delete(6000))
 var command = message.content.split(" ")[0];
 command = command.slice(prefix.length);
 var args = message.content.split(" ").slice(1);
@@ -4219,8 +4219,6 @@ if(!incidentchannel) return message.channel.send("Can't find incidents channel."
 return;
 
 }
-	
 }); 
-client.login(process.env.BOT_TOKEN)		
-		client2.login(process.env.BOT_TOKEN)
-		
+		client.login(process.env.BOT_TOKEN)
+		client3.login(process.env.BOT_TOKEN)
