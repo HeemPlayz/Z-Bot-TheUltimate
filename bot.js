@@ -4206,4 +4206,4 @@ if(command === `unmute`) {
 })
   })})
 }})
-client.login('NDc2ODA5ODI5NjA0Nzg2MTg2.DpEGPw.YbJG4Y5K88jIgTrhiRcOEp9dXzU')
+client.login(process.env.BOT_TOKEN)
