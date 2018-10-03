@@ -14,7 +14,6 @@ const games = JSON.parse(fs.readFileSync('./games.json', "utf8"))
 var jimp = require('jimp')
 
 const prefix = "p#";
-
 let done = {};
 
 client.on('ready', () => {
