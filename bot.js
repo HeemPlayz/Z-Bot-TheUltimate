@@ -2490,7 +2490,7 @@ if (message.content === "p#help-public") {
 
 
  const ytdl = require("ytdl-core");
- const { client3, Util } = require('discord.js');
+ const { client, Util } = require('discord.js');
  const getYoutubeID = require('get-youtube-id');
  const fetchVideoInfo = require('youtube-info');
  const YouTube = require('simple-youtube-api');
