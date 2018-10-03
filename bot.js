@@ -1683,7 +1683,7 @@ if (err) console.error(err);
             message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
       }
       });
-const client3 = new Discord.client3();
+const client3 = new Discord.Client();
 
 client3.on('message', message => {
    if (message.content.startsWith("p#tr")) {
