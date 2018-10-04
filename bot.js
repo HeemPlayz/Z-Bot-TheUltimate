@@ -1164,7 +1164,9 @@ const embed = new Discord.RichEmbed()
 ❧ p#help-tr ➺:regional_indicator_a: :regional_indicator_r: امر هيلب خاص لقسم الترجمه :regional_indicator_e: :regional_indicator_n:
 ─════════════ {🎇PlexBot🎇} ════════════─
     `)
- message.channel.sendEmbed(embed)
+ message.author.sendEmbed(embed);
+ message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+
 
  }
  });
@@ -1322,7 +1324,8 @@ const embed = new Discord.RichEmbed()
 ❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
 ─════════════ {✯PlexBot♧✯} ════════════─
     `)
- message.channel.sendEmbed(embed)
+    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+    message.author.send({embed});
   }
  });
 
