@@ -2612,19 +2612,14 @@ User.send(`**:airplane: You are has been banned in ${message.guild.name} reason:
   });
  }
 });
-client.on('message', async message => {
-  if(message.content.startsWith(prefix + "unban")) {
-        if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
-        if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(':no_entry: | I dont have **BAN_MEMBERS** Permission!');
-        if(!args[1]) return  message.channel.send(':no_entry: | Please type the ID of user');
-        if(args[1].length < 16) return message.reply(':no_entry: | This ID is not id user!');
-        message.guild.fetchBans().then(bans => {
-            var Found = bans.find(m => m.id === args[1]);
-            if(!Found) return message.channel.send(`:no_entry: | <@${message.author.id}> This preson not have any ban from this server! :unlock:`);
-            message.guild.unban(args[1]);
-            message.channel.send(`:white_check_mark: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!`);
-
-
+client.on('message' , message => {
+  var prefix = "!";
+  let user = message.mentions.users.first()|| client.users.get(message.content.split(' ')[1])
+  if(message.content.startsWith(prefix + 'unban')) {
+      if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('❌|**\`ADMINISTRATOR\`لا توجد لديك رتبة`**');
+      if(!user) return  message.channel.send(`Do this ${prefix} <@ID user> \n or \n ${prefix}unban ID user`);
+      message.guild.unban(user);
+      message.guild.owner.send(`لقد تم فك الباند عن الشخص \n ${user} \n By : <@${message.author.id}>`)
       message.channel.send('**${user} Has been unbanned !**')
         let unembed = new Discord.RichEmbed()
         .setThumbnail(message.author.avatarURl)
@@ -4354,7 +4349,7 @@ return;
 
 }
 }); 
-        })
+        }})
 
     
   
@@ -6548,7 +6543,6 @@ if (message.content.startsWith("p#deletecolors")) {
   }
 
 });
-
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
@@ -6608,7 +6602,6 @@ if (message.content.startsWith("p#deletecolors")) {
   }
 
 });
-
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
@@ -6632,7 +6625,6 @@ if (message.content.startsWith("p#deletecolors")) {
   }
 
 });
-
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
@@ -6656,7 +6648,6 @@ if (message.content.startsWith("p#deletecolors")) {
   }
 
 });
-
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
@@ -6681,6 +6672,8 @@ if (message.content.startsWith("p#deletecolors")) {
 
 });
 
+
+
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
@@ -6692,54 +6685,7 @@ if (message.content.startsWith("p#deletecolors")) {
   }
 
 });
-
-
-
-
 })
 }})
-
-
-
-
-client.on('message', msg => {
-if (msg.author.bot) return;
-if (!msg.content.startsWith(prefix)) return;
-let command = msg.content.split(" ")[0];
-command = command.slice(prefix.length);
-let args = msg.content.split(" ").slice(1);
-
-client.on('message', message => {
-
-  if (message.content === "p#mutechannel") {
-                      if(!message.channel.guild) return message.reply(' This command only for servers');
-
-if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(' ليس لديك صلاحيات');
-         message.channel.overwritePermissions(message.guild.id, {
-       SEND_MESSAGES: false
-
-         }).then(() => {
-             message.reply("**تم تقفيل الشات :white_check_mark: **")
-         });
-           }
-//™¦༺♚ƙἶղց|MaS♚༺¦™#7105
-if (message.content === "p#unmutechannel") {
-  if(!message.channel.guild) return message.reply(' This command only for servers');
-
-if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('ليس لديك صلاحيات');
-         message.channel.overwritePermissions(message.guild.id, {
-       SEND_MESSAGES: true
-
-         }).then(() => {
-             message.reply("**تم فتح الشات:white_check_mark: **")
-         });
-           }
-
-
-
-});
-
-})
-  }})
       		client.login(process.env.BOT_TOKEN)
 		client3.login(process.env.BOT_TOKEN)
