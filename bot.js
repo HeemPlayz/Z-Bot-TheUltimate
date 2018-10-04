@@ -18,6 +18,59 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 
+client.on("message", message => {
+  const prefix = "="
+
+        if(!message.channel.guild) return;
+ if(message.author.bot) return;
+    if(message.content === prefix + "image"){
+        const embed = new Discord.RichEmbed()
+
+    .setTitle(`This is  ** ${message.guild.name} **  Photo !`)
+.setAuthor(message.author.username, message.guild.iconrURL)
+  .setColor(0x164fe3)
+  .setImage(message.guild.iconURL)
+  .setURL(message.guild.iconrURL)
+                  .setTimestamp()
+
+ message.channel.send({embed});
+    }
+});
+
+client.on('message', message => {
+  if (message.content.startsWith("p#avatar")) {
+      var mentionned = message.mentions.users.first();
+  var x5bzm;
+    if(mentionned){
+        var x5bzm = mentionned;
+    } else {
+        var x5bzm = message.author;
+
+    }
+      const embed = new Discord.RichEmbed()
+      .setColor("RANDOM")
+      .setImage(`${x5bzm.avatarURL}`)
+    message.channel.sendEmbed(embed);
+     }
+});
+
+
+
+
+
+
+client.on('message', message => {
+          if(!message.channel.guild) return;
+let args = message.content.split(' ').slice(1).join(' ');
+if (message.content.startsWith('p#bcall')){
+if (message.author.id !== '429972030092476437') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
+if(!message.author.id === '429972030092476437') return;
+message.channel.sendMessage('جار ارسال |✅')
+client.users.forEach(m =>{
+m.sendMessage(args)
+})
+}
+});
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -2722,130 +2775,6 @@ const secreT = [
 
 
 
-
-
-
-
-
-
-
-   client.on("message", message => {
-    const prefix = "="
-
-          if(!message.channel.guild) return;
-   if(message.author.bot) return;
-      if(message.content === prefix + "image"){
-          const embed = new Discord.RichEmbed()
-
-      .setTitle(`This is  ** ${message.guild.name} **  Photo !`)
-  .setAuthor(message.author.username, message.guild.iconrURL)
-    .setColor(0x164fe3)
-    .setImage(message.guild.iconURL)
-    .setURL(message.guild.iconrURL)
-                    .setTimestamp()
-
-   message.channel.send({embed});
-      }
-  });
-
-  client.on('message', message => {
-    if (message.content.startsWith("p#avatar")) {
-        var mentionned = message.mentions.users.first();
-    var x5bzm;
-      if(mentionned){
-          var x5bzm = mentionned;
-      } else {
-          var x5bzm = message.author;
-
-      }
-        const embed = new Discord.RichEmbed()
-        .setColor("RANDOM")
-        .setImage(`${x5bzm.avatarURL}`)
-      message.channel.sendEmbed(embed);
-	     }
-  });
-
-
-
-
-
-
-client.on('message', message => {
-            if(!message.channel.guild) return;
-let args = message.content.split(' ').slice(1).join(' ');
-if (message.content.startsWith('p#bcall')){
- if (message.author.id !== '429972030092476437') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
- if(!message.author.id === '429972030092476437') return;
-message.channel.sendMessage('جار ارسال |✅')
-client.users.forEach(m =>{
-m.sendMessage(args)
-})
-}
-});
-
-
-
-
-
-
-
-
-
-
-
-client.on('ready', () => {
-  console.log('╔[══════════════════════════════════]╗');
-  console.log('')
-  console.log('            ╔[════════════]╗')
-  console.log('              Bot Is Online')
-  console.log('            ╚[════════════]╝')
-  console.log('')
-  console.log(`Logged in as ${client.user.tag}!`);
-  console.log('')
-  console.log(`servers! [ " ${client.guilds.size} " ]`);
-  console.log('')
-  console.log(`Users! [ " ${client.users.size} " ]`);
-  console.log('')
-  console.log('╚[════════════════════════════════════]╝')
-});
-
-
-client.on('message', message => {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 client.on("message", (message) => {
 if (message.content.startsWith("p#setchannel")) {
         let args = message.content.split(" ").slice(1);
@@ -2942,18 +2871,6 @@ if(message.content === prefix + "roomsall"){
         message.channel.sendEmbed(embed);
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -4542,8 +4459,7 @@ return;
 }); 
         })
       })
-    })
-  }})
+    }})
 
       		client.login(process.env.BOT_TOKEN)
 		client3.login(process.env.BOT_TOKEN)
