@@ -14,7 +14,6 @@ var Canvas = require('canvas')
 const games = JSON.parse(fs.readFileSync('./games.json', "utf8"))
 var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
-
 const prefix = "p#";
 let done = {};
 
@@ -36,7 +35,6 @@ client.on("message", message => {
  message.channel.send({embed});
     }
 });
-
 client.on('message', message => {
   if (message.content.startsWith("p#avatar")) {
       var mentionned = message.mentions.users.first();
@@ -53,12 +51,6 @@ client.on('message', message => {
     message.channel.sendEmbed(embed);
      }
 });
-
-
-
-
-
-
 client.on('message', message => {
           if(!message.channel.guild) return;
 let args = message.content.split(' ').slice(1).join(' ');
@@ -96,10 +88,6 @@ client.on('ready', () => {
   console.log('')
   console.log('')
 });
-
-
-
-
 client3.on('message', message => {
 
   if(message.content.split(' ')[0] == prefix + 'id') {
@@ -181,10 +169,7 @@ client3.on('message', message => {
                          let ava = new Avatar;
                          ava.src = buf;
                          ctx.drawImage(ava, 112 , 40, 75, 75);
- 
- 
- 
- 
+
                          var status;
      if (defineduser.presence.status === 'online') {
          status = 'ONLINE';
@@ -226,7 +211,6 @@ client3.on('message', message => {
  
        }
  
- 
                          ctx.font = 'Bold 15px Arial ';
                          ctx.fontSize = '15px';
                          ctx.fillStyle = "#ffffff";
@@ -266,10 +250,6 @@ client3.on('message', message => {
                          ctx.fillStyle = "#ffffff";
                          ctx.textAlign = "center";
                          ctx.fillText(`${moment(defineduser.createdTimestamp).fromNow()}`, 179 , 226 );
- 
- 
- 
- 
                          ctx.font = 'Bold 13px Arial ';
                          ctx.fontSize = '13px';
                          ctx.fillStyle = "#ffffff";
@@ -288,9 +268,6 @@ client3.on('message', message => {
   }
  
   })
- 
- 
- 
  
  
     client3.on("message", msg => {
@@ -312,8 +289,6 @@ client3.on('message', message => {
         msg.channel.send({embed: embed})
         }
   });
- 
- 
   client3.on('message', message => {
              if (message.content.startsWith(prefix + "user")) {
        var args = message.content.split(" ").slice(1);
@@ -345,7 +320,6 @@ client3.on('message', message => {
 
   
 const profile = JSON.parse(fs.readFileSync('./profile.json', "utf8"));
-
 client3.on("message", message => {
   if (message.author.bot) return;
   if(!message.channel.guild)return;
@@ -381,9 +355,6 @@ if (games[sender.id].lastDaily != moment().format('day')) {
 
     }
     });
-
-
-
 //هدية//
 client3.on("message", (message) => {
   var sender = message.author
@@ -528,7 +499,6 @@ if (profile[sender.id].points == 100000) profile[sender.id].level = 48;
 if (profile[sender.id].points == 106000) profile[sender.id].level = 49;
 
 if (profile[sender.id].points == 111000) profile[sender.id].level = 50;
-
 });
 //**بروفايل**//
 client3.on("message", message => {
@@ -585,9 +555,6 @@ if (!games[getvalueof.id]) games[getvalueof.id] = {wins: 0,loses: 0,points: 0,to
           ground.src = Background;
           ctx.drawImage(ground, 0, 0, 300, 305);
 });
-
-
-
                 let url = getvalueof.displayAvatarURL.endsWith(".webp") ? getvalueof.displayAvatarURL.slice(5, -20) + ".png" : getvalueof.displayAvatarURL;
                 jimp.read(url, (err, ava) => {
                     if (err) return console.log(err);
@@ -654,7 +621,6 @@ message.channel.sendFile(canvas.toBuffer())
 })
 })
 }
-
 });
     client.on('message' , async (message) => {
 var prefix = "p#"
@@ -679,7 +645,6 @@ if(!message.channel.guild) return message.reply(' Error : \` Server Command \`')
     message.channel.send(embed)
     }
 });
-
 client.on("message", message => {
   var prefix = "p#";
 if (message.content === "p#help") {
@@ -747,8 +712,6 @@ client.on('message', message => {
       message.channel.sendEmbed(embed);
   }
 });
-
-
   client.on('message', message => {
             if(!message.channel.guild) return;
   if(message.content.startsWith('p#bc')) {
@@ -798,9 +761,6 @@ client.destroy();
     child_process.fork(__dirname + "/bc.js");
 }, time);
 });
-
-
-
 client.on("message", message => {
 if (message.content === "p#help-color") {
 const embed = new Discord.RichEmbed()
@@ -822,10 +782,6 @@ message.author.send({embed});
     message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
 }
 });
-
-
-
-
 client.on("message", message => {
 if (message.content === "p#help-games") {
 const embed = new Discord.RichEmbed()
@@ -1014,8 +970,6 @@ client3.on('message', message => {
 if (message.content.startsWith("p#tr")) {
 
 const translate = require('google-translate-api');
-
-
 let toTrans = message.content.split(' ').slice(1);
 let language;
 
@@ -1169,11 +1123,6 @@ msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** Has Given To __${m
 }
 }
 });
-
-
-
-
-
 client3.on('message' , message => {
 var prefix = "p#";
 if(message.author.bot) return;
@@ -1320,7 +1269,6 @@ embed: new Discord.RichEmbed()
 })
 }
 });
-
 client3.on('message', message => {
 if (message.content === "p#bot") {
    if(!message.channel.guild) return message.reply('** This command only for servers **');
@@ -3751,8 +3699,6 @@ if (err) console.error(err);
                      })
                    }
                    });
-
-
                      const afk = require('./afk.json');
  client3.on('message',async rebel => {
        if(rebel.author.bot) return;
@@ -3811,7 +3757,6 @@ if (err) console.error(err);
  if (hours == 0) {
  hours = 12;
  }
-
    var filter = m => m.author.id === message.author.id;
    if(message.content.startsWith(prefix + "giveaway")) {
 
@@ -3876,9 +3821,6 @@ if (err) console.error(err);
      });
    }
  });
-
-
-
  client3.on("guildMemberAdd", member => {
    member.createDM().then(function (channel) {
    return channel.send(`👑ولكم نورت السيرفر | Welcome To Server👑
@@ -3907,9 +3849,6 @@ if (err) console.error(err);
      message.channel.send(`**${message.guild.name}'s channel has been changed to ${newChannel}**`);
    }
  });
-
-
-
  client3.on("guildMemberAdd", member => {
        if(!sWlc[member.guild.id]) sWlc[member.guild.id] = {
      channel: "welcome"
@@ -4037,9 +3976,6 @@ if (err) console.error(err);
          if (err) console.error(err)
      });
  });
-
-
-
  client3.on("guildMemberAdd", user => {
    user.createDM().then(function (channel) {
 
@@ -4057,12 +3993,6 @@ if (err) console.error(err);
 
    })
  })
-
-
-
-
-
-
  client3.on("roleCreate", role => {
    client3.setTimeout(() => {
      role.guild.fetchAuditLogs({
@@ -4460,6 +4390,5 @@ return;
         })
       })
     }})
-
       		client.login(process.env.BOT_TOKEN)
 		client3.login(process.env.BOT_TOKEN)
