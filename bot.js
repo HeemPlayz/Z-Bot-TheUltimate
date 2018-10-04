@@ -1165,7 +1165,7 @@ const embed = new Discord.RichEmbed()
 ─════════════ {🎇PlexBot🎇} ════════════─
     `)
  message.author.sendEmbed(embed);
- message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+ message.channel.send(":white_check_mark: I've DMed you with my help list")
 
 
  }
@@ -1266,7 +1266,7 @@ const embed = new Discord.RichEmbed()
       .addField('❖-|p#deletecolors', `☺حذف 50 لون💯`)
     .addField('❖-|p#color', `😊لتحط ايا لون من هول الالوان اكتب الأمر و الرقم من 1 ل50 انت اختر😉`)
 message.author.send({embed});
-    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+    message.channel.send(":white_check_mark: I've DMed you with my help list")
 }
 });
 client.on("message", message => {
@@ -1299,7 +1299,7 @@ const embed = new Discord.RichEmbed()
         .addField('❖-|p#solts🎮', `لعبة الإيموجي🎮`)
           .addField('❖-|p#xo🎮', `لعبه اكس او🎮`)
 message.author.send({embed});
-    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+    message.channel.send(":white_check_mark: I've DMed you with my help list")
 }
 });
 
@@ -1324,7 +1324,7 @@ const embed = new Discord.RichEmbed()
 ❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
 ─════════════ {✯PlexBot♧✯} ════════════─
     `)
-    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+    message.channel.send(":white_check_mark: I've DMed you with my help list")
     message.author.send({embed});
   }
  });
@@ -1450,7 +1450,7 @@ Zulu	\`\`\`
 **`)
 .setFooter('PlexBot.')
 message.author.send(embed)
-    message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+    message.channel.send(":white_check_mark: I've DMed you with my help list")
 }
 });
 
@@ -2366,7 +2366,7 @@ client.on("message", message => {
 .addField('❖-|p#setCount', `👪 صنع روم لعدد الاعضاء 👪 `)
 .addField('❖-|p#setVoice', `🎤 صنع روم للفويس اونلاين 🎤 `)
   message.author.send({embed});
-      message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
  }
 });
 
@@ -2378,7 +2378,7 @@ client.on("message", message => {
       .setFooter('© PlexBot جميع الحقوق محفوظة 2018 لــبوت')
       .addField('سيرفر الدعم الفني', `https://discord.gg/agYdjPh`)
   message.author.send({embed});
-      message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
  }
 });
 
@@ -3423,7 +3423,7 @@ if (err) console.error(err);
            .addField('❖-|=queue', `🎸لمعرفة قآئمة التشغيل🎤`)
            .addField('❖-|=music', `🔰لأرسال الأوامر بلشات🔰`)
    message.author.send({embed});
-       message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+       message.channel.send(":white_check_mark: I've DMed you with my help list")
 
   }
  });
@@ -3450,7 +3450,7 @@ if (err) console.error(err);
          .setDescription('👑أوامر الترحيب👑')
  .addField('❖-|p#setwelcomer', `👋welcome setup👋`)
    message.author.send({embed});
-       message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+       message.channel.send(":white_check_mark: I've DMed you with my help list")
 
   }
  });
