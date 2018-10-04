@@ -4255,7 +4255,6 @@ if(message.content.startsWith(prefix + "stoprainbow")) {
 const config = require('./config.json');
 const roles = config.roleToDisco;
 
-
 client3.on('message',  async  message  =>  {
     var  user  =  message.mentions.users.first();
     var  reason  =  message.content.split(' ').slice(2).join(' ');
