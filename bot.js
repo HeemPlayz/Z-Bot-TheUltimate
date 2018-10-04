@@ -2562,13 +2562,6 @@ client.on('ready', () => {
     console.log('I am ready!');
 });
 
-client.on('message', message => {
-    if (message.content === 'ping') {
-        message.reply('pong');
-      }
-});
-
-
 
 
 client.on('message', async message => {
@@ -2900,7 +2893,7 @@ client.on('message', async message => {
     let messageArray = message.content.split(" ");
     let muteRole = message.guild.roles.find("name", "Muted");
     let time = messageArray[2];
-    if(message.content.startsWith(prefix + "m")) {
+    if(message.content.startsWith(prefix + "tempmute")) {
         if(!message.member.hasPermission('MUTE_MEMBERS')) return message.channel.send('**للأسف لا تمتلك صلاحية** `MUTE_MEMBERS`' );
         if(!mutePerson) return message.channel.send("**- منشن الشخص يلي تبي تعطيه الميوت**");
         if(mutePerson === message.author) return message.channel.send('**- ماتقدر تعطي نفسك ميوت**');
@@ -2921,7 +2914,7 @@ client.on('message', async message => {
         .setFooter(message.author.username,message.author.avatarURL);
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
- message.channel.send(`**:white_check_mark: ${user} has been muted !**`)
+ message.channel.send(`**:white_check_mark: ${user} has been muted ! :zipper_mouth: **`)
         incidentchannel.send(muteEmbed)
 	    message.delete()
         mutePerson.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
@@ -2931,11 +2924,6 @@ client.on('message', async message => {
     });
     }
 });
-
-
-
-
-
 const Sra7a = [
      'صراحه  |  صوتك حلوة؟',
      'صراحه  |  التقيت الناس مع وجوهين؟',
