@@ -3516,8 +3516,8 @@ if (err) console.error(err);
    if (message.author.bot) return;
      if (message.author.id === client3.user.id) return;
    if(!message.channel.guild) return;
- if (message.content === '=credits') {
- message.channel.send(`** ${message.author.username}, your :credit_card: balance is ${games[message.author.id].credits}.**`)
+ if (message.content === 'p#credits') {
+ message.channel.send(`**${message.author.username}, your :credit_card: balance is ${games[message.author.id].credits}.**`)
  }
  });
  //معلوماتي
