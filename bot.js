@@ -17,8 +17,6 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 client.on("message", message => {
-  const prefix = "="
-
         if(!message.channel.guild) return;
  if(message.author.bot) return;
     if(message.content === prefix + "image"){
