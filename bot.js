@@ -1,5 +1,3 @@
-
-
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const client3 = new Discord.Client();
@@ -16,9 +14,6 @@ var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
-
-
-
 const sWlc = {}
 const premium = ['429972030092476437', '', '', '']
 client3.on('message', message => {
