@@ -4222,8 +4222,6 @@ if (err) console.error(err);
        });
    }, 1000);
  });
-
-
 client3.on("message", message => {
   if(!message.member.hasPermission('ADMINISTRATOR')) return;
 
@@ -4256,7 +4254,6 @@ if(message.content.startsWith(prefix + "stoprainbow")) {
 
 )
 const config = require('./config.json');
-const prefix = config.prefix;
 const roles = config.roleToDisco;
 
 
@@ -4285,8 +4282,6 @@ message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  
 //coding  by  orochix  !
 
 })
-
-
 client3.on('message', async message =>{
   var prefix = "p#";
 if (message.author.omar) return;
@@ -4341,9 +4336,6 @@ var args = message.content.split(" ").slice(1);
       tomute.removeRole(muterole.id);
       message.channel.send(`<:white_check_mark: @${tomute.id}> **Has been unnmuted due to time lapse **:white_check_mark: `);
     }, ms(mutetime));
-
-
-
   }
 });
 
