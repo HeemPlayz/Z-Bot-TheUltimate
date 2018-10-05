@@ -5215,7 +5215,7 @@ msg.channel.send(`${item.type}`).then(() => {
     if(message.content.startsWith(`${prefix}re-role`)) {
       let rMember = message.mentions.users.first()
       if(!rMember) return message.reply("Couldn't find that user, yo.");
-      let args = message.content.split(' ').slice(1);
+      let role = message.content.split(' ').slice(1);
       if(!role) return message.reply("Specify a role!");
       let gRole = message.guild.roles.find(`name`, role);
       if(!gRole) return message.reply("Couldn't find that role.");
