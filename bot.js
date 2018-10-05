@@ -79,37 +79,37 @@ client3.on('message', async message => {
 const mmss = require('ms');
 client3.on('message', async message => {
     let muteReason = message.content.split(" ").slice(3).join(" ");
-    let mutePerson = message.mentions.users.first();
+    let user1 = message.mentions.users.first();
     let messageArray = message.content.split(" ");
     let muteRole = message.guild.roles.find("name", "Muted");
     let time = messageArray[2];
     if(message.content.startsWith(prefix + "tempmute")) {
         if(!message.member.hasPermission('MUTE_MEMBERS')) return message.channel.send('**للأسف لا تمتلك صلاحية** `MUTE_MEMBERS`' );
-        if(!mutePerson) return message.channel.send("**- منشن الشخص يلي تبي تعطيه الميوت**");
-        if(mutePerson === message.author) return message.channel.send('**- ماتقدر تعطي نفسك ميوت**');
-        if(mutePerson === client.user) return message.channel.send('**- ماتقدر تعطي البوت ميوت :)**');
-        if(message.guild.member(mutePerson).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
+        if(!user1) return message.channel.send("**- منشن الشخص يلي تبي تعطيه الميوت**");
+        if(user1 === message.author) return message.channel.send('**- ماتقدر تعطي نفسك ميوت**');
+        if(user1 === client.user) return message.channel.send('**- ماتقدر تعطي البوت ميوت :)**');
+        if(message.guild.member(user1).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
         if(!muteRole) return message.guild.createRole({ name: "Muted", permissions: [] });
         if(!time) return message.channel.send("**- اكتب الوقت**");
         if(!time.match(/[1-7][s,m,h,d,w]/g)) return message.channel.send('**- اكتب وقت حقيقي**');
         if(!muteReason) return message.channel.send("**- اكتب السبب**");
-        message.guild.member(mutePerson).addRole(muteRole);
+        message.guild.member(user1).addRole(muteRole);
         let muteEmbed = new Discord.RichEmbed()
         .setTitle(`New Muted User`)
         .setThumbnail(message.guild.iconURL)
         .addField('- Muted By:',message.author,true)
-        .addField('- Muted User:', `${mutePerson}`)
+        .addField('- Muted User:', `${user1}`)
         .addField('- Reason:',muteReason,true)
         .addField('- Duration:',`${mmss(mmss(time), {long: true})}`)
         .setFooter(message.author.username,message.author.avatarURL);
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
- message.channel.send(`**:white_check_mark: ${user} has been muted ! :zipper_mouth: **`)
+ message.channel.send(`**:white_check_mark: ${user1} has been muted ! :zipper_mouth: **`)
         incidentchannel.send(muteEmbed)
-	    message.delete()
-        mutePerson.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
+        user1.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
+	            message.delete()
         .then(() => { setTimeout(() => {
-           message.guild.member(mutePerson).removeRole(muteRole);
+           message.guild.member(user1).removeRole(muteRole);
        }, mmss(time));
     });
     }
