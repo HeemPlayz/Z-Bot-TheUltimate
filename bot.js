@@ -16,7 +16,29 @@ const prefix = "p#";
 let done = {};
 client.login(process.env.BOT_TOKEN)
 client3.login(process.env.BOT_TOKEN)
-
+function errormsg(message, err, cmd) {
+    message.channel.send(errmsg) 
+    client.channels.get("497605431645175830").send(`**:warning: Error**`, {embed: {
+    description: `\`\`\`${err}\`\`\` `,
+    fields: [
+        {
+        name: "**server**",
+        value: message.guild.name,
+        inline: true
+        }, 
+        {
+        name: "**user**",
+        value: message.author.username,
+        inline: true
+        }, 
+        {
+        name: "**command**",
+        value: cmd,
+        inline: true
+        }
+    ]}})
+    return; 
+}
 client3.on('message', async message => {
     var moment = require('moment');
     var mmss = require('ms')
