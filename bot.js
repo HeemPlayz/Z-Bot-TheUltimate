@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const client3 = new Discord.Client();
 const convert = require("hh-mm-ss")
+let customemoji = client.emojis.find(r => r.name === 'yes');
 const dateFormat = require('dateformat');
 const fs = require('fs');
 const pretty = require('pretty-ms');
@@ -60,7 +61,7 @@ client3.on('message', message => {
   
               const e = new Discord.RichEmbed()
   
-          .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
+          .setDescription('${customemoji}** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
          .setFooter('Requested By '+message.author.username,message.author.avatarURL)
          .setColor('BLACK')
           message.channel.send(e)
@@ -73,7 +74,7 @@ client3.on('message', message => {
   if(!role1) return message.channel.send(ee);                message.guild.member(member).addRole(role1);
          const e = new Discord.RichEmbed()
   
-         .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
+         .setDescription('${customemoji}** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
          .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
          .setColor('BLACK')
           message.channel.send(e)
@@ -89,7 +90,7 @@ client3.on('message', message => {
     message.guild.members.forEach(m => {
      message.guild.member(m).removeRole(role1.id);
   });
-  msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+  msg.edit(`** ${customemoji}   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
   });
   }
   if(role) {
@@ -99,7 +100,7 @@ client3.on('message', message => {
   message.guild.members.forEach(m => {
      message.guild.member(m).addRole(role1);
   });
-  msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
+  msg.edit(`** ${customemoji}   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
   });
   }
   } else if(args[0] == 'humans') {
@@ -110,7 +111,7 @@ client3.on('message', message => {
     message.guild.members.forEach(m => {
      message.guild.member(m).removeRole(role1.id);
   });
-  msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+  msg.edit(`** ${customemoji}   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
   });
   }
   if(role) {
@@ -124,7 +125,7 @@ client3.on('message', message => {
      message.guild.members.filter(m =>m.user.bot == false).forEach(m => {
          message.guild.member(m).addRole(role1);
      });
-  msg.edit(`** :white_check_mark:   Done...**`);
+  msg.edit(`** ${customemoji}   Done...**`);
   });
   }
   } else if(args[0] == 'bots') {
@@ -135,7 +136,7 @@ client3.on('message', message => {
     message.guild.members.forEach(m => {
      message.guild.member(m).removeRole(role1.id);
   });
-  msg.edit(`** :white_check_mark:  Done...**`);
+  msg.edit(`** ${customemoji}  Done...**`);
   });
   }
   if(role) {
@@ -148,7 +149,7 @@ client3.on('message', message => {
      message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
          message.guild.member(m).addRole(role1);
      });
-  msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
+  msg.edit(`** ${customemoji}  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
   });
   }
   }
@@ -182,7 +183,7 @@ client3.on('message', async message => {
        let incidentchannel = message.guild.channels.find(`name`, "incidents");
   if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
   incidentchannel.send(banEmbed);
-  message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`).then(() => message.guild.member(User).ban({reason: Reason}))
+  message.channel.send(`**${customemoji} ${User} has been banned :airplane: **`).then(() => message.guild.member(User).ban({reason: Reason}))
   User.send(`**:airplane: You are has been banned in ${message.guild.name} reason: ${Reason} by: ${message.author.tag} :airplane:**`)
        .then(() => { setTimeout(() => {
            message.guild.unban(User);
@@ -218,7 +219,7 @@ client3.on('message', async message => {
         .setFooter(message.author.username,message.author.avatarURL);
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
- message.channel.send(`**:white_check_mark: ${user1} has been muted ! :zipper_mouth: **`)
+ message.channel.send(`**${customemoji} ${user1} has been muted ! :zipper_mouth: **`)
         incidentchannel.send(muteEmbed)
         user1.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
 	            message.delete()
@@ -292,7 +293,7 @@ var args = message.content.split(" ").slice(1);
     if(!mutetime) return message.reply("**Please Type The Duration**:x:");
 
     await(tomute.addRole(muterole.id));
-    message.channel.send(`**<@${tomute.id}> Has been muted ! :white_check_mark:**`);
+    message.channel.send(`**<@${tomute.id}> Has been muted ! ${customemoji}**`);
       message.delete();
     const muteembed = new Discord.RichEmbed()
     .setTitle('**New Muted User !**')
@@ -308,7 +309,7 @@ var args = message.content.split(" ").slice(1);
     message.guild.channels.find('name',  'incidents').sendEmbed(muteembed)
     setTimeout(function(){
       tomute.removeRole(muterole.id);
-      message.channel.send(`<:white_check_mark: @${tomute.id}> **Has been unnmuted due to time lapse **:white_check_mark: `);
+      message.channel.send(`<${customemoji} @${tomute.id}> **Has been unnmuted due to time lapse **${customemoji} `);
     }, ms(mutetime));
   }
 });
@@ -337,7 +338,7 @@ if(!role || !toMute.roles.has(role.id)) return message.channel.sendMessage("**Th
 
 await toMute.removeRole(role)
 
-message.channel.sendMessage(`**${toMute} Has been unmuted !**:white_check_mark:`);
+message.channel.sendMessage(`**${toMute} Has been unmuted !**${customemoji}`);
 message.delete();
 let mutedEmbed = new Discord.RichEmbed()
 .setDescription("» New UnMute User «")
@@ -3894,7 +3895,7 @@ const embed = new Discord.RichEmbed()
 ─════════════ {🎇PlexBot🎇} ════════════─
     `)
  message.author.sendEmbed(embed);
- message.channel.send(":white_check_mark: I've DMed you with my help list")
+ message.channel.send("${customemoji} I've DMed you with my help list")
 
 
  }
@@ -3995,7 +3996,7 @@ const embed = new Discord.RichEmbed()
       .addField('❖-|p#deletecolors', `☺حذف 50 لون💯`)
     .addField('❖-|p#color', `😊لتحط ايا لون من هول الالوان اكتب الأمر و الرقم من 1 ل50 انت اختر😉`)
 message.author.send({embed});
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
+    message.channel.send("${customemoji} I've DMed you with my help list")
 }
 });
 client.on("message", message => {
@@ -4028,7 +4029,7 @@ const embed = new Discord.RichEmbed()
         .addField('❖-|p#solts🎮', `لعبة الإيموجي🎮`)
           .addField('❖-|p#xo🎮', `لعبه اكس او🎮`)
 message.author.send({embed});
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
+    message.channel.send("${customemoji} I've DMed you with my help list")
 }
 });
 
@@ -4053,7 +4054,7 @@ const embed = new Discord.RichEmbed()
 ❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
 ─════════════ {✯PlexBot♧✯} ════════════─
     `)
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
+    message.channel.send("${customemoji} I've DMed you with my help list")
     message.author.send({embed});
   }
  });
@@ -4179,7 +4180,7 @@ Zulu	\`\`\`
 **`)
 .setFooter('PlexBot.')
 message.author.send(embed)
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
+    message.channel.send("${customemoji} I've DMed you with my help list")
 }
 });
 
@@ -4308,7 +4309,7 @@ var a = message.guild.roles.find("name",`${args}`)
 const embed = new Discord.RichEmbed()
 
 .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-.setDescription(`**Done , تم تغير لونك . :white_check_mark: **`)
+.setDescription(`**Done , تم تغير لونك . ${customemoji} **`)
 
 .setColor(`${a.hexColor}`)
 message.channel.sendEmbed(embed);
@@ -4406,7 +4407,7 @@ const embed = new Discord.RichEmbed()
 .addField('❖-|p#ping', `🎆يقلك كم بنق البوت🎇`)
    .addField('❖-|p#report', `⚠عشان تبلغ عن شخص🔞`)
 message.author.send({embed});
-message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+message.channel.send("${customemoji} | Check Your DM تم الأرسال بلخاص")
 }
 });
 
@@ -4818,7 +4819,7 @@ client.on("message", (message) => {
                 SEND_MESSAGES: true,
                 READ_MESSAGES: true
             });
-            message.channel.send(`:white_check_mark: Your ticket has been created, #${c.name}.`);
+            message.channel.send(`${customemoji} Your ticket has been created, #${c.name}.`);
             const embed = new Discord.RichEmbed()
                 .setColor(0xCF40FA)
                 .addField(`Hey ${message.author.username}!`, `Please try explain why you opened this ticket with as much detail as possible. Our **Support Staff** will be here soon to help.`)
@@ -4866,7 +4867,7 @@ client.on("message", (message) => {
 		   .setTimestamp()
 		   .setFooter(`Requested By | ${message.author.username}`)
 		   .setColor("RANDOM")
-		   message.channel.send(":white_check_mark: | Check Your DM! تم الأرسال بلخاص")
+		   message.channel.send("${customemoji} | Check Your DM! تم الأرسال بلخاص")
 		   message.author.send({embed})
 	   }
    });
@@ -4914,7 +4915,7 @@ client.on("message", message => {
 .addField('❖-|p#setCount', `👪 صنع روم لعدد الاعضاء 👪 `)
 .addField('❖-|p#setVoice', `🎤 صنع روم للفويس اونلاين 🎤 `)
   message.author.send({embed});
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
+      message.channel.send("${customemoji} I've DMed you with my help list")
  }
 });
 
@@ -4926,7 +4927,7 @@ client.on("message", message => {
       .setFooter('© PlexBot جميع الحقوق محفوظة 2018 لــبوت')
       .addField('سيرفر الدعم الفني', `https://discord.gg/agYdjPh`)
   message.author.send({embed});
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
+      message.channel.send("${customemoji} I've DMed you with my help list")
  }
 });
 
@@ -4980,7 +4981,7 @@ client.on('message', message => {
     .addField("Time & Date :", `[${message.createdAt}]`)
     .setFooter("MarsMC")
     message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
-  message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
+  message.channel.send(`**${customemoji} ${user} has been kicked ! :airplane:**`)
   user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
       message.delete()
   }
@@ -5715,7 +5716,7 @@ if(message.content === prefix + "roomsall"){
         var channels = message.guild.channels.map(channels => `${channels.name}, `).join(' ')
         const embed = new Discord.RichEmbed()
         .setColor('RANDOM')
-        .addField(`${message.guild.name}`,`**Rooms:white_check_mark:**`)
+        .addField(`${message.guild.name}`,`**Rooms${customemoji}**`)
         .addField(':arrow_down: عدد الرومات. :heavy_check_mark:',`** ${message.guild.channels.size}**`)
 
 .addField(':arrow_down:اسماء الرومات. :heavy_check_mark::',`**[${channels}]**`)
@@ -5865,7 +5866,7 @@ if (err) console.error(err);
            .addField('❖-|=queue', `🎸لمعرفة قآئمة التشغيل🎤`)
            .addField('❖-|=music', `🔰لأرسال الأوامر بلشات🔰`)
    message.author.send({embed});
-       message.channel.send(":white_check_mark: I've DMed you with my help list")
+       message.channel.send("${customemoji} I've DMed you with my help list")
 
   }
  });
@@ -5892,7 +5893,7 @@ if (err) console.error(err);
          .setDescription('👑أوامر الترحيب👑')
  .addField('❖-|p#setwelcomer', `👋welcome setup👋`)
    message.author.send({embed});
-       message.channel.send(":white_check_mark: I've DMed you with my help list")
+       message.channel.send("${customemoji} I've DMed you with my help list")
 
   }
  });
