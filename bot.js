@@ -555,8 +555,8 @@ client3.on('message', async message => {
         if(!time.match(/[1-7][s,m,h,d,w]/g)) return message.channel.send('**- اكتب وقت حقيقي**');
         if(!muteReason) return message.channel.send("**- اكتب السبب**");
         message.guild.member(mutePerson).addRole(muteRole);
+        message.channel.send(`**:white_check_mark: ${user} has been muted ! :zipper_mouth: **`)
         message.delete()
-
         let muteEmbed = new Discord.RichEmbed()
         .setTitle(`New Muted User`)
         .setThumbnail(message.guild.iconURL)
@@ -567,8 +567,7 @@ client3.on('message', async message => {
         .setFooter(message.author.username,message.author.avatarURL);
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
- message.channel.send(`**:white_check_mark: ${user} has been muted ! :zipper_mouth: **`)
-        incidentchannel.send(muteEmbed)
+        incidentchannel.sendEmbed(muteEmbed)
         mutePerson.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
         .then(() => { setTimeout(() => {
            message.guild.member(mutePerson).removeRole(muteRole);
