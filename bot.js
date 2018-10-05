@@ -14,8 +14,233 @@ var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
+
 client.login(process.env.BOT_TOKEN)
 client3.login(process.env.BOT_TOKEN)
+client.on("message", message => {
+  if (message.content === "p#help-color") {
+  const embed = new Discord.RichEmbed()
+      .setColor("RANDOM")
+      .setDescription(`
+  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+  
+  👑اوامر الالوان👑`)
+  .addField('❖-|p#colors', `👑لعرض قائمة الألوان💯`)
+      .addField('❖-|p#createcolors', `☺لأنشاء 50 لون💯`)
+        .addField('❖-|p#deletecolors', `☺حذف 50 لون💯`)
+      .addField('❖-|p#color', `😊لتحط ايا لون من هول الالوان اكتب الأمر و الرقم من 1 ل50 انت اختر😉`)
+  message.author.send({embed});
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
+  }
+  });
+  client.on("message", message => {
+  if (message.content === "p#help-games") {
+  const embed = new Discord.RichEmbed()
+      .setColor("RANDOM")
+      .setDescription(`
+  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+  
+  👑اوامر الألعاب👑`)
+          .addField('❖-|p#صراحة🎮', `لعبة صراحه🎮`)
+          .addField('❖-|p#عواصم🎮', `لعبة عواصم🎮`)
+    .addField('❖-|p#عقاب🎮', `لعبة عقاب🎮`)
+          .addField('❖-|p#خواطر🎮', `لعبة خواط🎮`)
+          .addField('❖-|p#حجرة أو ورقة أو مقص🎮', `لعبة حجرة ورقة مقص🎮`)
+    .addField('❖-|p#كت تويت🎮', `لعبة كت تويت🎮`)
+    .addField('❖-|p#لو خيروك🎮', `لعبة لو خيروك🎮`)
+          .addField('❖-|p#قرعة🎮', `لاستعمال القرعة🎮`)
+          .addField('❖-|p#فكك🎮', `لعبة فكك🎮`)
+          .addField('❖-|p#لغز🎮', `لعبة لغز🎮`)
+          .addField('❖-|p#شقلب🎮', `لعبة شقلب🎮`)
+          .addField('❖-|p#كتابة🎮', `لعبة كتابة🎮`)
+          .addField('❖-|p#ركب🎮', `لعبة ركب🎮`)
+          .addField('❖-|p#رياضيات🎮', `لعبة الرياضيات🎮`)
+          .addField('❖-|p#solts🎮', `لعبة الإيموجي🎮`)
+            .addField('❖-|p#xo🎮', `لعبه اكس او🎮`)
+  message.author.send({embed});
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
+  }
+  });
+  
+  client.on("message", message => {
+  if (message.content === "p#help-use") {
+  const embed = new Discord.RichEmbed()
+      .setColor("RANDOM")
+      .setDescription(`
+  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+  
+  ─════════════ {✯PlexBot♧✯} ════════════─
+  ❖-|welcomeleft|🚩لتفيل امر المغادرة أنشاء غرفة أسمها welcome🚩
+  ❖-|suggest|🚩لتفعيل الريبورت أنشاء غرفة أسمها suggestions🚩
+  ❖-|log|🚩لوق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياذ كثيرة🚩
+  ❖-|all adminstrator commands|🚩 يحتاج روم incidents + logل وق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياء كثير🚩
+  ❖-|setwelcomer|🚩setup welcome code🚩
+  ❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
+  ─════════════ {✯PlexBot♧✯} ════════════─
+      `)
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
+      message.author.send({embed});
+    }
+   });
+  
+  client.on('message', message => {
+   if (message.content.startsWith("p#help-tr")) {
+     let embed = new Discord.RichEmbed()
+  .setDescription(`
+  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+  
+  p#tr لاستخدام امر الترجمه**
+  
+  اللغات في البوت : -
+  \`\`\`
+  Albanian
+  Amharic
+  Arabic
+  Armenian
+  Azeerbaijani
+  Basque
+  Belarusian
+  Bengali
+  Bosnian
+  Bulgarian
+  Catalan
+  Cebuano
+  Chinese
+  Chinese
+  Corsican
+  Croatian
+  Czech
+  Danish
+  Dutch
+  English
+  Esperanto
+  Estonian
+  Finnish
+  French
+  Frisian
+  Galician
+  Georgian
+  German
+  Greek
+  Gujarati
+  Haitian Creole
+  Hausa
+  Hawaiian
+  Hebrew
+  Hindi
+  Hmong
+  Hungarian
+  Icelandic
+  Igbo
+  Indonesian
+  Irish
+  Italian
+  Japanese
+  Javanese
+  Kannada
+  Kazakh
+  Khmer
+  Korean
+  Kurdish
+  Kyrgyz
+  Lao
+  Latin
+  Latvian
+  Lithuanian
+  Luxembourgish
+  Macedonian
+  Malagasy
+  Malay
+  Malayalam
+  Maltese
+  Maori
+  Marathi
+  Mongolian
+  Myanmar
+  Nepali
+  Norwegian
+  Nyanja
+  Pashto
+  Persian
+  Polish
+  Portuguese
+  Punjabi
+  Romanian
+  Russian
+  Samoan
+  Scots Gaelic
+  Serbian
+  Sesotho
+  Shona
+  Sindhi
+  Sinhala
+  Slovak
+  Slovenian
+  Somali
+  Spanish
+  Sundanese
+  Swahili
+  Swedish
+  Tagalog
+  Tajik
+  Tamil
+  Telugu
+  Thai
+  Turkish
+  Ukrainian
+  Urdu
+  Uzbek
+  Vietnamese
+  Welsh
+  Xhosa
+  Yiddish
+  Yoruba
+  Zulu	\`\`\`
+  **`)
+  .setFooter('PlexBot.')
+  message.author.send(embed)
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
+  }
+  });
+client3.on("message", message => {
+  if (message.content === "p#help-music") {
+   const embed = new Discord.RichEmbed()
+       .setColor("RANDOM")
+       .setDescription('👑أوامر الموسيقى👑')
+     .addField('❖-|=play', `🎸لتشغيل أغنية برآبط أو بأسم🎵`)
+     .addField('❖-|=skip', `♠لتجآوز الأغنية الحآلية🎺`)
+     .addField('❖-|=pause', `🚩إيقآف الأغنية مؤقتا💯`)
+     .addField('❖-|=resume', `🎧لموآصلة الإغنية بعد إيقآفهآ مؤقتا🎵`)
+           .addField('❖-|=vol', `🔊تغيير درجة الصوت 100 - 0🔇`)
+           .addField('❖-|=stop', `🔘لإخرآج البوت من الروم❗`)
+           .addField('❖-|=nb', `🎼لمعرفة الأغنية المشغلة حآليا🎷`)
+           .addField('❖-|=queue', `🎸لمعرفة قآئمة التشغيل🎤`)
+           .addField('❖-|=music', `🔰لأرسال الأوامر بلشات🔰`)
+   message.author.send({embed});
+       message.channel.send(":white_check_mark: I've DMed you with my help list")
+
+  }
+ });
 client3.on("roleCreate", role => {
     client3.setTimeout(() => {
       role.guild.fetchAuditLogs({
@@ -4059,219 +4284,7 @@ Discord.RichEmbed()
   }
   })
 
-  const child_process = require("child_process"); //npm i child_process
-client.on('ready' , function (){
-var time = 7200000;
-client.setInterval(function() {
-client.destroy();
-    child_process.fork(__dirname + "/bc.js");
-}, time);
-});
-client.on("message", message => {
-if (message.content === "p#help-color") {
-const embed = new Discord.RichEmbed()
-    .setColor("RANDOM")
-    .setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
 
-👑اوامر الالوان👑`)
-.addField('❖-|p#colors', `👑لعرض قائمة الألوان💯`)
-    .addField('❖-|p#createcolors', `☺لأنشاء 50 لون💯`)
-      .addField('❖-|p#deletecolors', `☺حذف 50 لون💯`)
-    .addField('❖-|p#color', `😊لتحط ايا لون من هول الالوان اكتب الأمر و الرقم من 1 ل50 انت اختر😉`)
-message.author.send({embed});
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
-}
-});
-client.on("message", message => {
-if (message.content === "p#help-games") {
-const embed = new Discord.RichEmbed()
-    .setColor("RANDOM")
-    .setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-👑اوامر الألعاب👑`)
-        .addField('❖-|p#صراحة🎮', `لعبة صراحه🎮`)
-        .addField('❖-|p#عواصم🎮', `لعبة عواصم🎮`)
-  .addField('❖-|p#عقاب🎮', `لعبة عقاب🎮`)
-        .addField('❖-|p#خواطر🎮', `لعبة خواط🎮`)
-        .addField('❖-|p#حجرة أو ورقة أو مقص🎮', `لعبة حجرة ورقة مقص🎮`)
-  .addField('❖-|p#كت تويت🎮', `لعبة كت تويت🎮`)
-  .addField('❖-|p#لو خيروك🎮', `لعبة لو خيروك🎮`)
-        .addField('❖-|p#قرعة🎮', `لاستعمال القرعة🎮`)
-        .addField('❖-|p#فكك🎮', `لعبة فكك🎮`)
-        .addField('❖-|p#لغز🎮', `لعبة لغز🎮`)
-        .addField('❖-|p#شقلب🎮', `لعبة شقلب🎮`)
-        .addField('❖-|p#كتابة🎮', `لعبة كتابة🎮`)
-        .addField('❖-|p#ركب🎮', `لعبة ركب🎮`)
-        .addField('❖-|p#رياضيات🎮', `لعبة الرياضيات🎮`)
-        .addField('❖-|p#solts🎮', `لعبة الإيموجي🎮`)
-          .addField('❖-|p#xo🎮', `لعبه اكس او🎮`)
-message.author.send({embed});
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
-}
-});
-
-client.on("message", message => {
-if (message.content === "p#help-use") {
-const embed = new Discord.RichEmbed()
-    .setColor("RANDOM")
-    .setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-─════════════ {✯PlexBot♧✯} ════════════─
-❖-|welcomeleft|🚩لتفيل امر المغادرة أنشاء غرفة أسمها welcome🚩
-❖-|suggest|🚩لتفعيل الريبورت أنشاء غرفة أسمها suggestions🚩
-❖-|log|🚩لوق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياذ كثيرة🚩
-❖-|all adminstrator commands|🚩 يحتاج روم incidents + logل وق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياء كثير🚩
-❖-|setwelcomer|🚩setup welcome code🚩
-❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
-─════════════ {✯PlexBot♧✯} ════════════─
-    `)
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
-    message.author.send({embed});
-  }
- });
-
-client.on('message', message => {
- if (message.content.startsWith("p#help-tr")) {
-   let embed = new Discord.RichEmbed()
-.setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-p#tr لاستخدام امر الترجمه**
-
-اللغات في البوت : -
-\`\`\`
-Albanian
-Amharic
-Arabic
-Armenian
-Azeerbaijani
-Basque
-Belarusian
-Bengali
-Bosnian
-Bulgarian
-Catalan
-Cebuano
-Chinese
-Chinese
-Corsican
-Croatian
-Czech
-Danish
-Dutch
-English
-Esperanto
-Estonian
-Finnish
-French
-Frisian
-Galician
-Georgian
-German
-Greek
-Gujarati
-Haitian Creole
-Hausa
-Hawaiian
-Hebrew
-Hindi
-Hmong
-Hungarian
-Icelandic
-Igbo
-Indonesian
-Irish
-Italian
-Japanese
-Javanese
-Kannada
-Kazakh
-Khmer
-Korean
-Kurdish
-Kyrgyz
-Lao
-Latin
-Latvian
-Lithuanian
-Luxembourgish
-Macedonian
-Malagasy
-Malay
-Malayalam
-Maltese
-Maori
-Marathi
-Mongolian
-Myanmar
-Nepali
-Norwegian
-Nyanja
-Pashto
-Persian
-Polish
-Portuguese
-Punjabi
-Romanian
-Russian
-Samoan
-Scots Gaelic
-Serbian
-Sesotho
-Shona
-Sindhi
-Sinhala
-Slovak
-Slovenian
-Somali
-Spanish
-Sundanese
-Swahili
-Swedish
-Tagalog
-Tajik
-Tamil
-Telugu
-Thai
-Turkish
-Ukrainian
-Urdu
-Uzbek
-Vietnamese
-Welsh
-Xhosa
-Yiddish
-Yoruba
-Zulu	\`\`\`
-**`)
-.setFooter('PlexBot.')
-message.author.send(embed)
-    message.channel.send(":white_check_mark: I've DMed you with my help list")
-}
-});
 
 client3.on('message', message => {
 if (message.content.startsWith("p#tr")) {
@@ -4611,7 +4624,7 @@ const embed = new Discord.RichEmbed()
 .addField('❖-|p#ping', `🎆يقلك كم بنق البوت🎇`)
    .addField('❖-|p#report', `⚠عشان تبلغ عن شخص🔞`)
 message.author.send({embed});
-message.channel.send(":white_check_mark: | Check Your DM تم الأرسال بلخاص")
+message.channel.send(":white_check_mark: I've DMed you with my help list")
 }
 });
 
@@ -6055,25 +6068,6 @@ if (err) console.error(err);
 
 
 
- client3.on("message", message => {
-  if (message.content === "p#music") {
-   const embed = new Discord.RichEmbed()
-       .setColor("RANDOM")
-       .setDescription('👑أوامر الموسيقى👑')
-     .addField('❖-|=play', `🎸لتشغيل أغنية برآبط أو بأسم🎵`)
-     .addField('❖-|=skip', `♠لتجآوز الأغنية الحآلية🎺`)
-     .addField('❖-|=pause', `🚩إيقآف الأغنية مؤقتا💯`)
-     .addField('❖-|=resume', `🎧لموآصلة الإغنية بعد إيقآفهآ مؤقتا🎵`)
-           .addField('❖-|=vol', `🔊تغيير درجة الصوت 100 - 0🔇`)
-           .addField('❖-|=stop', `🔘لإخرآج البوت من الروم❗`)
-           .addField('❖-|=nb', `🎼لمعرفة الأغنية المشغلة حآليا🎷`)
-           .addField('❖-|=queue', `🎸لمعرفة قآئمة التشغيل🎤`)
-           .addField('❖-|=music', `🔰لأرسال الأوامر بلشات🔰`)
-   message.author.send({embed});
-       message.channel.send(":white_check_mark: I've DMed you with my help list")
-
-  }
- });
 
  client3.on('message', function(message) {
      if(message.content.startsWith(prefix + 'قرعة')) {
