@@ -6725,4 +6725,5 @@ if(message.content.startsWith(prefix + "stoprainbow")) {
 const config = require('./config.json');
 const roles = config.roleToDisco;
   }}
-)}
+ )}
+})
