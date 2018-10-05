@@ -676,7 +676,7 @@ if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.sendMes
 let toMute = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
 if(!toMute) return message.channel.sendMessage("**Mention Someone Please**:x: ");
 
-let role = message.guild.roles.find (r => r.name === "muted");
+let role = message.guild.roles.find (r => r.name === "Muted");
 
 if(!role || !toMute.roles.has(role.id)) return message.channel.sendMessage("**This Person Is Not Muted ! **:x:")
 
