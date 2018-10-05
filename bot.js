@@ -6765,8 +6765,8 @@ client.on('message', message => {
   /*let b5bzlog = client.channels.find("name", "5bz-log");
 
   if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
-  if (message.mentions.users.size < 1) return message.reply('Mention Someone')
-  if(!reason) return message.reply('Type The Reason')
+  if (message.mentions.users.size < 1) return;
+  if(!reason) return;
   if (!message.guild.member(user)
   .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
 
@@ -6786,3 +6786,27 @@ if(!incidentchannel) return message.channel.send("Can't find incidents channel."
 incidentchannel.send(banEmbed);
 message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
   }})
+
+  client.on("message", (message) => {
+    if (message.content.startsWith("p#ban")) {
+      if(!message.member.hasPermission('BAN_MEMBERS')) return message.reply(':warning: ماعندك الصلاحيات');
+        var member= message.mentions.members.first();
+        member.ban().then((member) => {
+            let banEmbed = new Discord.RichEmbed()
+            .setAuthor(`New Banned User !`)
+            .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
+            .addField('- Banned By: ',message.author.tag,true)
+            .addField('- Banned User:', `${member}`)
+            .addField('- Time & Date:', `${message.createdAt}`)
+            .addField('- Duration:',time,true)
+            .setFooter(message.author.tag,message.author.avatarURL);
+            let incidentchannel = message.guild.channels.find(`name`, "incidents");
+       if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+       incidentchannel.send(banEmbed);
+       message.channel.send(`**:airplane: ${member} has been banned :airplane: **`)
+        }).catch(() => {
+            message.channel.send("Error -_-");
+        });
+    }
+  })
+    
