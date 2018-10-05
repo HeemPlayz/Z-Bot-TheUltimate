@@ -20,7 +20,6 @@ client3.login(process.env.BOT_TOKEN)
     var args = message.content.toLowerCase().split(" ");
     var userM = message.guild.member(message.mentions.users.first() || message.guild.members.find(m => m.id === args[1]));
     var logChannel = message.guild.channels.find(c => c.name === 'incidents');
-    var prefix = '#';
     if(command == prefix + 'unban') {
         if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
         if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(':no_entry: | I dont have **BAN_MEMBERS** Permission!');
