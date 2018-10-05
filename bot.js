@@ -6776,15 +6776,15 @@ client.on('message', message => {
   .setAuthor(`New Banned User !`)
   .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
   .addField('- Banned By: ',message.author.tag,true)
-  .addField('- Banned User:', `${User}`)
-  .addField('- Reason:',Reason,true)
+  .addField('- Banned User:', `${user}`)
+  .addField('- Reason:',reason,true)
   .addField('- Time & Date:', `${message.createdAt}`)
   .addField('- Duration:',time,true)
   .setFooter(message.author.tag,message.author.avatarURL);
   let incidentchannel = message.guild.channels.find(`name`, "incidents");
 if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
 incidentchannel.send(banEmbed);
-message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`)
+message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
 
 client.on("message", (message) => {
   if (message.content.startsWith("p#ban")) {
@@ -6803,7 +6803,7 @@ client.on("message", (message) => {
           let incidentchannel = message.guild.channels.find(`name`, "incidents");
      if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
      incidentchannel.send(banEmbed);
-     message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`)
+     message.channel.send(`**:white_check_mark: ${member} has been banned :airplane: **`)
       }).catch(() => {
           message.channel.send("Error -_-");
       });
