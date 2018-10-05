@@ -53,6 +53,7 @@ client3.on('message', async message => {
     });
    }
   });
+
 const mmss = require('ms');
 client3.on('message', async message => {
     let muteReason = message.content.split(" ").slice(3).join(" ");
@@ -91,10 +92,11 @@ client3.on('message', async message => {
     });
     }
 });
+
 client3.on('message',  async  message  =>  {
-    var  user  =  message.mentions.users.first();
-    var  reason  =  message.content.split(' ').slice(2).join(' ');
-if(message.content.startsWith(prefix  +  'w'))  {
+    let  user  =  message.mentions.users.first();
+    let  reason  =  message.content.split(' ').slice(2).join(' ');
+if(message.content.startsWith(prefix  +  'warn'))  {
     message.delete();
     if(!message.member.hasPermission('MUTE_MEMBERS')) return      message.channel.send('**للأسف لا تمتلك صلاحيات' );
     if(!user)  return  message.channel.send("**  -  mention  a  member  **")//by  orochix
