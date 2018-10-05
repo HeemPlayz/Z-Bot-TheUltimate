@@ -5117,21 +5117,21 @@ msg.channel.send(`${item.type}`).then(() => {
            
                if(!msg.guild.members.get(client.user.id).hasPermission("MANAGE_MESSAGES")) return msg.channel.send("I lack permissions.")
            
-               if (!args[1]) return msg.channel.send("DiscordAPI Err : Missing args.")
+               if (!args[1]) return msg.channel.send("Type the number of messages you want to delete")
            
                var count = parseInt(args[1]);
            
                var fetched = msg.channel.fetchMessages({limit : count})
            
-               if (isNaN(count)) return msg.channel.send("DiscordAPI Err : Only numbers are allowed.")
+               if (isNaN(count)) return msg.channel.send("Only numbers are allowed.")
            
-               if (count < 0) return msg.channel.send("DiscordAPI Err : Unvalid numbers.")
+               if (count < 0) return msg.channel.send("Unvalid numbers.")
            
-               if (count == 0) return msg.channel.send("DiscordAPI Err : 0 messages ???")
+               if (count == 0) return msg.channel.send("0 messages ???")
            
-               if (count > 100) return msg.channel.send(`DiscordAPI Err : cannot delete ${args[1]} message..`)
+               if (count > 100) return msg.channel.send(`cannot delete ${args[1]} message..`)
            
-               if (fetched.length == 0) return msg.channel.send(`DiscordAPI Err : ${msg.channel.name} is empty..`)
+               if (fetched.length == 0) return msg.channel.send(`${msg.channel.name} is empty..`)
            
                else {
                try {
