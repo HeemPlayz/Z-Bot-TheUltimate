@@ -15,6 +15,18 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 client.on('message', message => {
+    if(!message.channel.guild) return;
+let args = message.content.split(' ').slice(1).join(' ');
+if (message.content.startsWith('p#ownerbc')){
+if (message.author.id !== '429972030092476437') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
+if(!message.author.id === '429972030092476437') return;
+message.channel.sendMessage('جار ارسال |✅')
+client.users.forEach(m =>{
+m.sendMessage(args)
+})
+}
+});
+client.on('message', message => {
   if(message.content === prefix + 'colors') {
   if(!message.channel.guild) return message.channel.send('**This Commnad only For Servers !**'); 
 let menu = new Discord.RichEmbed()
@@ -2923,18 +2935,7 @@ client.on('message', message => {
     message.channel.sendEmbed(embed);
      }
 });
-client.on('message', message => {
-          if(!message.channel.guild) return;
-let args = message.content.split(' ').slice(1).join(' ');
-if (message.content.startsWith('p#bcall')){
-if (message.author.id !== '429972030092476437') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
-if(!message.author.id === '429972030092476437') return;
-message.channel.sendMessage('جار ارسال |✅')
-client.users.forEach(m =>{
-m.sendMessage(args)
-})
-}
-});
+
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -3613,7 +3614,7 @@ Discord.RichEmbed()
 .addField('🔰السيرفر🔰', message.guild.name)
 .addField('🚩المرسل🚩', message.author.username)
 .addField('📜الرسالة📜', args)
-.setThumbnail(message.author.avatarURL)
+.setThumbnail('https://a.top4top.net/p_1008gqyyd1.png')
 .setFooter(copy, client.user.avatarURL);
   m.send({ embed: bc })
   msg.delete();
@@ -6649,9 +6650,6 @@ return;
 }
 }); 
         }})
-
-    
-  
 
       		client.login(process.env.BOT_TOKEN)
 		client3.login(process.env.BOT_TOKEN)
