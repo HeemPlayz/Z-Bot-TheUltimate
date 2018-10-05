@@ -2887,7 +2887,6 @@ client.on("message", message => {
   ❖-|log|🚩لوق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياذ كثيرة🚩
   ❖-|all adminstrator commands|🚩 يحتاج روم incidents + logل وق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياء كثير🚩
   ❖-|setwelcomer|🚩setup welcome code🚩
-  ❖-|Rainbow|🚩لازم رتبه باسم Rainbow🚩
   ─════════════ {✯PlexBot♧✯} ════════════─
       `)
       message.channel.send(":white_check_mark: I've DMed you with my help list")
@@ -5192,7 +5191,6 @@ client.on("message", message => {
 
 👑أوامر الأدمن👑`)
     .addField('❖-|p#setwelcomer', `🏵️ setup welcome 🏵️ `)
-      .addField('❖-|p#startrainbow', `🏵️ start rainbow role 🏵️ `)
 	  .addField('❖-|p#bc', `📑لخاصية البرودكستات📑`)
 	  .addField('❖-|p#kick', `🚫لخاصية طرد🚫`)
   	  .addField('❖-|p#re-role', `🚫تشيل رتبه انت تحددها من شخص معين🚫`)
@@ -6671,39 +6669,6 @@ if (err) console.error(err);
  })
 
 
-client3.on("message", message => {
-  if(!message.member.hasPermission('ADMINISTRATOR')) return;
-
-
-  function discoRole() {
-    let random = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-    roles.forEach((role) => {
-      let theRole = message.guild.roles.find("name", role);
-      if(!theRole) return;
-      theRole.edit({color: random}).catch(e => {
-        return;
-      });
-    });
-  }
-
- if(message.content.startsWith(prefix + "startrainbow")) {
-    if(!message.member.hasPermission('ADMINISTRATOR')) return
-    setInterval(() => { discoRole(); }, config.ms);
-    message.channel.send("```css\nRainbowing...```");
-    message.channel.send("Make Sure You Make Role With **Rainbow** Name");
-  } else {
-  }
-
-if(message.content.startsWith(prefix + "stoprainbow")) {
-  message.channel.send("I've stopped rainbowing.");
-  setTimeout(() => { console.log(process.exit(0)); }, 300);
-} else {
-  }
-}
-
-)
-const config = require('./config.json');
-const roles = config.roleToDisco;
 
 client.on('message',message =>{
   var command = message.content.toLowerCase().split(" ")[0];
