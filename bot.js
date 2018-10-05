@@ -16,8 +16,6 @@ const prefix = "p#";
 let done = {};
 client.login(process.env.BOT_TOKEN)
 client3.login(process.env.BOT_TOKEN)
-
-
 client3.on("roleCreate", role => {
     client3.setTimeout(() => {
       role.guild.fetchAuditLogs({
