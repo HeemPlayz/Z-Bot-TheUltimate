@@ -45,6 +45,7 @@ client3.login(process.env.BOT_TOKEN)
         })
     }
 });
+
 client.on('message',message =>{
     if(message.content.startsWith(prefix + 'topinvites')) {
   message.guild.fetchInvites().then(i =>{
