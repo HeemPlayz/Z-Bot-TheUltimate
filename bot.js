@@ -6130,7 +6130,6 @@ if (err) console.error(err);
 
 
  ////////////////////بروفايل////////////////////////////
- const profile = JSON.parse(fs.readFileSync('./profile.json', "utf8"));
 
  client3.on("message", message => {
    if (message.author.bot) return;
