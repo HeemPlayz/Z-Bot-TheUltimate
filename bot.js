@@ -6665,7 +6665,7 @@ client.on('message',message =>{
   var command = message.content.toLowerCase().split(" ")[0];
     var args = message.content.toLowerCase().split(" ");
     var userM = message.mentions.users.first()
-    var logChannel = message.guild.channels.find(c => c.name === 'incidents');
+    var logChannel = message.guild.channels.find(`name`, "incidents");
     if(command == prefix + 'unban') {
         if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
         if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(':no_entry: | I dont have **BAN_MEMBERS** Permission!');
@@ -6685,7 +6685,7 @@ client.on('message',message =>{
             .setTimestamp()
             .setFooter(userM.user.tag, userM.user.avatarURL)
            
-            if(logChannel) return message.reply(`I CANT FIND incidents channel`)
+            if(!logChannel) return message.reply(`I CANT FIND incidents channel`)
                 logChannel.send(banInfo);
             }
 
