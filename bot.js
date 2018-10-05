@@ -552,7 +552,7 @@ client3.on('message', async message => {
         if(message.guild.member(mutePerson).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
         if(!muteRole) return message.guild.createRole({ name: "Muted", permissions: [] });
         if(!time) return message.channel.send("**- اكتب الوقت**");
-        if(!time.match(/[1-7][s,m,h,d,w]/g)) return message.channel.send('**- اكتب وقت حقيقي**');
+        if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');
         if(!muteReason) return message.channel.send("**- اكتب السبب**");
         message.guild.member(mutePerson).addRole(muteRole);
         message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
