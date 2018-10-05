@@ -5106,7 +5106,7 @@ msg.channel.send(`${item.type}`).then(() => {
            
                if (msg.channel.type !== "text") return undefined;
            
-               if (msg.auhtor.client) return undefined;
+
            
                var args = msg.content.split(" ")
            
