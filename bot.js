@@ -6667,7 +6667,7 @@ client.on('message',message =>{
 
         )}
       })
-const temp = JSON.parse(fs.readFileSync("./temp.json", "utf8"));
+const temp = JSON.parse(fs.readFileSync('./temp.json', 'utf8'));
 client.on('message', async message => {
  if(message.channel.type === "dm") return;
   if(message.author.bot) return;
@@ -6676,14 +6676,14 @@ client.on('message', async message => {
      category : 'click here',
       channel : 'click here'
        }
-        if(message.content.startsWith('$temp on')){
+        if(message.content.startsWith('p#temp on')){
          if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
           var ggg= message.guild.createChannel('click here', 'category').then(cg => {
            var ccc =message.guild.createChannel('click here', 'voice').then(ch => {
             ch.setParent(cg)
              message.channel.send('**Done ,**')
               client.on('message' , message => {
-               if(message.content === '$temp off') {
+               if(message.content === 'p#temp off') {
                 if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
                  cg.delete()
                   ch.delete()
