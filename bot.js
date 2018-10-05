@@ -6745,7 +6745,6 @@ client.on('message', async message => {
         if(err) console.error(err)
        })
       });
-var prefix = "p#"
 client.on('message', message => {
   if (message.author.x5bz) return;
   if (!message.content.startsWith(prefix)) return;
