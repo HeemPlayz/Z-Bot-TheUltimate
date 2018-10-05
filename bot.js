@@ -42,10 +42,8 @@ client3.login(process.env.BOT_TOKEN)
             if(logChannel) return message.reply(`I CANT FIND incidents channel`)
                 logChannel.send(banInfo);
             }
-        })
-    }
-});
 
+        )
 client.on('message',message =>{
     if(message.content.startsWith(prefix + 'topinvites')) {
   message.guild.fetchInvites().then(i =>{
@@ -6725,4 +6723,5 @@ if(message.content.startsWith(prefix + "stoprainbow")) {
 )
 const config = require('./config.json');
 const roles = config.roleToDisco;
-  }})
+  }}
+)}
