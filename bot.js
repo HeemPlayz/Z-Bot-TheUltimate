@@ -5382,27 +5382,6 @@ client.on('message',async message => {
 
 
 
-client.on('message' , message => {
-  var prefix = "!";
-  let user = message.mentions.users.first()|| client.users.get(message.content.split(' ')[1])
-  if(message.content.startsWith(prefix + 'unban')) {
-      if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('❌|**\`ADMINISTRATOR\`لا توجد لديك رتبة`**');
-      if(!user) return  message.channel.send(`Do this ${prefix} <@ID user> \n or \n ${prefix}unban ID user`);
-      message.guild.unban(user);
-      message.guild.owner.send(`لقد تم فك الباند عن الشخص \n ${user} \n By : <@${message.author.id}>`)
-      message.channel.send('**${user} Has been unbanned !**')
-        let unembed = new Discord.RichEmbed()
-        .setThumbnail(message.author.avatarURl)
-        .setColor("RANDOM")
-        .setTitle('**Unbanned** !')
-        .addField('**Unbanned User :** ', `${args[1]}` , true)
-        .addField('**Unbanned By :**' ,       ` <@${message.author.id}> ` , true)
-        .addField('**Time & Date :**', `${message.createdAt}`)
-        .setAuthor(message.guild.name)
-             let incidentchannel = message.guild.channels.find(`name`, "incidents");
-if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-incidentchannel.send(unembed);
-
 
 
 
@@ -6695,8 +6674,7 @@ if(message.content.startsWith(prefix + "stoprainbow")) {
 )
 const config = require('./config.json');
 const roles = config.roleToDisco;
-  }}
-)
+
 client.on('message',message =>{
   var command = message.content.toLowerCase().split(" ")[0];
     var args = message.content.toLowerCase().split(" ");
