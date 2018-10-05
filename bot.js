@@ -6640,7 +6640,7 @@ if (err) console.error(err);
 client.on('message',message =>{
   var command = message.content.toLowerCase().split(" ")[0];
     var args = message.content.toLowerCase().split(" ");
-    var userM = message.guild.member(message.mentions.users.first() 
+    var userM = message.mentions.users.first()
     var logChannel = message.guild.channels.find(c => c.name === 'incidents');
     if(command == prefix + 'unban') {
         if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
