@@ -6018,7 +6018,6 @@ if (err) console.error(err);
 
 
 
-let dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 client.on("message", message => {
   if (message.author.bot) return;
     if (message.author.id === client.user.id) return;
