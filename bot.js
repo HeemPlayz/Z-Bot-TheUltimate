@@ -95,7 +95,7 @@ client3.on('message', async message => {
         message.guild.member(user1).addRole(muteRole);
         let muteEmbed = new Discord.RichEmbed()
         .setTitle(`New Muted User`)
-        .setThumbnail(message.guild.iconURL)
+       .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
         .addField('- Muted By:',message.author,true)
         .addField('- Muted User:', `${user1}`)
         .addField('- Reason:',muteReason,true)
@@ -124,6 +124,7 @@ if(message.content.startsWith(prefix  +  'warn'))  {
     if(!reason)  return  message.channel.send("**  -  Type  Reason  **")//by  orochix
     let  reportembed  =  new  Discord.RichEmbed()
     .setTitle(`**New  Warned User !**`)
+           .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
 .addField("**-  Warned  User:**",  `[${user}  with  ID  ${user.id}]`)//by  orochix
 .addField('**-  Warned  By:**',`[${message.author.tag} with id ${message.author.id}]`)//by  orochix
 .addField('**-  Reason:**',  `[${reason}]`,  true)
@@ -180,6 +181,7 @@ var args = message.content.split(" ").slice(1);
       message.delete();
     const muteembed = new Discord.RichEmbed()
     .setTitle('**New Muted User !**')
+           .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
     .setColor("RANDOM")
     .setTimestamp()
     .addField("Muted User:",  `[ + ${user.tag} + ]`)
@@ -224,6 +226,7 @@ message.channel.sendMessage(`**${toMute} Has been unmuted !**:white_check_mark:`
 message.delete();
 let mutedEmbed = new Discord.RichEmbed()
 .setDescription("» New UnMute User «")
+       .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
 .setColor("#bc0000")
 .addField("Unmuted", `${Warned} with ID ${Warned.id}`)
 .addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
@@ -3837,7 +3840,7 @@ Discord.RichEmbed()
 .addField('🔰السيرفر🔰', message.guild.name)
 .addField('🚩المرسل🚩', message.author.username)
 .addField('📜الرسالة📜', args)
-.setThumbnail('https://a.top4top.net/p_1008gqyyd1.png')
+.setThumbnail(message.guild.iconURL || message.guild.avatarURL)
 .setFooter(copy, client.user.avatarURL);
   m.send({ embed: bc })
   msg.delete();
