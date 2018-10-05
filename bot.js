@@ -6780,7 +6780,6 @@ client.on('message', message => {
   .addField('- Banned User:', `${user}`)
   .addField('- Reason:',reason,true)
   .addField('- Time & Date:', `${message.createdAt}`)
-  .addField('- Duration:',time,true)
   .setFooter(message.author.tag,message.author.avatarURL);
   let incidentchannel = message.guild.channels.find(`name`, "incidents");
 if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
@@ -6799,7 +6798,6 @@ client.on("message", (message) => {
           .addField('- Banned By: ',message.author.tag,true)
           .addField('- Banned User:', `${member}`)
           .addField('- Time & Date:', `${message.createdAt}`)
-          .addField('- Duration:',time,true)
           .setFooter(message.author.tag,message.author.avatarURL);
           let incidentchannel = message.guild.channels.find(`name`, "incidents");
      if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
