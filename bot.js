@@ -5100,29 +5100,53 @@ msg.channel.send(`${item.type}`).then(() => {
 
 
 
-     client.on('message', msg => {
-        if (msg.author.bot) return;
-        if (!msg.content.startsWith(prefix)) return;
-        let command = msg.content.split(" ")[0];
-        command = command.slice(prefix.length);
-        let args = msg.content.split(" ").slice(1);
 
-          if(command === "clear") {
-              const emoji = client.emojis.find("name", "wastebasket")
-          let textxt = args.slice(0).join("");
-          if(msg.member.hasPermission("MANAGE_MESSAGES")) {
-          if (textxt == "") {
-              msg.delete().then
-          msg.channel.send("***```ضع عدد الرسائل التي تريد مسحها 👌```***").then(m => m.delete(3000));
-      } else {
-          msg.delete().then
-          msg.delete().then
-          msg.channel.bulkDelete(textxt);
-              msg.channel.send("```php\nعدد الرسائل التي تم مسحها: " + textxt + "\n```").then(m => m.delete(3000));
-              }
-          }
-      }
-})
+
+           client.on("message", async msg => {
+           
+               if (msg.channel.type !== "text") return undefined;
+           
+               if (msg.auhtor.bot) return undefined;
+           
+               var args = msg.content.split(" ")
+           
+           
+               if (msg.content.toLowerCase().startsWith(prefix + "prune")) {
+           
+               if(!msg.guild.members.get(msg.author.id).hasPermission("MANAGE_MESSAGES")) return msg.channel.send("You lack permissions.")
+           
+               if(!msg.guild.members.get(client.user.id).hasPermission("MANAGE_MESSAGES")) return msg.channel.send("I lack permissions.")
+           
+               if (!args[1]) return msg.channel.send("DiscordAPI Err : Missing args.")
+           
+               var count = parseInt(args[1]);
+           
+               var fetched = msg.channel.fetchMessages({limit : count})
+           
+               if (isNaN(count)) return msg.channel.send("DiscordAPI Err : Only numbers are allowed.")
+           
+               if (count < 0) return msg.channel.send("DiscordAPI Err : Unvalid numbers.")
+           
+               if (count == 0) return msg.channel.send("DiscordAPI Err : 0 messages ???")
+           
+               if (count > 100) return msg.channel.send(`DiscordAPI Err : cannot delete ${args[1]} message..`)
+           
+               if (fetched.length == 0) return msg.channel.send(`DiscordAPI Err : ${msg.channel.name} is empty..`)
+           
+               else {
+               try {
+                   fetched.then(async msgs => {
+                     await msg.channel.bulkDelete(msgs)
+                     await msg.channel.send(`Bulked ${msgs.size-=1} message.`).then(msg => {
+                       msg.delete(4000)
+                     })
+                   })
+               } catch (e) {
+                 console.log(e.stack)
+               }
+               }
+             }
+           })
 
 
 
@@ -5165,7 +5189,7 @@ client.on("message", message => {
 	  .addField('❖-|p#ban', `⚠عشان تعطي احد حظر من سيرفر للابد⚠`)
                 .addField('❖-p#tempban', `🚩عشان تعطي احد حظر من السيرفر بمدة🕞`)
 	  .addField('❖-|p#bans', `✅عشان تشوف عدد المبندين في السيرفر✴`)
-	  .addField('❖-|p#clear', `❌لخاصية حذف شات❎`)
+	  .addField('❖-|p#prune', `❌لخاصية حذف شات❎`)
           .addField('❖-|p#mute', `ℹلاعطاء احد ميوت يعني تجعله ما يقدر يرسل ولا شئ للابد🚫`)
           .addField('❖-|p#unmute', `📄لفك الميوت عن شخص📇`)
           .addField('❖-|p#setchannel', `♉لأنشاء روم كتابي♎`)
