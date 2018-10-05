@@ -5147,6 +5147,53 @@ msg.channel.send(`${item.type}`).then(() => {
                }
              }
            })
+           
+           client.on("message", async msg => {
+           
+            if (msg.channel.type !== "text") return undefined;
+        
+
+        
+            var args = msg.content.split(" ")
+        
+        
+            if (msg.content.toLowerCase().startsWith(prefix + "clear")) {
+        
+            if(!msg.guild.members.get(msg.author.id).hasPermission("MANAGE_MESSAGES")) return msg.channel.send("You lack permissions.")
+        
+            if(!msg.guild.members.get(client.user.id).hasPermission("MANAGE_MESSAGES")) return msg.channel.send("I lack permissions.")
+        
+            if (!args[1]) return msg.channel.send("Type the number of messages you want to delete")
+        
+            var count = parseInt(args[1]);
+        
+            var fetched = msg.channel.fetchMessages({limit : count})
+        
+            if (isNaN(count)) return msg.channel.send("Only numbers are allowed.")
+        
+            if (count < 0) return msg.channel.send("Unvalid numbers.")
+        
+            if (count == 0) return msg.channel.send("0 messages ???")
+        
+            if (count > 100) return msg.channel.send(`cannot delete ${args[1]} message..`)
+        
+            if (fetched.length == 0) return msg.channel.send(`${msg.channel.name} is empty..`)
+        
+            else {
+            try {
+                fetched.then(async msgs => {
+                  await msg.channel.bulkDelete(msgs)
+                  await msg.channel.send(`Bulked ${msgs.size-=1} message.`).then(msg => {
+                    msg.delete(4000)
+                  })
+                })
+            } catch (e) {
+              console.log(e.stack)
+            }
+            }
+          }
+        })
+
 
 
 
@@ -5164,7 +5211,23 @@ msg.channel.send(`${item.type}`).then(() => {
 	   }
    });
 
-
+   client.on('message', message => {
+    if(message.content.startsWith(`${prefix}re-role`)) {
+      let rMember = message.mentions.users.first()
+      if(!rMember) return message.reply("Couldn't find that user, yo.");
+      let args = message.content.split(' ').slice(1);
+      if(!role) return message.reply("Specify a role!");
+      let gRole = message.guild.roles.find(`name`, role);
+      if(!gRole) return message.reply("Couldn't find that role.");
+    
+      if(!rMember.roles.has(gRole.id)) return message.reply("They don't have that role.");
+      await(rMember.removeRole(gRole.id));
+    
+    rMember.send(`RIP, you lost the ${gRole.name} role.`)
+        message.channel.send(`<@${rMember.id}>, We removed ${gRole.name} from them`)
+      }
+    
+    
 
 
 
@@ -5620,44 +5683,7 @@ client.on('message', message => {
 
 
 
-client.on('message', message => {
-    var prefix = "="
-  if (message.author.x5bz) return;
-  if (!message.content.startsWith(prefix)) return;
 
-  let command = message.content.split(" ")[0];
-  command = command.slice(prefix.length);
-
-  let args = message.content.split(" ").slice(1);
-
-  if (command == "ban") {
-               if(!message.channel.guild) return message.reply('** This command only for servers**');
-
-  if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You Don't Have ` BAN_MEMBERS ` Permission**");
-  if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
-  let user = message.mentions.users.first();
-  let reason = message.content.split(" ").slice(2).join(" ");
-  /*let b5bzlog = client.channels.find("name", "5bz-log");
-  if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
-  if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
-  if(!reason) return message.reply ("**اكتب سبب الطرد**");
-  if (!message.guild.member(user)
-  .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
-
-  message.guild.member(user).ban(7, user);
-
-  const banembed = new Discord.RichEmbed()
-  .setAuthor(`BANNED!`, user.displayAvatarURL)
-  .setColor("RANDOM")
-  .setTimestamp()
-  .addField("**User:**",  '**[ ' + `${user.tag}` + ' ]**')
-  .addField("**By:**", '**[ ' + `${message.author.tag}` + ' ]**')
-  .addField("**Reason:**", '**[ ' + `${reason}` + ' ]**')
-  message.channel.send({
-    embed : banembed
-  })
-}
-});
 
 
 const Sra7a = [
@@ -6811,4 +6837,4 @@ if(!incidentchannel) return message.channel.send("Can't find incidents channel."
 incidentchannel.send(banEmbed);
 message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
   }})
-
+   })
