@@ -555,7 +555,7 @@ client3.on('message', async message => {
         if(!time.match(/[1-7][s,m,h,d,w]/g)) return message.channel.send('**- اكتب وقت حقيقي**');
         if(!muteReason) return message.channel.send("**- اكتب السبب**");
         message.guild.member(mutePerson).addRole(muteRole);
-        message.channel.send(`**:white_check_mark: ${user} has been muted ! :zipper_mouth: **`)
+        message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
         message.delete()
         let muteEmbed = new Discord.RichEmbed()
         .setTitle(`New Muted User`)
