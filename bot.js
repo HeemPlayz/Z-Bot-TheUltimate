@@ -6772,6 +6772,7 @@ client.on('message', message => {
 
   message.guild.member(user).ban(7, user);
 
+	  
   let banEmbed = new Discord.RichEmbed()
   .setAuthor(`New Banned User !`)
   .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
