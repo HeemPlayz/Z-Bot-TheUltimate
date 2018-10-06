@@ -4555,7 +4555,7 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#فكك → Decrypt game
 ❯ p#لغز → Gas game
 ❯ p#شقلب → Chuckle game
-❯ p#كتابة → The fastest writing game
+❯ p#اسرع → The fastest writing game
 ❯ p#ركب → Synthesis assembly game
 ❯ p#رياضيات → Math game
 :globe_with_meridians: __General Commands:__
@@ -6544,7 +6544,7 @@ client4.on('message', message => {
   if (!points[message.author.id]) points[message.author.id] = {
     points: 0,
     };
-  if (message.content.startsWith(prefix + 'كتابة')) {
+  if (message.content.startsWith(prefix + 'اسرع')) {
     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
   const type = require('./gamesbombot/type.json');
