@@ -4964,7 +4964,7 @@ msg.channel.send(`${item.type}`).then(() => {
             if (message.content === "p#membercount") {
               if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
               const memberc = new Discord.RichEmbed()
-              .addField('Members:', `${message.guild.members.size}`)
+              .addField('Members:', `${message.guild.memberCount}`)
          message.channel.sendEmbed(memberc)
             }})
         
