@@ -5576,19 +5576,6 @@ if (message.content.startsWith(prefix + "uptime")) {
 });
 
 
-client.on('message', message => {
-     if (message.content === "p#bot") {
-            if(!message.channel.guild) return message.reply('** This command only for servers **');
-     let embed = new Discord.RichEmbed()
-  .setColor('RANDOM')
-  .addField("**🔱عدد السيرفرات الي فيها البوت🔱:**" , client.guilds.size)
-  .addField("**👑المستخدمين👑:**", client.users.size)
-  .addField("**🚩قنوات🚩:**", client.channels.size)
-  .setTimestamp()
-message.channel.sendEmbed(embed);
-    }
-});
-
 
 client.on('ready', () => {
   console.log(`AutoRole Code Started By Friends Team`);
