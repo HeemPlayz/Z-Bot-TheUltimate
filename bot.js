@@ -17,6 +17,7 @@ let done = {};
 client.login(process.env.BOT_TOKEN)
 client3.login(process.env.BOT_TOKEN)
 
+
 const ytdl = require("ytdl-core");
 const { Client, Util } = require('discord.js');
 const getYoutubeID = require('get-youtube-id');
@@ -4405,22 +4406,13 @@ embed: new Discord.RichEmbed()
    .addField('``Users``' ,`[ ${client3.users.size} ]` , true)
    .addField('``My Name``' , `[ ${client3.user.tag} ]` , true)
    .addField('``My ID``' , `[ ${client3.user.id} ]` , true)
+   .addField("**Servers:**" , client3.guilds.size)
+   .addField("**Users:**", client3.users.size)
+   .addField("**Channels:**", client3.channels.size)
          .addField('``My Prefix``' , `p#` , true)
          .addField('``My Language``' , `[ Java Script ]` , true)
-         .setFooter('By |#5426سفاكء الدماءء@')
+         .setFooter('By | <@429972030092476437>')
 })
-}
-});
-client3.on('message', message => {
-if (message.content === "p#bot") {
-   if(!message.channel.guild) return message.reply('** This command only for servers **');
-let embed = new Discord.RichEmbed()
-.setColor('RANDOM')
-.addField("**🔱عدد السيرفرات الي فيها البوت🔱:**" , client3.guilds.size)
-.addField("**👑المستخدمين👑:**", client3.users.size)
-.addField("**🚩قنوات🚩:**", client3.channels.size)
-.setTimestamp()
-message.channel.sendEmbed(embed);
 }
 });
 
