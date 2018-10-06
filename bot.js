@@ -41,7 +41,7 @@ client.on('message', message => {
             fs.writeFile(`${message.guild.id}.txt`, messages, (err) => {
                 if (err) console.log(err.message);
                 h.post(messages).then(url => {
-                    var c = message.guild.channels.find("name", 'logs');
+                    var c = message.guild.channels.find("name", 'log');
                     if (!c) return;
                     var embed = new Discord.RichEmbed()
                     .setTitle(`Bulk Delete. | ${msgs.size} Messages`)
