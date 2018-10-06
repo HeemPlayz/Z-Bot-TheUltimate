@@ -17,7 +17,7 @@ const prefix = "p#";
 let done = {};
 client.login(process.env.BOT_TOKEN)
 client3.login(process.env.BOT_TOKEN)
-
+client4.login(process.env.BOT_TOKEN)
 ///hug
 client.on('message', message => {
  if(message.content.startsWith(prefix + 'hug')) {
@@ -6673,18 +6673,7 @@ message.channel.send(`** ${message.author.username}, your :credit_card: balance 
 }
 });
 //معلوماتي
-client4.on('message', message => {
-  if (message.author.bot) return;
-    if (message.author.id === client4.user.id) return;
-  if(!message.channel.guild) return;
-        if(message.content.startsWith('p#inforprofile')) {
-        let args = message.content.split(' ').slice(1).join(' ')
-        if(!args) return message.channel.send(`**${message.author.username}, يرجى كتابة المعلومات**`)
-        if(args.length > 25) return message.channel.send(`**${message.author.username} يجب ان لا تكون المعلومات اكثر من 25 حرف**`)
-        profile[message.author.id].info = args
-        message.channel.send(`**${message.author.username}**| تم تغير معلوماتك الى  =${args}>`)
-    }
-});
+
 //لفل
 client4.on('message', message => {
   if (message.author.bot) return;
@@ -6950,7 +6939,55 @@ client4.on('message', message => {
     })
   }
   });
+client4.on('message', message => {
+  if (message.author.bot) return;
+    if (message.author.id === client4.user.id) return;
+  if(!message.channel.guild) return;
+        if(message.content.startsWith('p#inforprofile')) {
+        let args = message.content.split(' ').slice(1).join(' ')
+        if(!args) return message.channel.send(`**${message.author.username}, يرجى كتابة المعلومات**`)
+        if(args.length > 25) return message.channel.send(`**${message.author.username} يجب ان لا تكون المعلومات اكثر من 25 حرف**`)
+        profile[message.author.id].info = args
+        message.channel.send(`**${message.author.username}**| تم تغير معلوماتك الى  =${args}>`)
+    }
+});
 
-
-
-client4.login(process.env.BOT_TOKEN)
+client.on('message', message => {
+    if (message.author.x5bz) return;
+    if (!message.content.startsWith(prefix)) return;
+  
+    let command = message.content.split(" ")[0];
+    command = command.slice(prefix.length);
+  
+    let args = message.content.split(" ").slice(1);
+  
+    if (command == "ban") {
+                 if(!message.channel.guild) return message.reply('** This command only for servers**');
+           
+    if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You Don't Have ` BAN_MEMBERS ` Permission**");
+    if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
+    let user = message.mentions.users.first();
+    let reason = message.content.split(" ").slice(2).join(" ");
+    /*let b5bzlog = client.channels.find("name", "5bz-log");
+  
+    if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
+    if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+    if(!reason) return;
+    if (!message.guild.member(user)
+    .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
+  
+    message.guild.member(user).ban(7, user);
+  
+    let banEmbed = new Discord.RichEmbed()
+    .setAuthor(`New Banned User !`)
+    .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
+    .addField('- Banned By: ',message.author.tag,true)
+    .addField('- Banned User:', `${User}`)
+    .addField('- Reason:',Reason,true)
+    .addField('- Time & Date:', `${message.createdAt}`)
+    .setFooter(message.author.tag,message.author.avatarURL);
+    let incidentchannel = message.guild.channels.find(`name`, "incidents");
+  if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+  incidentchannel.send(banEmbed);
+  message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`)
+    }})
