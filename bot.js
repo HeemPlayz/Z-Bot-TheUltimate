@@ -4936,7 +4936,13 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#اسرع → The fastest writing game
 ❯ p#ركب → Synthesis assembly game
 ❯ p#رياضيات → Math game
-❯ p#punch → Punch someone
+❯ p#slap → slap someone
+❯ p#hug → hug someone
+❯ p#tickle → tickle someone
+❯ p#tickle → poke someone
+❯ p#cuddle → cuddle someone
+❯ p#pat → cuddle someone
+❯ p#kiss → someone someone
 :globe_with_meridians: __General Commands:__
 ❯ p#8ball → Ask magic 8ball something
 ❯ p#avatar → Shows yours or the user avatar
@@ -5069,47 +5075,6 @@ client.on('message', message => {
 
 
 
-client.on('message', message => {
-  var prefix = "p#";
-    if (message.author.kick) return;
-    if (!message.content.startsWith(prefix)) return;
-  
-    let command = message.content.split(" ")[0];
-    command = command.slice(prefix.length);
-  
-    let args = message.content.split(" ").slice(1);
-  
-    if (command == "kick") {
-                 if(!message.channel.guild) return;
-  
-    if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("You Don't Have KICK_MEMBERS Permission").then(msg => msg.delete(5000));
-    if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("I Don't Have KICK_Members Permission");
-    let user = message.mentions.users.first();
-    let reason = message.content.split(" ").slice(2).join(" ");
-  
-    if (message.mentions.users.size < 1) return message.reply("منشن شخص");
-    if(!reason) return message.reply ("اكتب سبب الطرد");
-    if (!message.guild.member(user)
-    .bannable) return message.reply("لايمكنني طرد شخص اعلى من رتبتي");
-  
-    message.guild.member(user).kick(7, user);
-  
-    const Kickembed = new Discord.RichEmbed()
-    .setTitle('**New Kicked User !**')
-    .setColor("RANDOM")
-    .setTimestamp()
-    .addField("Kicked User:",  `[ + ${user.tag} + ]`)
-    .addField("Kicked By:", `[  + ${message.author.tag} +  ]`)
-    .addField("Reason:", `[ + ${reason} +  ]`)
-    .addField("Kicked In :", `[${message.channel.name}]`)
-    .addField("Time & Date :", `[${message.createdAt}]`)
-    .setFooter("MarsMC")
-    message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
-  message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
-  user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
-      message.delete()
-  }
-  });
 
 
 client.on('message',async message => {
@@ -6991,3 +6956,45 @@ client.on('message', message => {
   incidentchannel.send(banEmbed);
   message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`)
     }})
+
+    client.on('message', message => {
+        var prefix = "p#";
+          if (message.author.kick) return;
+          if (!message.content.startsWith(prefix)) return;
+        
+          let command = message.content.split(" ")[0];
+          command = command.slice(prefix.length);
+        
+          let args = message.content.split(" ").slice(1);
+        
+          if (command == "kick") {
+                       if(!message.channel.guild) return;
+        
+          if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("You Don't Have KICK_MEMBERS Permission").then(msg => msg.delete(5000));
+          if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("I Don't Have KICK_Members Permission");
+          let user = message.mentions.users.first();
+          let reason = message.content.split(" ").slice(2).join(" ");
+        
+          if (message.mentions.users.size < 1) return message.reply("منشن شخص");
+          if(!reason) return message.reply ("اكتب سبب الطرد");
+          if (!message.guild.member(user)
+          .bannable) return message.reply("لايمكنني طرد شخص اعلى من رتبتي");
+        
+          message.guild.member(user).kick(7, user);
+        
+          const Kickembed = new Discord.RichEmbed()
+          .setTitle('**New Kicked User !**')
+          .setColor("RANDOM")
+          .setTimestamp()
+          .addField("Kicked User:",  `[ + ${user.tag} + ]`)
+          .addField("Kicked By:", `[  + ${message.author.tag} +  ]`)
+          .addField("Reason:", `[ + ${reason} +  ]`)
+          .addField("Kicked In :", `[${message.channel.name}]`)
+          .addField("Time & Date :", `[${message.createdAt}]`)
+          .setFooter("MarsMC")
+          message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
+        message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
+        user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
+            message.delete()
+        }
+        });
