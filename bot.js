@@ -6957,7 +6957,7 @@ client.on('message', message => {
   message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`)
     }})
 
-    client.on('message', message => {
+    client4.on('message', message => {
         var prefix = "p#";
           if (message.author.kick) return;
           if (!message.content.startsWith(prefix)) return;
@@ -6971,7 +6971,7 @@ client.on('message', message => {
                        if(!message.channel.guild) return;
         
           if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("You Don't Have KICK_MEMBERS Permission").then(msg => msg.delete(5000));
-          if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("I Don't Have KICK_Members Permission");
+          if(!message.guild.member(client4.user).hasPermission("KICK_MEMBERS")) return message.reply("I Don't Have KICK_Members Permission");
           let user = message.mentions.users.first();
           let reason = message.content.split(" ").slice(2).join(" ");
         
