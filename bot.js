@@ -4891,6 +4891,8 @@ msg.channel.send(`${item.type}`).then(() => {
         client.on("message", message => {
           if (message.content === "p#help") {
         message.author.send(`
+
+
           ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
           ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
           ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
@@ -4898,6 +4900,7 @@ msg.channel.send(`${item.type}`).then(() => {
           ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
           ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
         
+          
         :fire: __Action Commands:__
         ❯ p#new → create ticket for you (need support-team role)
         ❯ p#close → close the ticket
@@ -4934,6 +4937,7 @@ msg.channel.send(`${item.type}`).then(() => {
         
           client.on("message", message => {
             if (message.content === "p#membercount") {
+              if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
               const memberc = new Discord.RichEmbed()
               .addField('Members:', `${message.guild.members.size}`)
          message.channel.sendEmbed(memberc)
@@ -4943,7 +4947,9 @@ msg.channel.send(`${item.type}`).then(() => {
         
         client.on("message", message => {
           if (message.content === "p#help") {
+            
         message.author.send(`
+
         ❯ p#bot → Displays statistics about the bot.
         :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
         ❯ p#prune → To clear the chat (you can use p#clear)
