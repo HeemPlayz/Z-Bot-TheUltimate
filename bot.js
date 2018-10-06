@@ -4893,7 +4893,7 @@ msg.channel.send(`${item.type}`).then(() => {
         message.author.send(`
 
 
-          ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+           ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
           ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
           ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
           ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
@@ -4950,7 +4950,7 @@ msg.channel.send(`${item.type}`).then(() => {
             
         message.author.send(`
 
-        ❯ p#bot → Displays statistics about the bot.
+         ❯ p#bot → Displays statistics about the bot.
         :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
         ❯ p#prune → To clear the chat (you can use p#clear)
         ❯ p#bans → Shows a bans size
