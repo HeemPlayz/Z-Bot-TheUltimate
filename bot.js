@@ -3736,22 +3736,6 @@ client3.on('message', message => {
 
   
 const profile = JSON.parse(fs.readFileSync('./profile.json', "utf8"));
-client3.on("message", message => {
-  if (message.author.bot) return;
-  if(!message.channel.guild)return;
-  if (!profile[message.author.id]) profile[message.author.id] = {
-    info: 'p#inforprofile To Set The Info',
-    rep: 0,
-    reps: 'NOT YET',
-    lastDaily:'Not Collected',
-    level: 0,
-    points: 0,
-  };
-fs.writeFile('./profile.json', JSON.stringify(profile), (err) => {
-if (err) console.error(err);
-})
-});
-//لايك//
 client3.on('message', message => {
   if (message.author.bot) return;
     var sender = message.author
@@ -3771,6 +3755,23 @@ if (games[sender.id].lastDaily != moment().format('day')) {
 
     }
     });
+client3.on("message", message => {
+  if (message.author.bot) return;
+  if(!message.channel.guild)return;
+  if (!profile[message.author.id]) profile[message.author.id] = {
+    info: 'p#inforprofile To Set The Info',
+    rep: 0,
+    reps: 'NOT YET',
+    lastDaily:'Not Collected',
+    level: 0,
+    points: 0,
+  };
+fs.writeFile('./profile.json', JSON.stringify(profile), (err) => {
+if (err) console.error(err);
+})
+});
+//لايك//
+
 //هدية//
 client3.on("message", (message) => {
   var sender = message.author
