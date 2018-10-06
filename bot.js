@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const client3 = new Discord.Client();
+const client4 = new Discord.Client();
 const convert = require("hh-mm-ss")
 const dateFormat = require('dateformat');
 const fs = require('fs');
