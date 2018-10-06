@@ -4888,12 +4888,9 @@ msg.channel.send(`${item.type}`).then(() => {
           }
         })
 
-
         client.on("message", message => {
           if (message.content === "p#help") {
-            const embed = new Discord.RichEmbed()
-              .setColor("RANDOM")
-              .setDescription(`
+        message.author.send(`
           ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
           ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
           ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
@@ -4930,6 +4927,23 @@ msg.channel.send(`${item.type}`).then(() => {
         ❯ p#botinfo → Shows informations about the bot.
         ❯ p#server → Shows informations about the server.
         ❯ p#userinfo → Shows informations about the user.
+        `)
+              message.channel.send(":white_check_mark: I've DMed you with my help list")
+          }
+          });
+        
+          client.on("message", message => {
+            if (message.content === "p#membercount") {
+              const memberc = new Discord.RichEmbed()
+              .addField('Members:', `${message.guild.members.size}`)
+         message.channel.sendEmbed(memberc)
+            }})
+        
+        
+        
+        client.on("message", message => {
+          if (message.content === "p#help") {
+        message.author.send(`
         ❯ p#bot → Displays statistics about the bot.
         :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
         ❯ p#prune → To clear the chat (you can use p#clear)
@@ -4964,18 +4978,8 @@ msg.channel.send(`${item.type}`).then(() => {
         ❯ p#skip → To skip the song
         ❯ p#queue → View the waiting list
         `)
-          message.author.send(embed)
-              message.channel.send(":white_check_mark: I've DMed you with my help list")
-          }
-          });
-        
-          client.on("message", message => {
-            if (message.content === "p#membercount") {
-              const memberc = new Discord.RichEmbed()
-              .addField('Members:', `${message.guild.members.size}`)
-         message.channel.sendEmbed(memberc)
-            }})
-        
+        }
+        });
 
    client.on('message', message => {
 	   if(message.content.startsWith(`${prefix}invite`)){
