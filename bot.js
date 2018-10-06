@@ -4891,45 +4891,35 @@ msg.channel.send(`${item.type}`).then(() => {
         client.on("message", message => {
           if (message.content === "p#help") {
         message.author.send(`
-
-
-           ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-          ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-          ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-          ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-          ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-          ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-        
-          
-        :fire: __Action Commands:__
-        ❯ p#new → create ticket for you (need support-team role)
-        ❯ p#close → close the ticket
-        :video_game: __Game Commands:__
-        ❯ p#xo → xo game
-        ❯ p#صراحه → Frankly Game
-        ❯ p#عواصم → Capitals Game
-        ❯ p#حجرة أو ورقة أو مقص → Paper scissors game
-        ❯ p#كت تويت → Tweets Game
-        ❯ p#p#لو خيروك → If they made you choose game
-        ❯ p#قرعة → Lot game
-        ❯ p#فكك → Decrypt game
-        ❯ p#لغز → Gas game
-        ❯ p#شقلب → Chuckle game
-        ❯ p#كتابة → The fastest writing game
-        ❯ p#ركب → Synthesis assembly game
-        ❯ p#رياضيات → Math game
-        :globe_with_meridians: __General Commands:__
-        ❯ p#8ball → Ask magic 8ball something
-        ❯ p#avatar → Shows yours or the user avatar
-        ❯ p#invite → Invite NourBot to your guild
-        ❯ p#membercount → Shows membercount in your server
-        ❯ p#support → Dah It's support!?
-        ❯ p#td → Get the date in nice looking way!
-        :information_source: __Info Commands:__
-        ❯ p#ping → Shows the bot ping.
-        ❯ p#botinfo → Shows informations about the bot.
-        ❯ p#server → Shows informations about the server.
-        ❯ p#userinfo → Shows informations about the user.
+:fire: __Action Commands:__
+❯ p#new → create ticket for you (need support-team role)
+❯ p#close → close the ticket
+:video_game: __Game Commands:__
+❯ p#xo → xo game
+❯ p#صراحه → Frankly Game
+❯ p#عواصم → Capitals Game
+❯ p#حجرة أو ورقة أو مقص → Paper scissors game
+❯ p#كت تويت → Tweets Game
+❯ p#p#لو خيروك → If they made you choose game
+❯ p#قرعة → Lot game
+❯ p#فكك → Decrypt game
+❯ p#لغز → Gas game
+❯ p#شقلب → Chuckle game
+❯ p#كتابة → The fastest writing game
+❯ p#ركب → Synthesis assembly game
+❯ p#رياضيات → Math game
+:globe_with_meridians: __General Commands:__
+❯ p#8ball → Ask magic 8ball something
+❯ p#avatar → Shows yours or the user avatar
+❯ p#invite → Invite NourBot to your guild
+❯ p#membercount → Shows membercount in your server
+❯ p#support → Dah It's support!?
+❯ p#td → Get the date in nice looking way!
+:information_source: __Info Commands:__
+❯ p#ping → Shows the bot ping.
+❯ p#botinfo → Shows informations about the bot.
+❯ p#server → Shows informations about the server.
+❯ p#userinfo → Shows informations about the user.
         `)
               message.channel.send(":white_check_mark: I've DMed you with my help list")
           }
@@ -4949,40 +4939,39 @@ msg.channel.send(`${item.type}`).then(() => {
           if (message.content === "p#help") {
             
         message.author.send(`
-
-         ❯ p#bot → Displays statistics about the bot.
-        :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
-        ❯ p#prune → To clear the chat (you can use p#clear)
-        ❯ p#bans → Shows a bans size
-        ❯ p#ban → To ban a member **Permanently**
-        ❯ p#role → To give someone a role (you can use p#role all to give everyone the rank of your choice)
-        ❯ p#temp on → To Turn on the temporary rooms 
-        ❯ p#temp off → To Turn off the temporary rooms 
-        ❯ p#tempban → To ban a member **Temporary**
-        ❯ p#mute → To mute a member **Temporary**
-        ❯ p#tempmute → To mute a member **Temporary**
-        ❯ p#kick → To kick a member
-        ❯ p#unban → Unban member by id
-        ❯ p#unmute → Unmutes a member
-        ❯ p#warn → Warns a member
-        ❯ p#setTime → Create Hour Room 
-        ❯ p#setDate → Create Date Room 
-        ❯ p#setDays → Create Day Room 
-        ❯ p#setCount → Member Count Room 
-        ❯ p#setVoice → Create Voice Online Room 
-        :users: __Social Commands:__
-        ❯ p#credit → Shows your credit card balance
-        ❯ p#daily → Get your daily credits
-        ❯ p#id → Shows the user ID card.
-        ❯ p#لايك → Give someone a reputation point!
-        ❯ p#inforprofile → Sets your profile info title
-        :high_brightness: Ulti Commands:
-        ❯ p#short → Shorten the url provided
-        :headphones: __Music Commands:__
-        ❯ p#play → To play the song in the voice room
-        ❯ p#stop → To stop the song
-        ❯ p#skip → To skip the song
-        ❯ p#queue → View the waiting list
+❯ p#bot → Displays statistics about the bot.
+:wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
+❯ p#prune → To clear the chat (you can use p#clear)
+❯ p#bans → Shows a bans size
+❯ p#ban → To ban a member **Permanently**
+❯ p#role → To give someone a role (you can use p#role all to give everyone the rank of your choice)
+❯ p#temp on → To Turn on the temporary rooms 
+❯ p#temp off → To Turn off the temporary rooms 
+❯ p#tempban → To ban a member **Temporary**
+❯ p#mute → To mute a member **Temporary**
+❯ p#tempmute → To mute a member **Temporary**
+❯ p#kick → To kick a member
+❯ p#unban → Unban member by id
+❯ p#unmute → Unmutes a member
+❯ p#warn → Warns a member
+❯ p#setTime → Create Hour Room 
+❯ p#setDate → Create Date Room 
+❯ p#setDays → Create Day Room 
+❯ p#setCount → Member Count Room 
+❯ p#setVoice → Create Voice Online Room 
+:users: __Social Commands:__
+❯ p#credit → Shows your credit card balance
+❯ p#daily → Get your daily credits
+❯ p#id → Shows the user ID card.
+❯ p#لايك → Give someone a reputation point!
+❯ p#inforprofile → Sets your profile info title
+:high_brightness: Ulti Commands:
+❯ p#short → Shorten the url provided
+:headphones: __Music Commands:__
+❯ p#play → To play the song in the voice room
+❯ p#stop → To stop the song
+❯ p#skip → To skip the song
+❯ p#queue → View the waiting list
         `)
         }
         });
