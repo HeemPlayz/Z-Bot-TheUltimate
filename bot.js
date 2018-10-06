@@ -4441,40 +4441,6 @@ msg.channel.send(`${item.type}`).then(() => {
 
 
 
-         client3.on('message', message => {
-           if (!points[message.author.id]) points[message.author.id] = {
-             points: 0,
-             };
-           if (message.content.startsWith(prefix + 'كتابة')) {
-             if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
-           const type = require('./gamesbombot/type.json');
-           const item = type[Math.floor(Math.random() * type.length)];
-           const filter = response => {
-               return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-           };
-           message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
-
-
-           msg.channel.send(`${item.type}`).then(() => {
-                   message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
-                   .then((collected) => {
-               message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
-               console.log(`[Typing] ${collected.first().author} typed the word.`);
-                       let won = collected.first().author;
-                       points[won.id].points++;
-                     })
-                     .catch(collected => {
-                       message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
-                 console.log('[Typing] Error: No one type the word.');
-                     })
-               })
-             })
-           }
-           });
-
-
-
 
 
 
@@ -6572,5 +6538,40 @@ message.channel.sendFile(canvas.toBuffer())
 })
 }
 });
+
+
+client4.on('message', message => {
+  if (!points[message.author.id]) points[message.author.id] = {
+    points: 0,
+    };
+  if (message.content.startsWith(prefix + 'كتابة')) {
+    if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+  const type = require('./gamesbombot/type.json');
+  const item = type[Math.floor(Math.random() * type.length)];
+  const filter = response => {
+      return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+  };
+  message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
+
+
+  msg.channel.send(`${item.type}`).then(() => {
+          message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
+          .then((collected) => {
+      message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
+      console.log(`[Typing] ${collected.first().author} typed the word.`);
+              let won = collected.first().author;
+              points[won.id].points++;
+            })
+            .catch(collected => {
+              message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
+        console.log('[Typing] Error: No one type the word.');
+            })
+      })
+    })
+  }
+  });
+
+
 
 client4.login(process.env.BOT_TOKEN)
