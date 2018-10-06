@@ -19,6 +19,39 @@ client.login(process.env.BOT_TOKEN)
 client3.login(process.env.BOT_TOKEN)
 
 
+
+client.on('message',  (message) => {
+            if(message.content.startsWith('p#punch')) {
+      let user = message.mentions.users.first();
+      if (!user) {
+        /**
+         * The command was ran with invalid parameters.
+         * @fires commandUsage
+         */
+        return message.emit('commandUsage', message, this.help);      }
+    
+      let punches = [
+        'https://i.giphy.com/media/iWEIxgPiAq58c/giphy.gif',
+        'https://i.giphy.com/media/DViGV8rfVjw6Q/giphy.gif',
+        'https://i.giphy.com/media/GoN89WuFFqb2U/giphy.gif',
+        'https://i.giphy.com/media/xT0BKiwgIPGShJNi0g/giphy.gif',
+        'https://i.giphy.com/media/Lx8lyPHGfdNjq/giphy.gif'
+      ];
+    
+      message.channel.send({
+        embed: {
+          description: `${message.author.username} عطاك كففف ${user.username}! :punch:`,
+          image: {
+            url: punches[Math.floor(Math.random() * punches.length)]
+          }
+        }
+      }).catch(e => {
+        client.log.error(e);
+      })
+            }  
+    });
+	  
+
 const hastebin = require('hastebin.js');
 var h = new hastebin({});
 
@@ -4558,6 +4591,7 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#اسرع → The fastest writing game
 ❯ p#ركب → Synthesis assembly game
 ❯ p#رياضيات → Math game
+❯ p#punch → Punch someone
 :globe_with_meridians: __General Commands:__
 ❯ p#8ball → Ask magic 8ball something
 ❯ p#avatar → Shows yours or the user avatar
