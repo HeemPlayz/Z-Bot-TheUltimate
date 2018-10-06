@@ -4406,11 +4406,12 @@ embed: new Discord.RichEmbed()
    .addField('``Users``' ,`[ ${client3.users.size} ]` , true)
    .addField('``My Name``' , `[ ${client3.user.tag} ]` , true)
    .addField('``My ID``' , `[ ${client3.user.id} ]` , true)
-   .addField("**Servers:**" , client3.guilds.size)
-   .addField("**Users:**", client3.users.size)
-   .addField("**Channels:**", client3.channels.size)
-         .addField('``My Prefix``' , `p#` , true)
-         .addField('``My Language``' , `[ Java Script ]` , true)
+   .addField("**Servers:**" , `[ ${client3.guilds.size} ]`)
+   .addField("**Users:**", `[ ${client3.users.size} ]`)
+   .addField("**Channels:**", ` [ ${client3.channels.size} ]`)
+         .addField('``My Prefix``' , `[ p# ]` , true)
+         .addField('``My Language``' , `[ JavaScript ]` , true)
+         .addField('``Bot Version``' , `[ v0.1 ]` , true)
          .setFooter('By | <@429972030092476437>')
 })
 }
@@ -4883,6 +4884,7 @@ msg.channel.send(`${item.type}`).then(() => {
         client.on("message", message => {
           if (message.content === "p#help") {
         message.author.send(`
+        **To start Log, create a rom named log**
 :fire: __Action Commands:__
 ❯ p#new → create ticket for you (need support-team role)
 ❯ p#close → close the ticket
@@ -4932,6 +4934,9 @@ msg.channel.send(`${item.type}`).then(() => {
             
         message.author.send(`
 :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
+❯ p#setwelcomer → To setwelcome channel
+❯ p#autorole → autorole options **(to set the role type p#autorole set rolename
+and to turn on the autorole type p#autorole toggle)** 
 ❯ p#prune → To clear the chat (you can use p#clear)
 ❯ p#bans → Shows a bans size
 ❯ p#ban → To ban a member **Permanently**
@@ -4963,6 +4968,7 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#stop → To stop the song
 ❯ p#skip → To skip the song
 ❯ p#queue → View the waiting list
+**BOT VERSION : v0.1**
         `)
         }
         });
