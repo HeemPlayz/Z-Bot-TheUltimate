@@ -2781,229 +2781,7 @@ message.channel.send("``لا تستطيع سحب "+ message.mentions.members.fir
 } else {
 message.react(":x:")
  }}});
-client.on("message", message => {
-  if (message.content === "p#help-color") {
-  const embed = new Discord.RichEmbed()
-      .setColor("RANDOM")
-      .setDescription(`
-  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-  
-  👑اوامر الالوان👑`)
-  .addField('❖-|p#colors', `👑لعرض قائمة الألوان💯`)
-      .addField('❖-|p#createcolors', `☺لأنشاء 50 لون💯`)
-        .addField('❖-|p#deletecolors', `☺حذف 50 لون💯`)
-      .addField('❖-|p#color', `😊لتحط ايا لون من هول الالوان اكتب الأمر و الرقم من 1 ل50 انت اختر😉`)
-  message.author.send({embed});
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
-  }
-  });
-  client.on("message", message => {
-  if (message.content === "p#help-games") {
-  const embed = new Discord.RichEmbed()
-      .setColor("RANDOM")
-      .setDescription(`
-  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-  
-  👑اوامر الألعاب👑`)
-          .addField('❖-|p#صراحة🎮', `لعبة صراحه🎮`)
-          .addField('❖-|p#عواصم🎮', `لعبة عواصم🎮`)
-    .addField('❖-|p#عقاب🎮', `لعبة عقاب🎮`)
-          .addField('❖-|p#خواطر🎮', `لعبة خواط🎮`)
-          .addField('❖-|p#حجرة أو ورقة أو مقص🎮', `لعبة حجرة ورقة مقص🎮`)
-    .addField('❖-|p#كت تويت🎮', `لعبة كت تويت🎮`)
-    .addField('❖-|p#لو خيروك🎮', `لعبة لو خيروك🎮`)
-          .addField('❖-|p#قرعة🎮', `لاستعمال القرعة🎮`)
-          .addField('❖-|p#فكك🎮', `لعبة فكك🎮`)
-          .addField('❖-|p#لغز🎮', `لعبة لغز🎮`)
-          .addField('❖-|p#شقلب🎮', `لعبة شقلب🎮`)
-          .addField('❖-|p#كتابة🎮', `لعبة كتابة🎮`)
-          .addField('❖-|p#ركب🎮', `لعبة ركب🎮`)
-          .addField('❖-|p#رياضيات🎮', `لعبة الرياضيات🎮`)
-          .addField('❖-|p#solts🎮', `لعبة الإيموجي🎮`)
-            .addField('❖-|p#xo🎮', `لعبه اكس او🎮`)
-  message.author.send({embed});
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
-  }
-  });
-  
-  client.on("message", message => {
-  if (message.content === "p#help-use") {
-  const embed = new Discord.RichEmbed()
-      .setColor("RANDOM")
-      .setDescription(`
-  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-  
-  ─════════════ {✯PlexBot♧✯} ════════════─
-  ❖-|welcomeleft|🚩لتفيل امر المغادرة أنشاء غرفة أسمها welcome🚩
-  ❖-|suggest|🚩لتفعيل الريبورت أنشاء غرفة أسمها suggestions🚩
-  ❖-|log|🚩لوق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياذ كثيرة🚩
-  ❖-|all adminstrator commands|🚩 يحتاج روم incidents + logل وق لحماية سيرفرك من تهكير اذا حد طرد شخص يظهر لك مين هو وأشياء كثير🚩
-  ❖-|setwelcomer|🚩setup welcome code🚩
-  ─════════════ {✯PlexBot♧✯} ════════════─
-      `)
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
-      message.author.send({embed});
-    }
-   });
-  
-  client.on('message', message => {
-   if (message.content.startsWith("p#help-tr")) {
-     let embed = new Discord.RichEmbed()
-  .setDescription(`
-  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-  
-  p#tr لاستخدام امر الترجمه**
-  
-  اللغات في البوت : -
-  \`\`\`
-  Albanian
-  Amharic
-  Arabic
-  Armenian
-  Azeerbaijani
-  Basque
-  Belarusian
-  Bengali
-  Bosnian
-  Bulgarian
-  Catalan
-  Cebuano
-  Chinese
-  Chinese
-  Corsican
-  Croatian
-  Czech
-  Danish
-  Dutch
-  English
-  Esperanto
-  Estonian
-  Finnish
-  French
-  Frisian
-  Galician
-  Georgian
-  German
-  Greek
-  Gujarati
-  Haitian Creole
-  Hausa
-  Hawaiian
-  Hebrew
-  Hindi
-  Hmong
-  Hungarian
-  Icelandic
-  Igbo
-  Indonesian
-  Irish
-  Italian
-  Japanese
-  Javanese
-  Kannada
-  Kazakh
-  Khmer
-  Korean
-  Kurdish
-  Kyrgyz
-  Lao
-  Latin
-  Latvian
-  Lithuanian
-  Luxembourgish
-  Macedonian
-  Malagasy
-  Malay
-  Malayalam
-  Maltese
-  Maori
-  Marathi
-  Mongolian
-  Myanmar
-  Nepali
-  Norwegian
-  Nyanja
-  Pashto
-  Persian
-  Polish
-  Portuguese
-  Punjabi
-  Romanian
-  Russian
-  Samoan
-  Scots Gaelic
-  Serbian
-  Sesotho
-  Shona
-  Sindhi
-  Sinhala
-  Slovak
-  Slovenian
-  Somali
-  Spanish
-  Sundanese
-  Swahili
-  Swedish
-  Tagalog
-  Tajik
-  Tamil
-  Telugu
-  Thai
-  Turkish
-  Ukrainian
-  Urdu
-  Uzbek
-  Vietnamese
-  Welsh
-  Xhosa
-  Yiddish
-  Yoruba
-  Zulu	\`\`\`
-  **`)
-  .setFooter('PlexBot.')
-  message.author.send(embed)
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
-  }
-  });
-client3.on("message", message => {
-  if (message.content === "p#help-music") {
-   const embed = new Discord.RichEmbed()
-       .setColor("RANDOM")
-       .setDescription('👑أوامر الموسيقى👑')
-     .addField('❖-|=play', `🎸لتشغيل أغنية برآبط أو بأسم🎵`)
-     .addField('❖-|=skip', `♠لتجآوز الأغنية الحآلية🎺`)
-     .addField('❖-|=pause', `🚩إيقآف الأغنية مؤقتا💯`)
-     .addField('❖-|=resume', `🎧لموآصلة الإغنية بعد إيقآفهآ مؤقتا🎵`)
-           .addField('❖-|=vol', `🔊تغيير درجة الصوت 100 - 0🔇`)
-           .addField('❖-|=stop', `🔘لإخرآج البوت من الروم❗`)
-           .addField('❖-|=nb', `🎼لمعرفة الأغنية المشغلة حآليا🎷`)
-           .addField('❖-|=queue', `🎸لمعرفة قآئمة التشغيل🎤`)
-           .addField('❖-|=music', `🔰لأرسال الأوامر بلشات🔰`)
-   message.author.send({embed});
-       message.channel.send(":white_check_mark: I've DMed you with my help list")
 
-  }
- });
 client3.on("roleCreate", role => {
     client3.setTimeout(() => {
       role.guild.fetchAuditLogs({
@@ -4282,47 +4060,6 @@ if(!message.channel.guild) return message.reply(' Error : \` Server Command \`')
     message.channel.send(embed)
     }
 });
-client.on("message", message => {
-  var prefix = "p#";
-if (message.content === "p#help") {
-const embed = new Discord.RichEmbed()
-    .setColor("RANDOM")
-    .setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-
-👑Commands Plex Bot♧|أوامر البوت الأسطورية👑
-
-─════════════ {🎇PlexBot🎇} ════════════─
-❧ p#help-admin ➺ 🔰اوامر الادارة🔰
-
-❧ p#help-public ➺ 👑اوامر العامة👑
-
-❧ p#help-games ➺ 🎮اوامر الالعاب🎮
-
-❧ p#help-music ➺ 🎵اوامر الاغاني🎶
-
-❧ p#help-welcome ➺ 👋معلومات الترحيب في البوت👋
-
-❧ p#help-color ➺ ✏أوامر الألوان🎉
-
-❧ p#help-use ➺🚩للمزيد من المعلومات للبوت🚩
-
-❧ p#help-tr ➺:regional_indicator_a: :regional_indicator_r: امر هيلب خاص لقسم الترجمه :regional_indicator_e: :regional_indicator_n:
-─════════════ {🎇PlexBot🎇} ════════════─
-    `)
- message.author.sendEmbed(embed);
- message.channel.send(":white_check_mark: I've DMed you with my help list")
-
-
- }
- });
-
 
 
 
@@ -4692,49 +4429,82 @@ client3.on('ready', () => {
 client3.user.setGame(`p#help | p#support`,'https://www.twitch.tv/fofodiscord');
 });
 
+client.on("message", message => {
+  if (message.content === "p#help") {
+    const embed = new Discord.RichEmbed()
+      .setColor("RANDOM")
+      .setDescription(`
+  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+  ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+  ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+  ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+  ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
 
-client3.on("message", message => {
-if (message.content === "p#help-public") {
-const embed = new Discord.RichEmbed()
-.setColor("RANDOM")
-.setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-👑أوامر الأعضاء👑`)
- .addField('❖-|p#invite', `👑لاضافة البوت الى سيرفرك💯`)
- .addField('❖-|p#profile', `♣لتشوف ملفك الشخصي🌷`)
-.addField('❖-|p#bot', `🔱لمعرفة معلومات البوت🅱`)
-.addField('❖-|p#roles', `👑لمعرفة الرتب الي في السيرفر🔱`)
- .addField('❖-|p#avatar', `🔰يجبلك الافتار حقك يعني صورة حسابك🔰`)
-.addField('❖-|p#id', `🆔يجبلك الملف الشخصي حقك🆔`)
-.addField('❖-|p#channelinfo', `♣ليعطيك معلومات الغرفة🌷`)
-.addField('❖-|p#userinfo', `➿لمعرفة معلوماتك بلكامل🔱`)
- .addField('❖-|p#servers', `➰يجبلك عدد السيرفرات التي البوت داخله➰`)
- .addField('❖-|p#roomsall', `🔰ليقلك اسماء الرومات الموجودة بسيرفر كلها👑`)
-.addField('❖-|p#say', `🎆البوت يكرر الكلام الي انت تقوله بدون امبد📝`)
-.addField('❖-|p#users1', `🎆يعرض لك جميع السيرفراا الموجودة بلبوت📝`)
-.addField('❖-|p#new', `👑يعمل لك تذكره 👑`)
-.addField('❖-|p#close', `👑حذف التذكره👑`)
-.addField('❖-|p#image', `📷يعرض صورة سيرفر⛺`)
- .addField('❖-|p#credits', `👑عشان تشوف الكردتس الخاصة بك👑`)
- .addField('❖-|p#daily', `💲عشان تاخذ الكردتس اليومية الخاصة بك💵`)
- .addField('❖-|p#calc', `📟لاستخدام الالة الحاسبة + للجمع - للطرح * للضرب / للقسمة📝`)
- .addField('❖-|p#suggest', `🔱لاقتراح شئ و لازم يكون فيه روم اسمه suggestions👑`)
- .addField('❖-|p#uptime', `🕞عشان تشوف البوت شغال من متى🅱`)
- .addField('❖-|p#botinfo', `🚩عشان تعرف معلومات البوت🚩`)
- .addField('❖-|p#cat', `😍يجبلك صورة قطة🐱`)
-.addField('❖-|p#topinvites', `📎قائمه متصدرين الانفايتات🖇️`)
-.addField('❖-|p#ping', `🎆يقلك كم بنق البوت🎇`)
-   .addField('❖-|p#report', `⚠عشان تبلغ عن شخص🔞`)
-message.author.send({embed});
-message.channel.send(":white_check_mark: I've DMed you with my help list")
-}
-});
+:fire: __Action Commands:__
+❯ p#new → create ticket for you (need support-team role)
+❯ p#close → close the ticket
+:video_game: __Game Commands:__
+❯ p#xo → xo game
+❯ p#صراحه → Frankly Game
+❯ p#عواصم → Capitals Game
+❯ p#حجرة أو ورقة أو مقص → Paper scissors game
+❯ p#كت تويت → Tweets Game
+❯ p#p#لو خيروك → If they made you choose game
+❯ p#قرعة → Lot game
+❯ p#فكك → Decrypt game
+❯ p#لغز → Gas game
+❯ p#شقلب → Chuckle game
+❯ p#كتابة → The fastest writing game
+❯ p#ركب → Synthesis assembly game
+❯ p#رياضيات → Math game
+:globe_with_meridians: __General Commands:__
+❯ p#8ball → Ask magic 8ball something
+❯ p#avatar → Shows yours or the user avatar
+❯ p#invite → Invite NourBot to your guild
+❯ p#membercount → Shows membercount in your server
+❯ p#support → Dah It's support!?
+❯ p#td → Get the date in nice looking way!
+:information_source: __Info Commands:__
+❯ p#ping → Shows the bot ping.
+❯ p#botinfo → Shows informations about the bot.
+❯ p#server → Shows informations about the server.
+❯ p#userinfo → Shows informations about the user.
+❯ p#bot → Displays statistics about the bot.
+:wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
+❯ p#prune → To clear the chat (you can use p#clear)
+❯ p#bans → Shows a bans size
+❯ p#ban → To ban a member **Permanently**
+❯ p#tempban → To ban a member **Temporary**
+❯ p#mute → To mute a member **Temporary**
+❯ p#tempmute → To mute a member **Temporary**
+❯ p#kick → To kick a member
+❯ p#unban → Unban member by id
+❯ p#unmute → Unmutes a member
+❯ p#warn → Warns a member
+❯ p#setTime → Create Hour Room 
+❯ p#setDate → Create Date Room 
+❯ p#setDays → Create Day Room 
+❯ p#setCount → Member Count Room 
+❯ p#setVoice → Create Voice Online Room 
+:users: __Social Commands:__
+❯ p#credit → Shows your credit card balance
+❯ p#daily → Get your daily credits
+❯ p#id → Shows the user ID card.
+❯ p#لايك → Give someone a reputation point!
+❯ p#inforprofile → Sets your profile info title
+:high_brightness: Ulti Commands:
+❯ p#short → Shorten the url provided
+:headphones: __Music Commands:__
+❯ p#play → To play the song in the voice room
+❯ p#stop → To stop the song
+❯ p#skip → To skip the song
+❯ p#queue → View the waiting list
+`)
+  message.author.send(embed)
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
+  }
+  });
 
 
 const request = require('request')
@@ -5196,7 +4966,86 @@ msg.channel.send(`${item.type}`).then(() => {
 
 
 
-
+        client.on("message", message => {
+          if (message.content === "p#help") {
+            const embed = new Discord.RichEmbed()
+              .setColor("RANDOM")
+              .setDescription(`
+          ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+          ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+          ┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
+          ┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
+          ┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
+          ╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
+        
+        :fire: __Action Commands:__
+        ❯ p#new → create ticket for you (need support-team role)
+        ❯ p#close → close the ticket
+        :video_game: __Game Commands:__
+        ❯ p#xo → xo game
+        ❯ p#صراحه → Frankly Game
+        ❯ p#عواصم → Capitals Game
+        ❯ p#حجرة أو ورقة أو مقص → Paper scissors game
+        ❯ p#كت تويت → Tweets Game
+        ❯ p#p#لو خيروك → If they made you choose game
+        ❯ p#قرعة → Lot game
+        ❯ p#فكك → Decrypt game
+        ❯ p#لغز → Gas game
+        ❯ p#شقلب → Chuckle game
+        ❯ p#كتابة → The fastest writing game
+        ❯ p#ركب → Synthesis assembly game
+        ❯ p#رياضيات → Math game
+        :globe_with_meridians: __General Commands:__
+        ❯ p#8ball → Ask magic 8ball something
+        ❯ p#avatar → Shows yours or the user avatar
+        ❯ p#invite → Invite NourBot to your guild
+        ❯ p#membercount → Shows membercount in your server
+        ❯ p#support → Dah It's support!?
+        ❯ p#td → Get the date in nice looking way!
+        :information_source: __Info Commands:__
+        ❯ p#ping → Shows the bot ping.
+        ❯ p#botinfo → Shows informations about the bot.
+        ❯ p#server → Shows informations about the server.
+        ❯ p#userinfo → Shows informations about the user.
+        ❯ p#bot → Displays statistics about the bot.
+        :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
+        ❯ p#prune → To clear the chat (you can use p#clear)
+        ❯ p#bans → Shows a bans size
+        ❯ p#ban → To ban a member **Permanently**
+        ❯ p#role → To give someone a role (you can use p#role all to give everyone the rank of your choice)
+        ❯ p#temp on → To Turn on the temporary rooms 
+        ❯ p#temp off → To Turn off the temporary rooms 
+        ❯ p#tempban → To ban a member **Temporary**
+        ❯ p#mute → To mute a member **Temporary**
+        ❯ p#tempmute → To mute a member **Temporary**
+        ❯ p#kick → To kick a member
+        ❯ p#unban → Unban member by id
+        ❯ p#unmute → Unmutes a member
+        ❯ p#warn → Warns a member
+        ❯ p#setTime → Create Hour Room 
+        ❯ p#setDate → Create Date Room 
+        ❯ p#setDays → Create Day Room 
+        ❯ p#setCount → Member Count Room 
+        ❯ p#setVoice → Create Voice Online Room 
+        :users: __Social Commands:__
+        ❯ p#credit → Shows your credit card balance
+        ❯ p#daily → Get your daily credits
+        ❯ p#id → Shows the user ID card.
+        ❯ p#لايك → Give someone a reputation point!
+        ❯ p#inforprofile → Sets your profile info title
+        :high_brightness: Ulti Commands:
+        ❯ p#short → Shorten the url provided
+        :headphones: __Music Commands:__
+        ❯ p#play → To play the song in the voice room
+        ❯ p#stop → To stop the song
+        ❯ p#skip → To skip the song
+        ❯ p#queue → View the waiting list
+        `)
+          message.author.send(embed)
+              message.channel.send(":white_check_mark: I've DMed you with my help list")
+          }
+          });
+          
    client.on('message', message => {
 	   if(message.content.startsWith(`${prefix}invite`)){
 		   if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
@@ -5231,48 +5080,6 @@ msg.channel.send(`${item.type}`).then(() => {
 
 
 
-client.on("message", message => {
- if (message.content === "p#help-admin") {
-  const embed = new Discord.RichEmbed()
-      .setColor("RANDOM")
-      .setDescription(`
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭━━┳╮╭┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃━╋╋╋┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫┃━╋╋╋┫╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻╯╰┻━━━┻━━┻━╯
-
-👑أوامر الأدمن👑`)
-    .addField('❖-|p#setwelcomer', `🏵️ setup welcome 🏵️ `)
-	  .addField('❖-|p#bc', `📑لخاصية البرودكستات📑`)
-	  .addField('❖-|p#kick', `🚫لخاصية طرد🚫`)
-  	  .addField('❖-|p#re-role', `🚫تشيل رتبه انت تحددها من شخص معين🚫`)
-  	  .addField('❖-|p#role', `✅تعطي شخص رتبه انت تحددها ✴`)
-    .addField('❖-|p#ban', `⚠عشان تعطي احد حظر من سيرفر للابد⚠`)
-    .addField('❖-|p#unban', `✅ تفك الباند من شخص ✅ `)
-                .addField('❖-p#tempban', `🚩عشان تعطي احد حظر من السيرفر بمدة🕞`)
-	  .addField('❖-|p#bans', `✅عشان تشوف عدد المبندين في السيرفر✴`)
-	  .addField('❖-|p#prune', `❌لخاصية حذف شات❎`)
-          .addField('❖-|p#mute', `ℹلاعطاء احد ميوت يعني تجعله ما يقدر يرسل ولا شئ للابد🚫`)
-          .addField('❖-|p#unmute', `📄لفك الميوت عن شخص📇`)
-          .addField('❖-|p#setchannel', `♉لأنشاء روم كتابي♎`)
-          .addField('❖-|p#setvoice', `♓لأنشاء روم صوتي♏`)
-	  .addField('❖-|p#warn', `⚠علشان تعطي احد انذار⚠`)
-          .addField('❖-|p#autorole toggle', `🚩عشان تفعل الautorole🚩`)
-          .addField('❖-|p#autorole set', `👑عشان تحط الرتبة الي اول ما احد يدخل ياخذها👑`)
-               .addField('❖-|p#info', `🔰عشان تشوف الرتبة الموضوعة في الAutorole🔰`)
-                .addField('❖-|p#mutechannel', `🔱عشان تخلي ما فيه احد يقدر يكتب في الروم المحدد🔱`)
-                .addField('❖-|p#unmutechannel', `♈عشان ترجع الناس تقدر تكتب في الروم الي كتمته♈`)
-.addField('❖-|p#setTime', `⏲️ صنع روم للساعه ⏲️ `)
-  .addField('❖-|p#setDate', `📆 صنع روم للتاريخ 📆 `)
-.addField('❖-|p#setDays', `📅 صنع روم للايام 📅 `)
-.addField('❖-|p#setCount', `👪 صنع روم لعدد الاعضاء 👪 `)
-.addField('❖-|p#setVoice', `🎤 صنع روم للفويس اونلاين 🎤 `)
-  message.author.send({embed});
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
- }
-});
 
 
 client.on("message", message => {
@@ -5282,7 +5089,7 @@ client.on("message", message => {
       .setFooter('© PlexBot جميع الحقوق محفوظة 2018 لــبوت')
       .addField('سيرفر الدعم الفني', `https://discord.gg/agYdjPh`)
   message.author.send({embed});
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
+      message.channel.send(":white_check_mark: I've DMed you with my support server")
  }
 });
 
@@ -6163,18 +5970,6 @@ if (err) console.error(err);
      }
  });
 
- client3.on("message", message => {
-  if (message.content === "p#help-welcome") {
-   const embed = new Discord.RichEmbed()
-       .setColor("RANDOM")
-         .setDescription('👑أوامر الترحيب👑')
- .addField('❖-|p#setwelcomer', `👋welcome setup👋`)
-   message.author.send({embed});
-       message.channel.send(":white_check_mark: I've DMed you with my help list")
-
-  }
- });
-
 
 
  ////////////////////بروفايل////////////////////////////
@@ -6838,3 +6633,19 @@ incidentchannel.send(banEmbed);
 message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
   }})
    })
+
+   const shorten = require('isgd');
+   client.on('message', message => {
+    if (message.content.startsWith(prefix + 'short')) {
+       let args = message.content.split(" ").slice(1);
+     if (!args[0]) return message.channel.send('**Usage**: '+ prefix +'short <رابط>')
+     if (!args[1]) { 
+       shorten.shorten(args[0], function(res) {
+         if (res.startsWith('Error:')) return message.channel.send('**Usage**: '+ prefix +'short <link>');
+         message.channel.send(`اختصار الرابط:**<${res}>**`); 
+       })
+     } else { 
+       shorten.custom(args[0], args[1], function(res) { 
+         if (res.startsWith('Error:')) return message.channel.send(`اختصار الرابط:**${res}**`); 
+         message.channel.send(`اختصار الرابط:**<${res}>**`); 
+    })}}});
