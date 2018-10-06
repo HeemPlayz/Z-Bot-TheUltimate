@@ -4959,7 +4959,7 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#setDays → Create Day Room 
 ❯ p#setCount → Member Count Room 
 ❯ p#setVoice → Create Voice Online Room 
-:users: __Social Commands:__
+:family_mmb: __Social Commands:__
 ❯ p#credit → Shows your credit card balance
 ❯ p#daily → Get your daily credits
 ❯ p#id → Shows the user ID card.
