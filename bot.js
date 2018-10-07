@@ -5232,7 +5232,7 @@ msg.channel.send(`${item.type}`).then(() => {
         client.on("message", message => {
           if (message.content === "p#help") {
         message.author.send(`
-        **To start Log, create a rom named log**
+        **To start Log, create a channel named log**
 :fire: __Action Commands:__
 ❯ p#new → create ticket for you (need support-team role)
 ❯ p#close → close the ticket
