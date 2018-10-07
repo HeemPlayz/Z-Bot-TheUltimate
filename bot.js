@@ -15,15 +15,14 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 
-
 client.on("message", message => {
     if (message.content === "p#support") {
+         message.channel.send(":white_check_mark: I've DMed you with my support server");
      const embed = new Discord.RichEmbed()
          .setColor("RANDOM")
          .setFooter('© PlexBot جميع الحقوق محفوظة 2018 لــبوت')
-         .addField('سيرفر الدعم الفني', `https://discord.gg/agYdjPh`)
+         .addField('سيرفر الدعم الفني', `رابط`)
      message.author.send({embed});
-         message.channel.send(":white_check_mark: I've DMed you with my support server")
     }
    });
 
