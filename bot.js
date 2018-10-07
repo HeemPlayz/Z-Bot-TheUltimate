@@ -16,6 +16,16 @@ const prefix = "p#";
 let done = {};
 
 
+client.on("message", message => {
+    if (message.content === "p#support") {
+     const embed = new Discord.RichEmbed()
+         .setColor("RANDOM")
+         .setFooter('© PlexBot جميع الحقوق محفوظة 2018 لــبوت')
+         .addField('سيرفر الدعم الفني', `https://discord.gg/agYdjPh`)
+     message.author.send({embed});
+         message.channel.send(":white_check_mark: I've DMed you with my support server")
+    }
+   });
 
  ////////////////////بروفايل////////////////////////////
 
@@ -5361,16 +5371,6 @@ and to turn on the autorole type p#autorole toggle)**
 
 
 
-client.on("message", message => {
- if (message.content === "p#support") {
-  const embed = new Discord.RichEmbed()
-      .setColor("RANDOM")
-      .setFooter('© PlexBot جميع الحقوق محفوظة 2018 لــبوت')
-      .addField('سيرفر الدعم الفني', `https://discord.gg/agYdjPh`)
-  message.author.send({embed});
-      message.channel.send(":white_check_mark: I've DMed you with my support server")
- }
-});
 
 
 client.on('message', message => {
