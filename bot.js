@@ -6976,7 +6976,7 @@ client.on('message', message => {
           .addField("Reason:", `[ + ${reason} +  ]`)
           .addField("Kicked In :", `[${message.channel.name}]`)
           .addField("Time & Date :", `[${message.createdAt}]`)
-          .setFooter("MarsMC")
+    .setFooter(message.author.tag,message.author.avatarURL);
           message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
         message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
         user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
