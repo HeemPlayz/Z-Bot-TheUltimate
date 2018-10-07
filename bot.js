@@ -15,6 +15,44 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 
+const hastebin = require('hastebin.js');
+var h = new hastebin({});
+
+client.on('message', message => {
+    if (!message.content.startsWith(prefix)) return;
+    var args = message.content.split(' ');
+    var command = args[0];
+    switch(command) {
+        case "p#prune":
+        if (message.channel.type !== "text") return message.reply("** This Command is Only For Servers | :x: **");
+        if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("** You Don't Have Access To Do This Command | :x: **");
+        if (!args[1]) args[1] = 100;
+        var count = parseInt(args[1]);
+        if (isNaN(count)) return message.reply("** You Have To Type Number | :x: **");
+        message.channel.bulkDelete(count).then(msgs => {
+            message.channel.send(`** Done ** | I have Deleted ${msgs.size} Messages ...`);
+            var x = 0;
+            var messages = msgs.map(m => `${++x} - ${m.author.tag}  :  ${m.content.split(" ").join(" ")}`).join(`
+`);
+            fs.writeFile(`${message.guild.id}.txt`, messages, (err) => {
+                if (err) console.log(err.message);
+                h.post(messages).then(url => {
+                    var c = message.guild.channels.find("name", 'logs');
+                    if (!c) return;
+                    var embed = new Discord.RichEmbed()
+                    .setTitle(`Bulk Delete. | ${msgs.size} Messages`)
+                    .setAuthor(client.user.tag, client.user.avatarURL)
+                    .setThumbnail(message.guild.iconURL)
+                    .setColor("RANDOM")
+                    .setDescription(`By \`${message.author.tag}\`\n\n In #${message.channel.name}\n\n [Vew Messages on : \`HasteBin\`](${url})`)
+                    .attachFile(`./${message.guild.id}.txt`);
+                    c.send(`Download Messages : `, {embed : embed});
+                });
+            });
+        });
+        break;
+    };
+});
 client.on('message', message => {
     if (message.author.x5bz) return;
     if (!message.content.startsWith(prefix)) return;
@@ -756,44 +794,6 @@ client.on('message', message => {
 ///end
 	  
 
-const hastebin = require('hastebin.js');
-var h = new hastebin({});
-
-client.on('message', message => {
-    if (!message.content.startsWith(prefix)) return;
-    var args = message.content.split(' ');
-    var command = args[0];
-    switch(command) {
-        case "p#prune":
-        if (message.channel.type !== "text") return message.reply("** This Command is Only For Servers | :x: **");
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("** You Don't Have Access To Do This Command | :x: **");
-        if (!args[1]) args[1] = 100;
-        var count = parseInt(args[1]);
-        if (isNaN(count)) return message.reply("** You Have To Type Number | :x: **");
-        message.channel.bulkDelete(count).then(msgs => {
-            message.channel.send(`** Done ** | I have Deleted ${msgs.size} Messages ...`);
-            var x = 0;
-            var messages = msgs.map(m => `${++x} - ${m.author.tag}  :  ${m.content.split(" ").join(" ")}`).join(`
-`);
-            fs.writeFile(`${message.guild.id}.txt`, messages, (err) => {
-                if (err) console.log(err.message);
-                h.post(messages).then(url => {
-                    var c = message.guild.channels.find("name", 'logs');
-                    if (!c) return;
-                    var embed = new Discord.RichEmbed()
-                    .setTitle(`Bulk Delete. | ${msgs.size} Messages`)
-                    .setAuthor(client.user.tag, client.user.avatarURL)
-                    .setThumbnail(message.guild.iconURL)
-                    .setColor("RANDOM")
-                    .setDescription(`By \`${message.author.tag}\`\n\n In #${message.channel.name}\n\n [Vew Messages on : \`HasteBin\`](${url})`)
-                    .attachFile(`./${message.guild.id}.txt`);
-                    c.send(`Download Messages : `, {embed : embed});
-                });
-            });
-        });
-        break;
-    };
-});
 const ytdl = require("ytdl-core");
 const { Client, Util } = require('discord.js');
 const getYoutubeID = require('get-youtube-id');
