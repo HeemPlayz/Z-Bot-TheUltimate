@@ -21,7 +21,7 @@ client.on("message", message => {
      const embed = new Discord.RichEmbed()
          .setColor("RANDOM")
          .setFooter('© PlexBot جميع الحقوق محفوظة 2018 لــبوت')
-         .addField('سيرفر الدعم الفني', `رابط`)
+         .addField('سيرفر الدعم الفني', `https://discord.gg/eHV24X`)
      message.author.send({embed});
     }
    });
