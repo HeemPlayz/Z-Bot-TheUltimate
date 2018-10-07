@@ -6938,7 +6938,8 @@ client.on('message', message => {
     let incidentchannel = message.guild.channels.find(`name`, "incidents");
   if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
   incidentchannel.send(banEmbed);
-  message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`)
+  user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: ${reason}`)
+  message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
     }})
 
     client.on('message', message => {
