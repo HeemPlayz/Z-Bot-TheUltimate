@@ -6931,8 +6931,8 @@ client.on('message', message => {
     .setAuthor(`New Banned User !`)
     .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
     .addField('- Banned By: ',message.author.tag,true)
-    .addField('- Banned User:', `${User}`)
-    .addField('- Reason:',Reason,true)
+    .addField('- Banned User:', `${user}`)
+    .addField('- Reason:',reason,true)
     .addField('- Time & Date:', `${message.createdAt}`)
     .setFooter(message.author.tag,message.author.avatarURL);
     let incidentchannel = message.guild.channels.find(`name`, "incidents");
