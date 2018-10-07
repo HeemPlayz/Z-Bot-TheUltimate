@@ -30,7 +30,7 @@ client.on('message', message => {
         var count = parseInt(args[1]);
         if (isNaN(count)) return message.reply("** You Have To Type Number | :x: **");
         message.channel.bulkDelete(count).then(msgs => {
-            message.channel.send(`** Done ** | I have Deleted ${msgs.size} Messages ...`);
+            message.channel.send(`** Done ** | I have Deleted ${msgs.size} Messages ...`).then(m => m.delete(3000));
             var x = 0;
             var messages = msgs.map(m => `${++x} - ${m.author.tag}  :  ${m.content.split(" ").join(" ")}`).join(`
 `);
