@@ -5242,6 +5242,13 @@ msg.channel.send(`${item.type}`).then(() => {
 :fire: __Action Commands:__
 ❯ p#new → create ticket for you (need support-team role)
 ❯ p#close → close the ticket
+❯ p#slap → slap someone
+❯ p#hug → hug someone
+❯ p#tickle → tickle someone
+❯ p#poke → poke someone
+❯ p#cuddle → cuddle someone
+❯ p#pat → cuddle someone
+❯ p#kiss → someone someone
 :video_game: __Game Commands:__
 ❯ p#xo → xo game
 ❯ p#صراحه → Frankly Game
@@ -5256,13 +5263,6 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#اسرع → The fastest writing game
 ❯ p#ركب → Synthesis assembly game
 ❯ p#رياضيات → Math game
-❯ p#slap → slap someone
-❯ p#hug → hug someone
-❯ p#tickle → tickle someone
-❯ p#tickle → poke someone
-❯ p#cuddle → cuddle someone
-❯ p#pat → cuddle someone
-❯ p#kiss → someone someone
 :globe_with_meridians: __General Commands:__
 ❯ p#8ball → Ask magic 8ball something
 ❯ p#avatar → Shows yours or the user avatar
