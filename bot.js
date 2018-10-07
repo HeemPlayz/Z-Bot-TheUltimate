@@ -68,21 +68,7 @@ client.on("message", message => {
 
  ////////////////////بروفايل////////////////////////////
 
- client.on("message", message => {
-  if (message.author.bot) return;
-  if(!message.channel.guild)return;
-  if (!profile[message.author.id]) profile[message.author.id] = {
-    info: 'p#inforprofile To Set The Info',
-    rep: 0,
-    reps: 'NOT YET',
-    lastDaily:'Not Collected',
-    level: 0,
-    points: 0,
-  };
-fs.writeFile('./profile.json', JSON.stringify(profile), (err) => {
-if (err) console.error(err);
-})
-});
+
 //لايك//
 client.on('message', message => {
   if (message.author.bot) return;
@@ -253,6 +239,22 @@ if (profile[sender.id].points == 111000) profile[sender.id].level = 50;
 
 });
 //**بروفايل**//
+client.on("message", message => {
+    if (message.author.bot) return;
+    if(!message.channel.guild)return;
+    if (!profile[message.author.id]) profile[message.author.id] = {
+      info: 'p#inforprofile To Set The Info',
+      rep: 0,
+      reps: 'NOT YET',
+      lastDaily:'Not Collected',
+      level: 0,
+      points: 0,
+    };
+  fs.writeFile('./profile.json', JSON.stringify(profile), (err) => {
+  if (err) console.error(err);
+  })
+  });
+  
 client.on("message", message => {
   if (message.author.bot) return;
   if(!message.channel.guild) return;
