@@ -5363,7 +5363,7 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#عواصم → Capitals Game
 ❯ p#حجرة أو ورقة أو مقص → Paper scissors game
 ❯ p#كت تويت → Tweets Game
-❯ p#p#لو خيروك → If they made you choose game
+❯ p#لو خيروك → If they made you choose game
 ❯ p#قرعة → Lot game
 ❯ p#فكك → Decrypt game
 ❯ p#لغز → Gas game
