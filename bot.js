@@ -243,7 +243,7 @@ client.on('message', message => {
       var sender = message.author
       if (message.author.id === client.user.id) return;
       if(!message.channel.guild) return;       
-      if(message.content.startsWith(prefix + 'لايك')) {
+      if(message.content.startsWith(prefix + 'rep')) {
       let ment = message.mentions.users.first()  
   if (games[sender.id].lastDaily != moment().format('day')) {
       games[sender.id].lastDaily = moment().format('day')
