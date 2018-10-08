@@ -181,8 +181,6 @@ client.on("message", message => {
      message.author.send({embed});
     }
    });
-
- 
 ///hug
 client.on('message', message => {
  if(message.content.startsWith(prefix + 'hug')) {
@@ -5856,24 +5854,6 @@ if (err) console.error(err);
 });
 
 
-
-
-
-client.on("message", message => {
-  if (message.author.bot) return;
-    if (message.author.id === client.user.id) return;
-	if(!message.channel.guild) return;
-if(!dataPro[message.author.id]) {
-            dataPro[message.author.id] = {
-                ai: false,
-                wallSrc: './Screenshot_٢٠١٨-٠٨-٢٨-٢٠-٠٥-٤٨-1-1.png' ,
-                walls: {}
-            };
-        }
-fs.writeFile('./walls.json', JSON.stringify(dataPro), (err) => {
-if (err) console.error(err);
-});
-});
 
 
 
