@@ -225,7 +225,7 @@ client.on("message", message => {
   if (message.author.bot) return;
   if(!message.channel.guild)return;
   if (!profile[message.author.id]) profile[message.author.id] = {
-    info: '=info To Set The Info',
+    info: 'p#info To Set The Info',
     rep: 0,
     reps: 'NOT YET',
     lastDaily:'Not Collected',
@@ -5429,8 +5429,8 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#credit → Shows your credit card balance
 ❯ p#daily → Get your daily credits
 ❯ p#id → Shows the user ID card.
-❯ p#لايك → Give someone a reputation point!
-❯ p#inforprofile → Sets your profile info title
+❯ p#rep → Give someone a reputation point!
+❯ p#info → Sets your profile info title
 :high_brightness: Ulti Commands:
 ❯ p#short → Shorten the url provided
 :headphones: __Music Commands:__
@@ -6610,7 +6610,7 @@ client.on('message', message => {
   if (message.author.bot) return;
     if (message.author.id === client.user.id) return;
   if(!message.channel.guild) return;
-        if(message.content.startsWith('p#inforprofile')) {
+        if(message.content.startsWith('=inforprofile')) {
         let args = message.content.split(' ').slice(1).join(' ')
         if(!args) return message.channel.send(`**${message.author.username}, يرجى كتابة المعلومات**`)
         if(args.length > 25) return message.channel.send(`**${message.author.username} يجب ان لا تكون المعلومات اكثر من 25 حرف**`)
