@@ -4677,6 +4677,7 @@ client.on('message', message => {
     var prefix = "p#"
     let args = message.content.split(' ').slice(1);
     if(message.content.startsWith(prefix + 'role')) {
+        if(!message.member.hasPermission('MANAGE_ROLES')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `MANAGE_ROLES`' );
     let member = message.mentions.users.first();
     let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
     console.log(role);
@@ -5446,6 +5447,7 @@ and to turn on the autorole type p#autorole toggle)**
     var prefix = "p#"
     let args = message.content.split(' ').slice(1);
     if(message.content.startsWith(prefix + 're-role')) {
+        if(!message.member.hasPermission('MANAGE_ROLES')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `MANAGE_ROLES`' );
     let member = message.mentions.users.first();
     let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
     console.log(role);
