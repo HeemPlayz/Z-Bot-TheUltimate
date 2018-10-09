@@ -4792,6 +4792,7 @@ client.on('message', message => {
 
 client.on('message', message => {
     if(message.content === prefix + 'role') {
+        if(!message.member.hasPermission('MANAGE_ROLES')) return;
       let role = new Discord.RichEmbed()
     .setDescription(`
     أمثله على الأوامر : 
@@ -4804,6 +4805,7 @@ client.on('message', message => {
   
   client.on('message', message => {
     if(message.content === prefix + 're-role') {
+        if(!message.member.hasPermission('MANAGE_ROLES')) return;
       let role = new Discord.RichEmbed()
     .setDescription(`
     أمثله على الأوامر : 
