@@ -3633,6 +3633,45 @@ message.react(":x:")
   
  });
  client.on('message', message => {
+  
+  
+    if(!message.guild) return; 
+      if(!logs[message.guild.id]) logs[message.guild.id] = {
+      onoff: 'Off',
+      channel: 'logs'
+      };
+     
+    if(message.content.startsWith(prefix + 'setlogs')) {
+             
+      let perm = message.member.hasPermission(`ADMINISTRATOR`) || message.member.hasPermission(`MANAGE_SERVER`)
+     
+      if(!perm) return message.reply(`You don't have \`Manage_roles / Administrator\` Permission`);
+      let args = message.content.split(" ").slice(1);
+      if(!args.join(" ")) return message.reply(`:gear: **| Correct usage**:
+    \`p#setlogs toggle / set <channel name>\``);
+      let state = args[0];
+   
+      if(!state.trim().toLowerCase() == 'toggle') return message.reply(`Please type a right state ON / OFF`) ;
+        if(state.trim().toLowerCase() == 'toggle') {
+         if(logs[message.guild.id].onoff === 'Off') return [message.channel.send(`:white_check_mark: **| Logs for this server has been turned on.**`), logs[message.guild.id].onoff = 'On'];
+         if(logs[message.guild.id].onoff === 'On') return [message.channel.send(`:white_check_mark: **| Logs for this server has been turned off.**`), logs[message.guild.id].onoff = 'Off'];
+        }
+     
+       if(state.trim().toLowerCase() == 'set') {
+       let newChannel = message.content.split(" ").slice(2).join(" ");
+       if(!newChannel) return message.reply(`:gear: **| To set the logging channel use**:
+    \`p#setlogs set <channel name>\``);
+         if(!message.guild.channels.find(`name`,newChannel)) return message.reply(`:mag_right: **| I can't find this channel.**`);
+        logs[message.guild.id].role = newChannel;
+         message.channel.send(`:shield: **| Logging channel has been changed to**:
+    \`${newChannel}\``);
+       }
+             }
+        fs.writeFile("./logs.json", JSON.stringify(logs), (err) => {
+        if (err) console.error(err);
+      });
+    });
+ client.on('message', message => {
    client.on("roleCreate", rc => {
      const channel = rc.guild.channels.find("name", logs[message.guild.id].channel)
      if(channel) {
@@ -3752,45 +3791,7 @@ message.react(":x:")
     
    });
  })
- client.on('message', message => {
-  
-  
- if(!message.guild) return; 
-   if(!logs[message.guild.id]) logs[message.guild.id] = {
-   onoff: 'Off',
-   channel: 'logs'
-   };
-  
- if(message.content.startsWith(prefix + 'setlogs')) {
-          
-   let perm = message.member.hasPermission(`ADMINISTRATOR`) || message.member.hasPermission(`MANAGE_SERVER`)
-  
-   if(!perm) return message.reply(`You don't have \`Manage_roles / Administrator\` Permission`);
-   let args = message.content.split(" ").slice(1);
-   if(!args.join(" ")) return message.reply(`:gear: **| Correct usage**:
- \`p#setlogs toggle / set <channel name>\``);
-   let state = args[0];
 
-   if(!state.trim().toLowerCase() == 'toggle') return message.reply(`Please type a right state ON / OFF`) ;
-     if(state.trim().toLowerCase() == 'toggle') {
-      if(logs[message.guild.id].onoff === 'Off') return [message.channel.send(`:white_check_mark: **| Logs for this server has been turned on.**`), logs[message.guild.id].onoff = 'On'];
-      if(logs[message.guild.id].onoff === 'On') return [message.channel.send(`:white_check_mark: **| Logs for this server has been turned off.**`), logs[message.guild.id].onoff = 'Off'];
-     }
-  
-    if(state.trim().toLowerCase() == 'set') {
-    let newChannel = message.content.split(" ").slice(2).join(" ");
-    if(!newChannel) return message.reply(`:gear: **| To set the logging channel use**:
- \`p#setlogs set <channel name>\``);
-      if(!message.guild.channels.find(`name`,newChannel)) return message.reply(`:mag_right: **| I can't find this channel.**`);
-     logs[message.guild.id].role = newChannel;
-      message.channel.send(`:shield: **| Logging channel has been changed to**:
- \`${newChannel}\``);
-    }
-          }
-     fs.writeFile("./logs.json", JSON.stringify(logs), (err) => {
-     if (err) console.error(err);
-   });
- });
  const hastebin = require('hastebin.js');
 var h = new hastebin({});
 
