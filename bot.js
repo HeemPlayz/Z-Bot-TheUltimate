@@ -594,59 +594,7 @@ client.on('message', message => {
 });
 ///end
 
-///kiss
-client.on('message', message => {
- if(message.content.startsWith(prefix + "kiss")) {
-   let args = message.content.split(" ").slice(1);
-    let hug = [
-        "https://media.giphy.com/media/KH1CTZtw1iP3W/giphy.gif",
-        "https://media.giphy.com/media/ZRSGWtBJG4Tza/giphy.gif",
-        "https://media.giphy.com/media/G3va31oEEnIkM/giphy.gif",
-        "https://media.giphy.com/media/nyGFcsP0kAobm/giphy.gif",
-        "https://media.giphy.com/media/kU586ictpGb0Q/giphy.gif",
-        "https://media.giphy.com/media/bm2O3nXTcKJeU/giphy.gif",
-        "https://media.giphy.com/media/BaEE3QOfm2rf2/giphy.gif",
-        "https://media.giphy.com/media/OSq9souL3j5zW/giphy.gif",
-        "https://media.giphy.com/media/vUrwEOLtBUnJe/giphy.gif",
-        "https://media.giphy.com/media/dP8ONh1mN8YWQ/giphy.gif",
-        "https://data.whicdn.com/images/271163043/original.gif",
-        "https://media.giphy.com/media/Ka2NAhphLdqXC/giphy.gif",
-        "https://media.giphy.com/media/zkppEMFvRX5FC/giphy.gif",
-        "https://media.giphy.com/media/wOtkVwroA6yzK/giphy.gif",
-        "https://media.giphy.com/media/flmwfIpFVrSKI/giphy.gif",
-        "https://media.giphy.com/media/mGAzm47irxEpG/giphy.gif",
-        "https://media.giphy.com/media/JynbO9pnGxPrO/giphy.gif",
-    ]
-    let hugresult = Math.floor((Math.random() * hug.length));
-    if (!args[0]) {
-        const ghembed = new Discord.RichEmbed()
-            .setColor(0xFF0000)
-            .setTitle(`${message.author.username} chu can't kiss yourself...! B-but there you go..`)
-            .setImage('https://cdn.discordapp.com/attachments/461525860910891008/462634925300908056/SydfnauPb-1.gif/')
-        message.channel.send({
-            embed: ghembed
-        })
-        return;
-    }
-    if (!message.mentions.members.first().user.username === message.isMentioned(message.author)) {
-        const hembed = new Discord.RichEmbed()
-            .setColor(0xFF0000)
-            .setTitle(`${message.author.username} gave ${message.mentions.members.first().user.username} a kiss! How sweet!`)
-            .setImage(hug[hugresult])
-        message.channel.send({
-            embed: hembed
-        })
-        return;
-    }
-    const ghembed = new Discord.RichEmbed()
-        .setColor(0xFF0000)
-        .setTitle(`${message.author.username} chu can't kiss yourself...! B-but there you go..`)
-        .setImage('https://cdn.discordapp.com/attachments/461525860910891008/462634925300908056/SydfnauPb-1.gif/')
-    message.channel.send({
-        embed: ghembed
-    })
-}
-});
+
 ///end
 
 ///slap
@@ -5367,7 +5315,7 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#poke → poke someone
 ❯ p#cuddle → cuddle someone
 ❯ p#pat → cuddle someone
-❯ p#kiss → someone someone
+❯ p#botinvite → لاخذ رابط اضافه بوت داخل السيرفر
 :video_game: __Game Commands:__
 ❯ p#xo → xo game
 ❯ p#صراحه → Frankly Game
@@ -6081,6 +6029,15 @@ message.channel.sendEmbed(cat);
     }
 });
 
+client.on('message', message => {
+    let id = msg.content.split(" ").slice(1);
+    if(message.content.startsWith(prefix + 'botinvite')) {
+        if(!id) return message.reply('اكتب ايدي البوت يلي تبي الانفايت حقه')
+        let idembed = new Discord.RichEmbed()
+        .setURL(`https://discordapp.com/oauth2/authorize?client_id=${id}&permissions=2080374975&scope=bot`)
+        .setFooter(`Requested By | ${message.author.username}`)
+.setTitle('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط')
+message.channel.sendEmbed(idembed)
 
  const cuttweet = [
      'كت تويت ‏| تخيّل لو أنك سترسم شيء وحيد فيصبح حقيقة، ماذا سترسم؟',
