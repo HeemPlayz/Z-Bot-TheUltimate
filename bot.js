@@ -54,7 +54,7 @@ client.on("message", message => {
       return message.channel.send(`${user.tag} has received ${pointsToAdd} points and now stands at ${userscore.points} points.`);
     }
     
-    if(command === "leaderboard") {
+    if(command === "top") {
       const top10 = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY points DESC LIMIT 10;").all(message.guild.id);
       const embed = new Discord.RichEmbed()
         .setTitle("**TOP 10 TEXT** :speech_balloon:")
@@ -4881,9 +4881,6 @@ embed: new Discord.RichEmbed()
    .addField('``Users``' ,`[ ${client.users.size} ]` , true)
    .addField('``My Name``' , `[ ${client.user.tag} ]` , true)
    .addField('``My ID``' , `[ ${client.user.id} ]` , true)
-   .addField("**Servers:**" , `[ ${client.guilds.size} ]`)
-   .addField("**Users:**", `[ ${client.users.size} ]`)
-   .addField("**Channels:**", ` [ ${client.channels.size} ]`)
          .addField('``My Prefix``' , `[ p# ]` , true)
          .addField('``My Language``' , `[ JavaScript ]` , true)
          .addField('``Bot Version``' , `[ v0.1 ]` , true)
@@ -5365,6 +5362,11 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#id → Shows the user ID card.
 ❯ p#rep → Give someone a reputation point!
 ❯ p#info → Sets your profile info title
+❯ p#top → Shows toptext
+❯ p#give → give a points to someone
+❯ p#profile → Shows your profile
+❯ p#id → Shows your id information
+❯ p#points → Shows your points & level
 :high_brightness: Ulti Commands:
 ❯ p#short → Shorten the url provided
 :headphones: __Music Commands:__
