@@ -6030,7 +6030,7 @@ message.channel.sendEmbed(cat);
 });
 
 client.on('message', message => {
-    let id = msg.content.split(" ").slice(1);
+    let id = message.content.split(" ").slice(1);
     if(message.content.startsWith(prefix + 'botinvite')) {
         if(!id) return message.reply('اكتب ايدي البوت يلي تبي الانفايت حقه')
         let idembed = new Discord.RichEmbed()
