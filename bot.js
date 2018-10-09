@@ -5468,7 +5468,7 @@ and to turn on the autorole type p#autorole toggle)**
    });
 
    
-client.on('message', message => {
+   client.on('message', message => {
     var prefix = "p#"
     let args = message.content.split(' ').slice(1);
     if(message.content.startsWith(prefix + 're-role')) {
@@ -5488,7 +5488,7 @@ client.on('message', message => {
     
                 const e = new Discord.RichEmbed()
     
-            .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
+            .setDescription(':white_check_mark:** Withdrawn Role For **'+member+'**,** '+'**'+'-'+role1.name+'**')
            .setFooter('Requested By '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -5501,7 +5501,7 @@ client.on('message', message => {
     if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1);
            const e = new Discord.RichEmbed()
     
-           .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
+           .setDescription(':white_check_mark:** Withdrawn Role For **'+member+'**,** '+'**'+'+'+role1.name+'**')
            .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -5583,8 +5583,8 @@ client.on('message', message => {
     }
     }
     });
-
-
+  
+  
 
 
 
