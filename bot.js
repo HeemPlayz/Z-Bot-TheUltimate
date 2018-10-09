@@ -5421,6 +5421,7 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#bans → Shows a bans size
 ❯ p#ban → To ban a member **Permanently**
 ❯ p#role → To give someone a role (you can use p#role all to give everyone the rank of your choice)
+❯ p#re-role → To Pull the rank of a particular person (you can use p#re-role all to Pull everyone the rank of your choice)
 ❯ p#temp on → To Turn on the temporary rooms 
 ❯ p#temp off → To Turn off the temporary rooms 
 ❯ p#tempban → To ban a member **Temporary**
