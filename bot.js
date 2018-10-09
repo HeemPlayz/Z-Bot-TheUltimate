@@ -6034,9 +6034,9 @@ client.on('message', message => {
     if(message.content.startsWith(prefix + 'botinvite')) {
         if(!id) return message.reply('اكتب ايدي البوت يلي تبي الانفايت حقه')
         let idembed = new Discord.RichEmbed()
-        .setURL(`https://discordapp.com/oauth2/authorize?client_id=${id}&permissions=2080374975&scope=bot`)
+        .setTitle(`https://discordapp.com/oauth2/authorize?client_id=${id}&permissions=2080374975&scope=bot`)
         .setFooter(`Requested By | ${message.author.username}`)
-.setTitle('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط')
+.addField('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط')
 message.channel.sendEmbed(idembed)
 
  const cuttweet = [
