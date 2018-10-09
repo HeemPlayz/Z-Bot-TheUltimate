@@ -4793,10 +4793,10 @@ client.on('message', message => {
     if(message.content === prefix + 'role') {
       let role = new Discord.RichEmbed()
     .setDescription(`
-    p#role @mention rolename
-    p#role all rolename
-    p#role humans rolenam
-    p#role bots rolename`)
+    p#role @mention rolename : لأعطاء رتبة لعضو معين
+    p#role all rolename : لأعطاء رتبة للجميع 
+    p#role humans rolename : لأعطاء رتبة للاشخاص فقط
+    p#role bots rolename : لأعطاء رتبة لجميع البوتات`)
     .setFooter('Requested by '+message.author.username, message.author.avatarURL)
   message.channel.sendEmbed(role)
   
@@ -4804,10 +4804,11 @@ client.on('message', message => {
     if(message.content === prefix + 're-role') {
       let role = new Discord.RichEmbed()
     .setDescription(`
-    p#re-role @mention rolename
-    p#re-role all rolename
-    p#re-role humans rolenam
-    p#re-role bots rolename`)
+    أمثله على الأوامر : 
+    p#re-role @mention rolename : لسحب رتبة لعضو معين
+    p#re-role all rolename : لسحب رتبة للجميع 
+    p#re-role humans rolename : لسحب رتبة للاشخاص فقط
+    p#re-role bots rolename : لسحب رتبة لجميع البوتات`)
     .setFooter('Requested by '+message.author.username, message.author.avatarURL)
   message.channel.sendEmbed(role)
   
