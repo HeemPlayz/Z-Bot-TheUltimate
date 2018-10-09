@@ -3642,7 +3642,8 @@ message.react(":x:")
       };
      
     if(message.content.startsWith(prefix + 'setlogs')) {
-             
+        const logschannels = logs[member.guild.id].channel
+const logs = member.guild.channels.find('name', logschannels);
       let perm = message.member.hasPermission(`ADMINISTRATOR`) || message.member.hasPermission(`MANAGE_SERVER`)
      
       if(!perm) return message.reply(`You don't have \`Manage_roles / Administrator\` Permission`);
@@ -3662,7 +3663,7 @@ message.react(":x:")
        if(!newChannel) return message.reply(`:gear: **| To set the logging channel use**:
     \`p#setlogs set <channel name>\``);
          if(!message.guild.channels.find(`name`,newChannel)) return message.reply(`:mag_right: **| I can't find this channel.**`);
-        logs[message.guild.id].role = newChannel;
+         logs[message.guild.id].channel = newChannel
          message.channel.send(`:shield: **| Logging channel has been changed to**:
     \`${newChannel}\``);
        }
@@ -3680,7 +3681,7 @@ message.react(":x:")
      .setDescription(`***Created Role Name : *** **${rc.name}** `)
      .setColor(`RANDOM`)
      .setTimestamp(); 
-     channel.sendEmbed(embed)
+    logs.sendEmbed(embed)
      }
      });
      //By S Codes
@@ -3692,7 +3693,7 @@ message.react(":x:")
      .setDescription(`***Deleted Role Name : *** **${rd.name}** `)
      .setColor(`RANDOM`)
      .setTimestamp(); 
-     channel.sendEmbed(embed)
+    logs.sendEmbed(embed)
      }
      });
      
@@ -3704,7 +3705,7 @@ message.react(":x:")
      .setDescription(`***Channel Created Name : *** **${cc.name}** ⬅️`)
      .setColor(`RANDOM`)
      .setTimestamp();
-     channel.sendEmbed(embed)
+    logs.sendEmbed(embed)
      } 
      });
     
@@ -3716,7 +3717,7 @@ message.react(":x:")
      .setDescription(`***Channel Deleted Name : *** **${dc.name}** ⬅️`)
      .setColor(`RANDOM`)
      .setTimestamp();
-     channel.sendEmbed(embed)
+    logs.sendEmbed(embed)
      } 
      });
     
