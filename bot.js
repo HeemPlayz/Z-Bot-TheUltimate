@@ -5489,7 +5489,7 @@ and to turn on the autorole type p#autorole toggle)**
     
                 const e = new Discord.RichEmbed()
     
-            .setDescription(':white_check_mark:** Withdrawn Role For **'+member+'**,** '+'**'+'-'+role1.name+'**')
+            .setDescription(':white_check_mark:** Pull Role For **'+member+'**,** '+'**'+'-'+role1.name+'**')
            .setFooter('Requested By '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -5502,7 +5502,7 @@ and to turn on the autorole type p#autorole toggle)**
     if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1);
            const e = new Discord.RichEmbed()
     
-           .setDescription(':white_check_mark:** Withdrawn Role For **'+member+'**,** '+'**'+'+'+role1.name+'**')
+           .setDescription(':white_check_mark:** Pull Role For **'+member+'**,** '+'**'+'+'+role1.name+'**')
            .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -5518,7 +5518,7 @@ and to turn on the autorole type p#autorole toggle)**
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Pull From __${message.guild.members.size}__ Member**`);
     });
     }
     if(role) {
@@ -5528,7 +5528,7 @@ and to turn on the autorole type p#autorole toggle)**
     message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
+    msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Pull To __${message.guild.members.size}__ Members **`);
     });
     }
     } else if(args[0] == 'humans') {
@@ -5539,7 +5539,7 @@ and to turn on the autorole type p#autorole toggle)**
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Pull From __${message.guild.members.size}__ Member**`);
     });
     }
     
@@ -5578,7 +5578,7 @@ and to turn on the autorole type p#autorole toggle)**
        message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
            message.guild.member(m).removeRole(role1);
        });
-    msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** rank has been withdrawn To __${message.guild.members.size}__ Member**`);
+    msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** rank has been pull To __${message.guild.members.size}__ Member**`);
     });
     }
     }
