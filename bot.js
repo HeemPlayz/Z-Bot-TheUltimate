@@ -14,6 +14,34 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 client.on('message', message => {
+    if(message.content.startsWith(prefix + 'role')) {
+        if(!message.member.hasPermission('MANAGE_ROLES')) return
+      let role = new Discord.RichEmbed()
+    .setDescription(`
+    أمثله على الأوامر : 
+    p#role @mention rolename : لأعطاء رتبة لعضو معين
+    p#role all rolename : لأعطاء رتبة للجميع 
+    p#role humans rolename : لأعطاء رتبة للاشخاص فقط
+    p#role bots rolename : لأعطاء رتبة لجميع البوتات`)
+    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+  message.channel.sendEmbed(role)
+    }})
+    
+  client.on('message', message => {
+    if(message.content.startsWith(prefix + '-role')) {
+        if(!message.member.hasPermission('MANAGE_ROLES')) return
+      let role = new Discord.RichEmbed()
+    .setDescription(`
+    أمثله على الأوامر : 
+    p#-role @mention rolename : لسحب رتبة لعضو معين
+    p#-role all rolename : لسحب رتبة للجميع 
+    p#-role humans rolename : لسحب رتبة للاشخاص فقط
+    p#-role bots rolename : لسحب رتبة لجميع البوتات`)
+    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+  message.channel.sendEmbed(role)
+    }})
+
+client.on('message', message => {
     if (message.content === "p#ping") {
      const embed = new Discord.RichEmbed()
 
@@ -4790,19 +4818,6 @@ client.on('message', message => {
     }
     });
 
-client.on('message', message => {
-    if(message.content.startsWith(prefix + 'role')) {
-        if(!message.member.hasPermission('MANAGE_ROLES')) return;
-      let role = new Discord.RichEmbed()
-    .setDescription(`
-    أمثله على الأوامر : 
-    p#role @mention rolename : لأعطاء رتبة لعضو معين
-    p#role all rolename : لأعطاء رتبة للجميع 
-    p#role humans rolename : لأعطاء رتبة للاشخاص فقط
-    p#role bots rolename : لأعطاء رتبة لجميع البوتات`)
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-  message.channel.sendEmbed(role)
-  
 
 client.on('message' , message => {
 var prefix = "p#";
@@ -5548,19 +5563,6 @@ and to turn on the autorole type p#autorole toggle)**
     }
     }
     });
-  
-    client.on('message', message => {
-        if(message.content.startsWith(prefix + '-role')) {
-            if(!message.member.hasPermission('MANAGE_ROLES')) return;
-          let role = new Discord.RichEmbed()
-        .setDescription(`
-        أمثله على الأوامر : 
-        p#-role @mention rolename : لسحب رتبة لعضو معين
-        p#-role all rolename : لسحب رتبة للجميع 
-        p#-role humans rolename : لسحب رتبة للاشخاص فقط
-        p#-role bots rolename : لسحب رتبة لجميع البوتات`)
-        .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-      message.channel.sendEmbed(role)
 
 
 client.on('message',async message => {
@@ -6738,6 +6740,5 @@ client.on('message', message => {
         }
         });
     }})
-    }})
-}})
+
         client.login(process.env.BOT_TOKEN)
