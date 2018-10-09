@@ -4793,6 +4793,7 @@ client.on('message', message => {
     if(message.content === prefix + 'role') {
       let role = new Discord.RichEmbed()
     .setDescription(`
+    أمثله على الأوامر : 
     p#role @mention rolename : لأعطاء رتبة لعضو معين
     p#role all rolename : لأعطاء رتبة للجميع 
     p#role humans rolename : لأعطاء رتبة للاشخاص فقط
