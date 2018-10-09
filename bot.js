@@ -13,6 +13,61 @@ var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
+client.on("message", message => {
+    if (message.author.bot || !message.guild) return; 
+ 
+    let score;
+    
+    if (message.guild) {
+      score = client.getScore.get(message.author.id, message.guild.id);
+      if (!score) {
+        score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, points: 0, level: 1 };
+      }
+      score.points++;
+      const curLevel = Math.floor(0.1 * Math.sqrt(score.points));
+      client.setScore.run(score);
+    }
+    if (message.content.indexOf(prefix) !== 0) return;
+  
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+  
+    if(command === "points") {
+      return message.reply(`You currently have ${score.points} points and are level ${score.level}!`);
+    }
+    
+    if(command === "give") {
+      if(!message.author.id === message.guild.owner) return message.reply("You're not the boss of me, you can't do that!");
+      const user = message.mentions.users.first() || client.users.get(args[0]);
+      if(!user) return message.reply("You must mention someone or give their ID!");
+      const pointsToAdd = parseInt(args[1], 10);
+      if(!pointsToAdd) return message.reply("You didn't tell me how many points to give...");
+          let userscore = client.getScore.get(user.id, message.guild.id);      
+      if (!userscore) {
+        userscore = { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, points: 0, level: 1 };
+      }
+      userscore.points += pointsToAdd;
+      let userLevel = Math.floor(0.1 * Math.sqrt(score.points));
+      userscore.level = userLevel;
+      client.setScore.run(userscore);
+    
+      return message.channel.send(`${user.tag} has received ${pointsToAdd} points and now stands at ${userscore.points} points.`);
+    }
+    
+    if(command === "leaderboard") {
+      const top10 = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY points DESC LIMIT 10;").all(message.guild.id);
+      const embed = new Discord.RichEmbed()
+        .setTitle("**TOP 10 TEXT** :speech_balloon:")
+        .setAuthor('📋 Guild Score Leaderboards', message.guild.iconURL)
+        .setColor(0x00AE86);
+  
+      for(const data of top10) {
+        embed.addField(client.users.get(data.user).tag, `XP: \`${data.points}\` | LVL: \`${data.level}\``);
+      }
+      return message.channel.send({embed});
+    }
+    
+  });
 client.on('message', message => {
     if(message.content.startsWith(prefix + 'role')) {
         if(!message.member.hasPermission('MANAGE_ROLES')) return
@@ -330,117 +385,6 @@ client.on('message', message => {
         message.channel.send(`**${message.author.username}**| تم تغير معلوماتك الى  =${args}>`)
     }
 });
-//لفل
-client.on('message', message => {
-  if (message.author.bot) return;
-    if (message.author.id === client.user.id) return;
-	if(!message.channel.guild) return;   
-var sender = message.author;
-const games =profile;
-games[sender.id].points += 1;
-if (!profile[sender.id].points) profile[sender.id].points= 0 ;
-if (!profile[sender.id].level) profile[sender.id].level= 0 ;
-if (profile[sender.id].points == 50) profile[sender.id].level = 1 ;
-
-if (profile[sender.id].points == 120) profile[sender.id].level = 2;
-
-if (profile[sender.id].points == 260) profile[sender.id].level = 3;
-
-if (profile[sender.id].points == 400) profile[sender.id].level = 4;
-
-if (profile[sender.id].points == 560) profile[sender.id].level = 5;
-
-if (profile[sender.id].points == 780) profile[sender.id].level = 6;
-
-if (profile[sender.id].points == 900) profile[sender.id].level = 7;
-
-if (profile[sender.id].points == 1100) profile[sender.id].level = 8;
-
-if (profile[sender.id].points == 1350) profile[sender.id].level = 9;
-
-if (profile[sender.id].points == 1700) profile[sender.id].level = 10;
-
-if (profile[sender.id].points == 2100) profile[sender.id].level = 11;
-
-if (profile[sender.id].points == 2300) profile[sender.id].level = 12;
-
-if (profile[sender.id].points == 2500) profile[sender.id].level = 13;
-
-if (profile[sender.id].points == 2800) profile[sender.id].level = 14;
-
-if (profile[sender.id].points == 3200) profile[sender.id].level = 15;
-
-if (profile[sender.id].points == 3600) profile[sender.id].level = 16;
-
-if (profile[sender.id].points == 4000) profile[sender.id].level = 17;
-
-if (profile[sender.id].points == 4500) profile[sender.id].level = 18;
-
-if (profile[sender.id].points == 5000) profile[sender.id].level = 19;
-
-if (profile[sender.id].points == 5700) profile[sender.id].level = 20;
-
-if (profile[sender.id].points == 6200) profile[sender.id].level = 21;
-
-if (profile[sender.id].points == 6800) profile[sender.id].level = 22;
-
-if (profile[sender.id].points == 7500) profile[sender.id].level = 23;
-
-if (profile[sender.id].points == 8500) profile[sender.id].level = 24;
-
-if (profile[sender.id].points == 9600) profile[sender.id].level = 25;
-
-if (profile[sender.id].points == 11000) profile[sender.id].level = 26;
-
-if (profile[sender.id].points == 12500) profile[sender.id].level = 27;
-
-if (profile[sender.id].points == 14000) profile[sender.id].level = 28;
-
-if (profile[sender.id].points == 16000) profile[sender.id].level = 29;
-
-if (profile[sender.id].points == 18500) profile[sender.id].level = 30;
-
-if (profile[sender.id].points == 20000) profile[sender.id].level = 31;
-
-if (profile[sender.id].points == 22000) profile[sender.id].level = 32;
-
-if (profile[sender.id].points == 24500) profile[sender.id].level = 33;
-
-if (profile[sender.id].points == 27000) profile[sender.id].level = 34;
-
-if (profile[sender.id].points == 30000) profile[sender.id].level = 35;
-
-if (profile[sender.id].points == 33000) profile[sender.id].level = 36;
-
-if (profile[sender.id].points == 36000) profile[sender.id].level = 37;
-
-if (profile[sender.id].points == 40000) profile[sender.id].level = 38;
-
-if (profile[sender.id].points == 45000) profile[sender.id].level = 39;
-
-if (profile[sender.id].points == 50000) profile[sender.id].level = 40;
-
-if (profile[sender.id].points == 56000) profile[sender.id].level = 41;
-
-if (profile[sender.id].points == 61000) profile[sender.id].level = 42;
-
-if (profile[sender.id].points == 68000) profile[sender.id].level = 43;
-
-if (profile[sender.id].points == 75000) profile[sender.id].level = 44;
-
-if (profile[sender.id].points == 83000) profile[sender.id].level = 45;
-
-if (profile[sender.id].points == 90000) profile[sender.id].level = 46;
-
-if (profile[sender.id].points == 95000) profile[sender.id].level = 47;
-
-if (profile[sender.id].points == 100000) profile[sender.id].level = 48;
-
-if (profile[sender.id].points == 106000) profile[sender.id].level = 49;
-
-if (profile[sender.id].points == 111000) profile[sender.id].level = 50;
-
-});
 //**بروفايل**//
 client.on("message", message => {
   if (message.author.bot) return;
@@ -538,14 +482,14 @@ if (message.content.startsWith("p#profile")) {
                         ctx.fontSize = '10px'; // عرض الخطوع الخط وحجمه
                         ctx.fillStyle = "#FFFFFF" // لون الخط 
                         ctx.textAlign = "left"; // محاذا ة النص
-                        ctx.fillText(`${profile[getvalueof.id].points}`, 173, 182) // احداثيات النقاط
+                        ctx.fillText(`${score.points}`, 173, 182) // احداثيات النقاط
 
                         //Level
                         ctx.font = "bold 27px Arial" // نوع الخط و حجمه
                         ctx.fontSize = '50px'; // عرض الخط
                         ctx.fillStyle = "#FFFFFF" // لون الخط
                         ctx.textAlign = "left"; // محاذا ة النص
-                        ctx.fillText(`${profile[getvalueof.id].level}`, 30, 200) // احداثيات اللفل
+                        ctx.fillText(`${score.level}`, 30, 200) // احداثيات اللفل
                        
                         //info
                         ctx.font = "blod 13px Arial" // ن
@@ -562,7 +506,8 @@ if (message.content.startsWith("p#profile")) {
                         ctx.fillText(`+${profile[getvalueof.id].rep}`, 18,270)
                       
 message.channel.sendFile(canvas.toBuffer())
-})
+})    
+
 })
 }
 
