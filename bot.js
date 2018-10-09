@@ -3927,7 +3927,7 @@ client.on('message', async message => {
        if(User.id === client.user.id) return message.channel.send("**Why you want to ban me ? :/**");
        if(User.id === message.guild.owner.id) return message.channel.send("**Nice try man :> you cant ban the ownership**");
        if(!time) return message.channel.send("**- اكتب الوقت**");
-       if(!time.match(/[1-7][s,m,h,d,w]/g)) return message.channel.send('**- Error in this Duration**');
+       if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this Duration**');
        if(!Reason) message.channel.send("**- اكتب Reason**");
        let banEmbed = new Discord.RichEmbed()
        .setAuthor(`New Banned User !`)
