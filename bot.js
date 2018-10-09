@@ -4789,23 +4789,9 @@ client.on('message', message => {
     }
     }
     });
-    client.on('message', message => {
-        if(message.content === prefix + 're-role') {
-            if(!message.member.hasPermission('MANAGE_ROLES')) return;
-          let role = new Discord.RichEmbed()
-        .setDescription(`
-        أمثله على الأوامر : 
-        p#re-role @mention rolename : لسحب رتبة لعضو معين
-        p#re-role all rolename : لسحب رتبة للجميع 
-        p#re-role humans rolename : لسحب رتبة للاشخاص فقط
-        p#re-role bots rolename : لسحب رتبة لجميع البوتات`)
-        .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-      message.channel.sendEmbed(role)
-      
-      
 
 client.on('message', message => {
-    if(message.content === prefix + 'role') {
+    if(message.content.startsWith(prefix + 'role')) {
         if(!message.member.hasPermission('MANAGE_ROLES')) return;
       let role = new Discord.RichEmbed()
     .setDescription(`
@@ -5398,7 +5384,7 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#bans → Shows a bans size
 ❯ p#ban → To ban a member **Permanently**
 ❯ p#role → To give someone a role (you can use p#role all to give everyone the rank of your choice)
-❯ p#re-role → To Pull the rank of a particular person (you can use p#re-role all to Pull everyone the rank of your choice)
+❯ p#-role → To Pull the rank of a particular person (you can use p#-role all to Pull everyone the rank of your choice)
 ❯ p#temp on → To Turn on the temporary rooms 
 ❯ p#temp off → To Turn off the temporary rooms 
 ❯ p#tempban → To ban a member **Temporary**
@@ -5449,7 +5435,7 @@ and to turn on the autorole type p#autorole toggle)**
    client.on('message', message => {
     var prefix = "p#"
     let args = message.content.split(' ').slice(1);
-    if(message.content.startsWith(prefix + 're-role')) {
+    if(message.content.startsWith(prefix + '-role')) {
         if(!message.member.hasPermission('MANAGE_ROLES')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `MANAGE_ROLES`' );
     let member = message.mentions.users.first();
     let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
@@ -5563,15 +5549,18 @@ and to turn on the autorole type p#autorole toggle)**
     }
     });
   
-  
-
-
-
-
-
-
-
-
+    client.on('message', message => {
+        if(message.content.startsWith(prefix + '-role')) {
+            if(!message.member.hasPermission('MANAGE_ROLES')) return;
+          let role = new Discord.RichEmbed()
+        .setDescription(`
+        أمثله على الأوامر : 
+        p#-role @mention rolename : لسحب رتبة لعضو معين
+        p#-role all rolename : لسحب رتبة للجميع 
+        p#-role humans rolename : لسحب رتبة للاشخاص فقط
+        p#-role bots rolename : لسحب رتبة لجميع البوتات`)
+        .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+      message.channel.sendEmbed(role)
 
 
 client.on('message',async message => {
