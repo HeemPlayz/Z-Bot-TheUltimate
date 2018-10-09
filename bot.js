@@ -28,6 +28,23 @@ client.on('message', message => {
   let logchannel = message.guild.channels.find("name", logs[message.guild.id].channel)
 
 });
+client.on('messageUpdate', (message, newMessage) => {
+    if (message.content === newMessage.content) return;
+    if (!message || !message.id || !message.content || !message.guild || message.author.bot) return;
+    const channel = message.guild.channels.find('name', logs[message.guild.id].channel);
+    if (!channel) return;
+ 
+    let embed = new Discord.RichEmbed()
+       .setAuthor(`${message.author.tag}`, message.author.avatarURL)
+       .setColor('SILVER')
+       .setDescription(`✏ **تعديل رساله
+ارسلها <@${message.author.id}>                                                                                                                         تم تعديلها في شات** <#${message.channel.id}>\n\nقبل التعديل:\n \`${message.cleanContent}\`\n\nبعد التعديل:\n \`${newMessage.cleanContent}\``)
+       .setTimestamp();
+     channel.send({embed:embed});
+ 
+  // BY ! - NourEldien.#8007 // BY ! - NourEldien.#8007
+});
+ 
 client.on('message', message => {
   client.on("roleCreate", rc => {
     const channel = rc.guild.channels.find("name", logs[message.guild.id].channel)
@@ -79,23 +96,7 @@ client.on('message', message => {
    
    
    
-    client.on('messageUpdate', (message, newMessage) => {
-      if (message.content === newMessage.content) return;
-      if (!message || !message.id || !message.content || !message.guild || message.author.bot) return;
-      const channel = message.guild.channels.find('name', logs[message.guild.id].channel);
-      if (!channel) return;
-   
-      let embed = new Discord.RichEmbed()
-         .setAuthor(`${message.author.tag}`, message.author.avatarURL)
-         .setColor('SILVER')
-         .setDescription(`✏ **تعديل رساله
-  ارسلها <@${message.author.id}>                                                                                                                         تم تعديلها في شات** <#${message.channel.id}>\n\nقبل التعديل:\n \`${message.cleanContent}\`\n\nبعد التعديل:\n \`${newMessage.cleanContent}\``)
-         .setTimestamp();
-       channel.send({embed:embed});
-   
-    // BY ! - NourEldien.#8007 // BY ! - NourEldien.#8007
-  });
-   
+
   client.on('guildMemberAdd', member => {
       if (!member || !member.id || !member.guild) return;
       const guild = member.guild;
