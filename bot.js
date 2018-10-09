@@ -4789,6 +4789,20 @@ client.on('message', message => {
     }
     }
     });
+    client.on('message', message => {
+        if(message.content === prefix + 're-role') {
+            if(!message.member.hasPermission('MANAGE_ROLES')) return;
+          let role = new Discord.RichEmbed()
+        .setDescription(`
+        أمثله على الأوامر : 
+        p#re-role @mention rolename : لسحب رتبة لعضو معين
+        p#re-role all rolename : لسحب رتبة للجميع 
+        p#re-role humans rolename : لسحب رتبة للاشخاص فقط
+        p#re-role bots rolename : لسحب رتبة لجميع البوتات`)
+        .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+      message.channel.sendEmbed(role)
+      
+      
 
 client.on('message', message => {
     if(message.content === prefix + 'role') {
@@ -4803,20 +4817,7 @@ client.on('message', message => {
     .setFooter('Requested by '+message.author.username, message.author.avatarURL)
   message.channel.sendEmbed(role)
   
-  client.on('message', message => {
-    if(message.content === prefix + 're-role') {
-        if(!message.member.hasPermission('MANAGE_ROLES')) return;
-      let role = new Discord.RichEmbed()
-    .setDescription(`
-    أمثله على الأوامر : 
-    p#re-role @mention rolename : لسحب رتبة لعضو معين
-    p#re-role all rolename : لسحب رتبة للجميع 
-    p#re-role humans rolename : لسحب رتبة للاشخاص فقط
-    p#re-role bots rolename : لسحب رتبة لجميع البوتات`)
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-  message.channel.sendEmbed(role)
-  
-  
+
 client.on('message' , message => {
 var prefix = "p#";
 if(message.author.bot) return;
