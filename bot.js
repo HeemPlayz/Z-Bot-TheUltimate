@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-
 const convert = require("hh-mm-ss")
 const dateFormat = require('dateformat');
 const fs = require('fs');
@@ -4675,29 +4674,6 @@ message.channel.send({
 });
 
 client.on('message', message => {
-    if(message.content === prefix + 'role') {
-      let role = new Discord.RichEmbed()
-    .setDescription(`
-    p#role @mention rolename
-    p#role all rolename
-    p#role humans rolenam
-    p#role bots rolename`)
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-  message.channel.sendEmbed(role)
-  
-  client.on('message', message => {
-    if(message.content === prefix + 're-role') {
-      let role = new Discord.RichEmbed()
-    .setDescription(`
-    p#re-role @mention rolename
-    p#re-role all rolename
-    p#re-role humans rolenam
-    p#re-role bots rolename`)
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-  message.channel.sendEmbed(role)
-  
-  
-  client.on('message', message => {
     var prefix = "p#"
     let args = message.content.split(' ').slice(1);
     if(message.content.startsWith(prefix + 'role')) {
@@ -4812,6 +4788,30 @@ client.on('message', message => {
     }
     }
     });
+
+client.on('message', message => {
+    if(message.content === prefix + 'role') {
+      let role = new Discord.RichEmbed()
+    .setDescription(`
+    p#role @mention rolename
+    p#role all rolename
+    p#role humans rolenam
+    p#role bots rolename`)
+    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+  message.channel.sendEmbed(role)
+  
+  client.on('message', message => {
+    if(message.content === prefix + 're-role') {
+      let role = new Discord.RichEmbed()
+    .setDescription(`
+    p#re-role @mention rolename
+    p#re-role all rolename
+    p#re-role humans rolenam
+    p#re-role bots rolename`)
+    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+  message.channel.sendEmbed(role)
+  
+  
 client.on('message' , message => {
 var prefix = "p#";
 if(message.author.bot) return;
