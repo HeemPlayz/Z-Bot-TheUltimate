@@ -3768,7 +3768,7 @@ message.react(":x:")
    if(!perm) return message.reply(`You don't have \`Manage_roles / Administrator\` Permission`);
    let args = message.content.split(" ").slice(1);
    if(!args.join(" ")) return message.reply(`:gear: **| Correct usage**:
- \`=setlogs toggle / set <channel name>\``);
+ \`p#setlogs toggle / set <channel name>\``);
    let state = args[0];
 
    if(!state.trim().toLowerCase() == 'toggle') return message.reply(`Please type a right state ON / OFF`) ;
@@ -3780,7 +3780,7 @@ message.react(":x:")
     if(state.trim().toLowerCase() == 'set') {
     let newChannel = message.content.split(" ").slice(2).join(" ");
     if(!newChannel) return message.reply(`:gear: **| To set the logging channel use**:
- \`=setlogs set <channel name>\``);
+ \`p#setlogs set <channel name>\``);
       if(!message.guild.channels.find(`name`,newChannel)) return message.reply(`:mag_right: **| I can't find this channel.**`);
      logs[message.guild.id].role = newChannel;
       message.channel.send(`:shield: **| Logging channel has been changed to**:
@@ -5277,7 +5277,6 @@ msg.channel.send(`${item.type}`).then(() => {
         client.on("message", message => {
           if (message.content === "p#help") {
         message.author.send(`
-        **To start Log, create a channel named log**
 :fire: __Action Commands:__
 ❯ p#new → create ticket for you (need support-team role)
 ❯ p#close → close the ticket
@@ -5333,8 +5332,9 @@ msg.channel.send(`${item.type}`).then(() => {
           if (message.content === "p#help") {
             
         message.author.send(`
-:wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents room!)
+:wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
 ❯ p#setwelcomer → To setwelcome channel
+❯ p#setlogs → To setlogs channel
 ❯ p#autorole → autorole options **(to set the role type p#autorole set rolename
 and to turn on the autorole type p#autorole toggle)** 
 ❯ p#prune → To clear the chat (you can use p#clear)
