@@ -14,22 +14,7 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 
-var AsciiTable = require('ascii-data-table').default
-client.on('message', message =>{
 
-    if(message.content == "p#roles"){
-        var 
-        ros=message.guild.roles.size,
-        data = [['Rank', 'RoleName']]
-        for(let i =0;i<ros;i++){
-            if(message.guild.roles.array()[i].id !== message.guild.id){
-         data.push([i,`${message.guild.roles.filter(r => r.position == ros-i).map(r=>r.name)}`])
-        }}
-        let res = AsciiTable.table(data)
-
-        message.channel.send(`**\`\`\`xl\n${res}\`\`\`**`);
-    }
-});
 client.on('messageDelete', message => {
 
 	if(message.author.bot) return;
@@ -5698,7 +5683,6 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#membercount → Shows membercount in your server
 ❯ p#support → Dah It's support!?
 ❯ p#td → Get the date in nice looking way!
-❯ p#roles → View the guild roles
 :information_source: __Info Commands:__
 ❯ p#ping → Shows the bot ping.
 ❯ p#botinfo → Shows informations about the bot.
