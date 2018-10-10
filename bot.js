@@ -5648,7 +5648,7 @@ msg.channel.send(`${item.type}`).then(() => {
         client.on("message", message => {
           if (message.content === "p#help") {
         message.author.send(`
-        __**logلتفعيل اللوق يجب انشاء روم كتابي باسم**__
+:record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
 :fire: __Action Commands:__
 ❯ p#new → create ticket for you (need support-team role)
 ❯ p#close → close the ticket
