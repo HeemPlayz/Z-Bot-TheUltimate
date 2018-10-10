@@ -5698,6 +5698,7 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#membercount → Shows membercount in your server
 ❯ p#support → Dah It's support!?
 ❯ p#td → Get the date in nice looking way!
+❯ p#roles → View the guild roles
 :information_source: __Info Commands:__
 ❯ p#ping → Shows the bot ping.
 ❯ p#botinfo → Shows informations about the bot.
@@ -5759,6 +5760,11 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#stop → To stop the song
 ❯ p#skip → To skip the song
 ❯ p#queue → View the waiting list
+:barber: __Colors Commands:__
+❯ p#deletecolors → delete 132 colors
+❯ p#createcolors → create 132 colors
+❯ p#colors → View the colors menu
+❯ p#colors → To give the color you want
 **BOT VERSION : v0.1**
         `)
         }
