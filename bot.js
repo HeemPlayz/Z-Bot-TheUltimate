@@ -1733,9 +1733,8 @@ message.channel.sendEmbed(menu)
 
 client.on('message',async message => {
   if(message.author.bot || message.channel.type === 'dm') return;
-  let args = message.content.split(' ');
-  if(args[0] === `${prefix}colors`) {
-  let embed = new Discord.RichEmbed()
+  if(message.content === prefix + 'colors') {
+    let embed = new Discord.RichEmbed()
   .setDescription(message.guild.roles.filter(r => !isNaN(r.name)).map(l => `${l.name} : #${l.hexColor}`).join('\n'));
   message.channel.send(embed);
   }
