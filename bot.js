@@ -5360,7 +5360,7 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#setDays → Create Day Room 
 ❯ p#setCount → Member Count Room 
 ❯ p#setVoice → Create Voice Online Room 
-:family_mmb: __Social Commands:__
+:busts_in_silhouette: __Social Commands:__
 ❯ p#credit → Shows your credit card balance
 ❯ p#daily → Get your daily credits
 ❯ p#id → Shows the user ID card.
