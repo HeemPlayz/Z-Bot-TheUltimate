@@ -5676,7 +5676,7 @@ msg.channel.send(`${item.type}`).then(() => {
 :globe_with_meridians: __General Commands:__
 ❯ p#8ball → Ask magic 8ball something
 ❯ p#avatar → Shows yours or the user avatar
-❯ p#invite → Invite NourBot to your guild
+❯ p#invite → Invite PlexBot to your guild
 ❯ p#membercount → Shows membercount in your server
 ❯ p#support → Dah It's support!?
 ❯ p#td → Get the date in nice looking way!
