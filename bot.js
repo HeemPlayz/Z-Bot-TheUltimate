@@ -4262,7 +4262,7 @@ client.on('message', async message => {
       });
   
       let mention = message.mentions.members.first();
-      if(!mention) return  message.channel.send('').then(msg => { 
+      if(!mention) return  message.channel.send('Mention Someone').then(msg => { 
         msg.delete(3500);
         message.delete(3500);
       });
@@ -4377,7 +4377,7 @@ client.on('message', async message => {
   .addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
   .addField("Unmuted In", message.channel)
   .addField("Time & Date", `${message.createdAt}`)
-  .setFooter("MarsMC")
+  .setFooter("Plexbot")
   let incidentchannel = message.guild.channels.find(`name`, "incidents");
   if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
   
@@ -4402,7 +4402,7 @@ if(message.content.startsWith(prefix  +  'warn'))  {
 .addField('**-  Reason:**',  `[${reason}]`,  true)
 .addField("**-  Warned  in:**",`[${message.channel.name}]`)
 .addField("**-  Time & Date:**",`[${message.createdAt}]`)
-.setFooter("MarsMC")
+.setFooter("Plexbot")
 .setColor('#060c37')
 message.guild.channels.find('name',  'incidents').sendEmbed(reportembed)
 message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  msg.delete(3000));
@@ -4412,103 +4412,9 @@ message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  
 //coding  by  orochix  !
 
 })
-client.on('message', async message =>{
-  var prefix = "p#";
-if (message.author.omar) return;
-if (!message.content.startsWith(prefix)) return;
-if(!message.channel.guild) return message.channel.send('**This Command For Servers Only ! **').then(m => m.delete(5000));
-if(!message.member.hasPermission('MANAGE_ROLES'));
-if(!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.reply("**I Don't Have `MANAGE_ROLES` Permission**").then(msg => msg.delete(6000))
-var command = message.content.split(" ")[0];
-command = command.slice(prefix.length);
-var args = message.content.split(" ").slice(1);
-  if(command == "mute") {
-    let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-    if(!tomute) return message.reply("**Mention Someone Please**:x: ") .then(m => m.delete(5000));
-    if(tomute.hasPermission("MANAGE_MESSAGES"))return      message.channel.send('**I Dont Have Permission** `MANAGE_MASSAGEES`');
-    let muterole = message.guild.roles.find(`name`, "muted");
-
-    if(!muterole){
-      try{
-        muterole = await message.guild.createRole({
-          name: "muted",
-          color: "#000000",
-          permissions:[]
-        })
-        message.guild.channels.forEach(async (channel, id) => {
-          await channel.overwritePermissions(muterole, {
-            SEND_MESSAGES: false,
-            ADD_REACTIONS: false
-          });
-        });
-      }catch(e){
-        console.log(e.stack);
-      }
-    }
-    let mutetime = args[1];
-    if(!mutetime) return message.reply("**Please Type The Duration**:x:");
-
-    await(tomute.addRole(muterole.id));
-    message.channel.send(`**<@${tomute.id}> Has been muted ! :white_check_mark:**`);
-      message.delete();
-    const muteembed = new Discord.RichEmbed()
-    .setTitle('**New Muted User !**')
-    .setColor("RANDOM")
-    .setTimestamp()
-    .addField("Muted User:",  `[ + ${user.tag} + ]`)
-    .addField("Muted By:", `[  + ${message.author.tag} +  ]`)
-    .addField("Reason:", `[ + ${reason} +  ]`)
-    .addField("Muted In :", `[${message.channel.name}]`)
-    .addField("Time & Date :", `[${message.createdAt}]`)
-    .setFooter("MarsMC")
-    message.guild.channels.find('name',  'incidents').sendEmbed(muteembed)
-    setTimeout(function(){
-      tomute.removeRole(muterole.id);
-      message.channel.send(`<:white_check_mark: @${tomute.id}> **Has been unnmuted due to time lapse **:white_check_mark: `);
-    }, ms(mutetime));
-  }
-});
 
 
-client.on('message', async message =>{
-var prefix = "p#";
-if (message.author.omar) return;
-if (!message.content.startsWith(prefix)) return;
-if(!message.channel.guild) return message.channel.send('**This Command For Servers Only ! **').then(m => m.delete(5000));
-if(!message.member.hasPermission('MANAGE_ROLES'));
-if(!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.reply("**I Don't Have `MANAGE_ROLES` Permission**").then(msg => msg.delete(6000))
-var command = message.content.split(" ")[0];
-command = command.slice(prefix.length);
-var args = message.content.split(" ").slice(1);
-if(command === `unmute`) {
-if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.sendMessage("**You Dont Have MANAGE_ROLES Permssions**:x: ").then(msg => msg.delete(6000))
 
-
-let toMute = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
-if(!toMute) return message.channel.sendMessage("**Mention Someone Please**:x: ");
-
-let role = message.guild.roles.find (r => r.name === "Muted");
-
-if(!role || !toMute.roles.has(role.id)) return message.channel.sendMessage("**This Person Is Not Muted ! **:x:")
-
-await toMute.removeRole(role)
-
-message.channel.sendMessage(`**${toMute} Has been unmuted !**:white_check_mark:`);
-message.delete();
-let mutedEmbed = new Discord.RichEmbed()
-.setDescription("» New UnMute User «")
-.setColor("#bc0000")
-.addField("Unmuted", `${Warned} with ID ${Warned.id}`)
-.addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
-.addField("Unmuted In", message.channel)
-.addField("Time & Date", `${message.createdAt}`)
-.setFooter("MarsMC")
-let incidentchannel = message.guild.channels.find(`name`, "incidents");
-if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-return;
-
-}
-}); 
 
         
 client.on('message', message => {
@@ -5821,7 +5727,6 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#temp off → To Turn off the temporary rooms 
 ❯ p#tempban → To ban a member **Temporary**
 ❯ p#mute → To mute a member **Temporary**
-❯ p#tempmute → To mute a member **Temporary**
 ❯ p#kick → To kick a member
 ❯ p#unban → Unban member by id
 ❯ p#unmute → Unmutes a member
