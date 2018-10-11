@@ -4252,6 +4252,7 @@ client.on('message', async message => {
   const mmss = require('ms');
   client.on('message', async message => {
     let args = message.content.split(" ");
+    let messageArray = message.content.split(" ");
     if(message.content.startsWith(prefix + "mute")) {
       if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.send('You Dont Have Permissions').then(msg => {
         msg.delete(3500);
