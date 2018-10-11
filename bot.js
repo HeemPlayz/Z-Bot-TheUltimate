@@ -4307,11 +4307,11 @@ client.on('message', async message => {
       let thisEmbed = new Discord.RichEmbed()
       .setAuthor(mention.user.username, mention.user.avatarURL)
       .setTitle('**تم آعطائك ميوت**')
-      .addField('- Server:',[ message.guild.name ]) 
-      .addField('- Muted By:',message.author)
-      .addField('- Muted User:',mention)
-      .addField('- Reason:',reason)
-      .addField('- Duration:',time)
+      .addField('- Server:',message.guild.name, true) 
+      .addField('- Muted By:',message.author , true)
+      .addField('- Muted User:', `${mention}`)
+      .addField('- Reason:',reason , true)
+      .addField('- Duration:',time , true)
       let role = message.guild.roles.find('name', 'Muted') || message.guild.roles.get(r => r.name === 'Muted');
       if(!role) try {
         message.guild.createRole({
