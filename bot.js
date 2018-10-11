@@ -4254,24 +4254,24 @@ client.on('message', async message => {
     let args = message.content.split(" ");
     let messageArray = message.content.split(" ");
     if(message.content.startsWith(prefix + "mute")) {
-      if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.send('You Dont Have Permissions').then(msg => {
-        msg.delete(3500);
+      if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.send('You Dont Have Permissions').then(message => {
+        message.delete(3500);
         message.delete(3500);
       });
   
-      if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.channel.send('The Bot Dont Have MUTE_MEMBERS Permission').then(msg => {
-        msg.delete(3500);
+      if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.channel.send('The Bot Dont Have MUTE_MEMBERS Permission').then(message => {
+        message.delete(3500);
         message.delete(3500);
       });
   
       let mention = message.mentions.members.first();
-      if(!mention) return  message.channel.send('Mention Someone').then(msg => { 
-        msg.delete(3500);
+      if(!mention) return  message.channel.send('Mention Someone').then(message => { 
+        message.delete(3500);
         message.delete(3500);
       });
   
-    if(mention.id === message.author.id) return message.channel.send('**:x:You Cannot give mute to your self**').then(msg => {
-        msg.delete(3500);
+    if(mention.id === message.author.id) return message.channel.send('**:x:You Cannot give mute to your self**').then(message => {
+        message.delete(3500);
         message.delete(3500); 
       });	
     
@@ -4280,24 +4280,24 @@ client.on('message', async message => {
       if(message.guild.member(mention).roles.find('name', 'Muted')) return message.channel.send(`**:information_source: ${mention.user.username} Already Muted**`);
   
     
-      if(mention.position >= message.guild.member(message.author).positon) return message.channel.send('You Donot Have Permission **Muted_Members** ').then(msg => {
-        msg.delete(3500);
+      if(mention.position >= message.guild.member(message.author).positon) return message.channel.send('You Donot Have Permission **Muted_Members** ').then(message => {
+        message.delete(3500);
         message.delete(3500);
       });
     
-      if(mention.positon >= message.guild.member(client.user).positon) return message.channel.send('I Donot Have Permission **Muted_Members**').then(msg => {
-        msg.delete(3500);
+      if(mention.positon >= message.guild.member(client.user).positon) return message.channel.send('I Donot Have Permission **Muted_Members**').then(message => {
+        message.delete(3500);
         message.delete(3500); 
       });
       
       let time = messageArray[2];
-      if(!time) message.channel.send(`**:hash: You Can Use ${prefix}mute @user Time Reason**`).then(msg => {
-        msg.delete(3500);
+      if(!time) message.channel.send(`**:hash: You Can Use ${prefix}mute @user Time Reason**`).then(message => {
+        message.delete(3500);
         message.delete(3500);
       });
   
       if(!time) return message.channel.send("**- اكتب الوقت**");
-      if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');        msg.delete(3500);
+      if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');        message.delete(3500);
         message.delete(3500);
       }
   
