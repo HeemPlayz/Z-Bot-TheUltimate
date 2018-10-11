@@ -4248,7 +4248,8 @@ client.on('message', async message => {
    }
   });
 
-
+  
+  const mmss = require('ms');
   client.on('message', async message => {
     let args = message.content.split(" ");
     if(message.content.startsWith(prefix + "mute")) {
@@ -4288,16 +4289,16 @@ client.on('message', async message => {
         message.delete(3500); 
       });
       
-      let duration = args[2];
-      if(!duration) message.channel.send(`**:hash: You Can Use ${prefix}mute @user Time Reason**`).then(msg => {
+      let time = messageArray[2];
+      if(!time) message.channel.send(`**:hash: You Can Use ${prefix}mute @user Time Reason**`).then(msg => {
         msg.delete(3500);
         message.delete(3500);
       });
   
-      if(isNaN(duration))  message.channel.send('Error Duration').then(msg => {
-        msg.delete(3500);
+      if(!time) return message.channel.send("**- اكتب الوقت**");
+      if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');        msg.delete(3500);
         message.delete(3500);
-      });
+      }
   
       let reason = message.content.split(" ").slice(3).join(" ");
       if(!reason) reason = " [ **Null** ] ";
@@ -4309,7 +4310,7 @@ client.on('message', async message => {
       .addField('- Muted By:',message.author)
       .addField('- Muted User:',mention)
       .addField('- Reason:',reason)
-      .addField('- Duration:',duration)
+      .addField('- Duration:',time)
       let role = message.guild.roles.find('name', 'Muted') || message.guild.roles.get(r => r.name === 'Muted');
       if(!role) try {
         message.guild.createRole({
@@ -4335,21 +4336,20 @@ client.on('message', async message => {
         .addField('- Muted By:',message.author)
         .addField('- Muted User:',mention)
         .addField('- Reason:',reason)
-        .addField('- Duration:',duration)
+        .addField('- Duration:',time)
         .setFooter(message.author.username,message.author.avatarURL);
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
         incidentchannel.sendEmbed(muteEmbed)
         message.channel.send(`**:white_check_mark: ${mention.user.username}  Muted! :zipper_mouth:  **  `);
         mention.setMute(true); 
-      });
-      setTimeout(() => {
-        if(duration === 0) return;
-        mention.setMute(false);
-        mention.removeRole(role)
-      },duration * 60000); 
-    } 
-  });
+      })
+      .then(() => { setTimeout(() => {
+        message.guild.member(mutePerson).removeRole(muteRole);
+    }, mmss(time))
+  })
+});
+
 
   client.on('message', async message => {
     let mention = message.mentions.members.first();
