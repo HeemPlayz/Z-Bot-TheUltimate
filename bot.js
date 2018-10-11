@@ -4307,6 +4307,7 @@ client.on('message', async message => {
       let thisEmbed = new Discord.RichEmbed()
       .setAuthor(mention.user.username, mention.user.avatarURL)
       .setTitle('**تم آعطائك ميوت**')
+      .setThumbnail(message.guild.iconURL)
       .addField('- Server:',message.guild.name, true) 
       .addField('- Muted By:',message.author , true)
       .addField('- Muted User:', `${mention}`)
@@ -4334,10 +4335,10 @@ client.on('message', async message => {
         let muteEmbed = new Discord.RichEmbed()
         .setTitle(`New Muted User`)
         .setThumbnail(message.guild.iconURL)
-        .addField('- Muted By:',message.author)
-        .addField('- Muted User:',mention)
-        .addField('- Reason:',reason)
-        .addField('- Duration:',time)
+        .addField('- Muted By:',message.author , true)
+        .addField('- Muted User:', `${mention}`)
+        .addField('- Reason:',reason , true)
+        .addField('- Duration:',time , true)
         .setFooter(message.author.username,message.author.avatarURL);
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
