@@ -4257,7 +4257,7 @@ client.on('message', async message => {
         message.delete(3500);
       });
   
-      if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.channel.send('').then(msg => {
+      if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.channel.send('The Bot Dont Have MUTE_MEMBERS Permission').then(msg => {
         msg.delete(3500);
         message.delete(3500);
       });
@@ -4300,7 +4300,7 @@ client.on('message', async message => {
       });
   
       let reason = message.content.split(" ").slice(3).join(" ");
-      if(!reason) reason = " [ **لم يذكر لماذا** ] ";
+      if(!reason) reason = " [ **Null** ] ";
   
       let thisEmbed = new Discord.RichEmbed()
       .setAuthor(mention.user.username, mention.user.avatarURL)
