@@ -14,7 +14,16 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
 
+client.on('message', message => {
+  if (message.content === "p#ping") {
+   const embed = new Discord.RichEmbed()
 
+.setColor("#FF0000")
+.addField('``سرعة أتصال الــبوت`` ' , `${Date.now() - message.createdTimestamp}` + ' ms`')
+
+message.channel.sendEmbed(embed);
+ }
+});
 client.on('messageDelete', message => {
 
 	if(message.author.bot) return;
@@ -588,16 +597,7 @@ client.on('message', message => {
   message.channel.sendEmbed(role)
     }})
 
-client.on('message', message => {
-    if (message.content === "p#ping") {
-     const embed = new Discord.RichEmbed()
 
- .setColor("#FF0000")
- .addField('``سرعة أتصال الــبوت`` ' , `${Date.now() - message.createdTimestamp}` + ' ms`')
-
- message.channel.sendEmbed(embed);
-   }
-});
 
 
 const temp = JSON.parse(fs.readFileSync('./temp.json', 'utf8'));
