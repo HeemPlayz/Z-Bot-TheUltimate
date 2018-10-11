@@ -4294,7 +4294,7 @@ client.on('message', async message => {
         message.delete(3500);
       });
   
-      if(isNaN(duration))  message.channel.send('').then(msg => {
+      if(isNaN(duration))  message.channel.send('Error Duration').then(msg => {
         msg.delete(3500);
         message.delete(3500);
       });
