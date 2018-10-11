@@ -4253,8 +4253,11 @@ client.on('message', async message => {
   client.on('message', async message => {
     let args = message.content.split(" ");
     let messageArray = message.content.split(" ");
+    let reason = message.content.split(" ").slice(3).join(" ");
     let user = message.mentions.members.first();
+    let time = messageArray[2];
     if(message.content.startsWith(prefix + "mute")) {
+      
       if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.send('You Dont Have Permissions').then(message => {
         message.delete(3500);
         message.delete(3500);
@@ -4290,7 +4293,6 @@ client.on('message', async message => {
         message.delete(3500); 
       });
       
-      let time = messageArray[2];
       if(!time) message.channel.send(`**:hash: You Can Use ${prefix}mute @user Time Reason**`).then(message => {
         message.delete(3500);
         message.delete(3500);
@@ -4301,17 +4303,16 @@ client.on('message', async message => {
         message.delete(3500);
       }
   
-      let reason = message.content.split(" ").slice(3).join(" ");
       if(!reason) reason = " [ **Null** ] ";
   
       let thisEmbed = new Discord.RichEmbed()
       .setTitle('**You Are Has Been Muted**')
       .setThumbnail(message.guild.iconURL)
       .addField('- Server:',message.guild.name, true) 
-      .addField('- Muted By:',message.author , true)
+      .addField('- Muted By:',`${message.author}`)
       .addField('- Muted User:', `${user}`)
-      .addField('- Reason:',reason , true)
-      .addField('- Duration:',time , true)
+      .addField('- Reason:', `${reason}`)
+      .addField('- Duration:', `${time}`)
       let role = message.guild.roles.find('name', 'Muted') || message.guild.roles.get(r => r.name === 'Muted');
       if(!role) try {
         message.guild.createRole({
