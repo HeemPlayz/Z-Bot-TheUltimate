@@ -4253,6 +4253,7 @@ client.on('message', async message => {
   client.on('message', async message => {
     let args = message.content.split(" ");
     let messageArray = message.content.split(" ");
+    let user = message.mentions.members.first();
     if(message.content.startsWith(prefix + "mute")) {
       if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.send('You Dont Have Permissions').then(message => {
         message.delete(3500);
@@ -4264,7 +4265,6 @@ client.on('message', async message => {
         message.delete(3500);
       });
   
-      let mention = message.mentions.members.first();
       if(!mention) return  message.channel.send('Mention Someone').then(message => { 
         message.delete(3500);
         message.delete(3500);
@@ -4305,7 +4305,6 @@ client.on('message', async message => {
       if(!reason) reason = " [ **Null** ] ";
   
       let thisEmbed = new Discord.RichEmbed()
-      .setAuthor(mention.user.username, mention.user.avatarURL)
       .setTitle('**تم آعطائك ميوت**')
       .setThumbnail(message.guild.iconURL)
       .addField('- Server:',message.guild.name, true) 
