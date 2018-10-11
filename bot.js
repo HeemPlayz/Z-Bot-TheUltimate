@@ -4352,6 +4352,7 @@ client.on('message', async message => {
 });
 
 
+
   client.on('message', async message => {
     let mention = message.mentions.members.first();
   let command = message.content.split(" ")[0];
