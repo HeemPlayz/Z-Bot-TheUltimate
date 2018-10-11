@@ -4265,27 +4265,27 @@ client.on('message', async message => {
         message.delete(3500);
       });
   
-      if(!mention) return  message.channel.send('Mention Someone').then(message => { 
+      if(!user) return  message.channel.send('Mention Someone').then(message => { 
         message.delete(3500);
         message.delete(3500);
       });
   
-    if(mention.id === message.author.id) return message.channel.send('**:x:You Cannot give mute to your self**').then(message => {
+    if(user.id === message.author.id) return message.channel.send('**:x:You Cannot give mute to your self**').then(message => {
         message.delete(3500);
         message.delete(3500); 
       });	
     
-    if(mention.hasPermission('ADMINISTRATOR')) return message.channel.send(`**:x: This Person A Staff I Cant Mute Him :/**`); 
+    if(user.hasPermission('ADMINISTRATOR')) return message.channel.send(`**:x: This Person A Staff I Cant Mute Him :/**`); 
   
-      if(message.guild.member(mention).roles.find('name', 'Muted')) return message.channel.send(`**:information_source: ${mention.user.username} Already Muted**`);
+      if(message.guild.member(mention).roles.find('name', 'Muted')) return message.channel.send(`**:information_source: ${user.user.username} Already Muted**`);
   
     
-      if(mention.position >= message.guild.member(message.author).positon) return message.channel.send('You Donot Have Permission **Muted_Members** ').then(message => {
+      if(user.position >= message.guild.member(message.author).positon) return message.channel.send('You Donot Have Permission **Muted_Members** ').then(message => {
         message.delete(3500);
         message.delete(3500);
       });
     
-      if(mention.positon >= message.guild.member(client.user).positon) return message.channel.send('I Donot Have Permission **Muted_Members**').then(message => {
+      if(user.positon >= message.guild.member(client.user).positon) return message.channel.send('I Donot Have Permission **Muted_Members**').then(message => {
         message.delete(3500);
         message.delete(3500); 
       });
@@ -4329,8 +4329,8 @@ client.on('message', async message => {
       } catch(e) {
         console.log(e.stack);
       }
-      mention.addRole(role).then(() => {
-        mention.send(thisEmbed);
+      user.addRole(role).then(() => {
+        user.send(thisEmbed);
         let muteEmbed = new Discord.RichEmbed()
         .setTitle(`New Muted User`)
         .setThumbnail(message.guild.iconURL)
@@ -4342,8 +4342,8 @@ client.on('message', async message => {
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
         incidentchannel.sendEmbed(muteEmbed)
-        message.channel.send(`**:white_check_mark: ${mention.user.username}  Muted! :zipper_mouth:  **  `);
-        mention.setMute(true); 
+        message.channel.send(`**:white_check_mark: ${user.user.username}  Muted! :zipper_mouth:  **  `);
+        user.setMute(true); 
       })
       .then(() => { setTimeout(() => {
         message.guild.member(mutePerson).removeRole(muteRole);
