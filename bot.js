@@ -4277,7 +4277,7 @@ client.on('message', async message => {
     
     if(user.hasPermission('ADMINISTRATOR')) return message.channel.send(`**:x: This Person A Staff I Cant Mute Him :/**`); 
   
-      if(message.guild.member(mention).roles.find('name', 'Muted')) return message.channel.send(`**:information_source: ${user.user.username} Already Muted**`);
+      if(message.guild.member(user).roles.find('name', 'Muted')) return message.channel.send(`**:information_source: ${user.user.username} Already Muted**`);
   
     
       if(user.position >= message.guild.member(message.author).positon) return message.channel.send('You Donot Have Permission **Muted_Members** ').then(message => {
@@ -4305,7 +4305,7 @@ client.on('message', async message => {
       if(!reason) reason = " [ **Null** ] ";
   
       let thisEmbed = new Discord.RichEmbed()
-      .setTitle('**تم آعطائك ميوت**')
+      .setTitle('**You Are Has Been Muted**')
       .setThumbnail(message.guild.iconURL)
       .addField('- Server:',message.guild.name, true) 
       .addField('- Muted By:',message.author , true)
