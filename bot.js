@@ -4309,7 +4309,7 @@ client.on('message', async message => {
       .setThumbnail(message.guild.iconURL)
       .addField('- Server:',message.guild.name, true) 
       .addField('- Muted By:',message.author , true)
-      .addField('- Muted User:', `${mention}`)
+      .addField('- Muted User:', `${user}`)
       .addField('- Reason:',reason , true)
       .addField('- Duration:',time , true)
       let role = message.guild.roles.find('name', 'Muted') || message.guild.roles.get(r => r.name === 'Muted');
@@ -4335,7 +4335,7 @@ client.on('message', async message => {
         .setTitle(`New Muted User`)
         .setThumbnail(message.guild.iconURL)
         .addField('- Muted By:',message.author , true)
-        .addField('- Muted User:', `${mention}`)
+        .addField('- Muted User:', `${user}`)
         .addField('- Reason:',reason , true)
         .addField('- Duration:',time , true)
         .setFooter(message.author.username,message.author.avatarURL);
