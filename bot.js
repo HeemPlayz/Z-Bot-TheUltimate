@@ -4248,10 +4248,11 @@ client.on('message', async message => {
    }
   });
 
+
   client.on('message', async message => {
     let args = message.content.split(" ");
     if(message.content.startsWith(prefix + "mute")) {
-      if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.send('').then(msg => {
+      if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.send('You Dont Have Permissions').then(msg => {
         msg.delete(3500);
         message.delete(3500);
       });
@@ -4272,7 +4273,7 @@ client.on('message', async message => {
         message.delete(3500); 
       });	
     
-    if(mention.hasPermission('ADMINISTRATOR')) return message.channel.send(`**:x: لا يمكن آعطاء ميوت لادارة السيرفر**`); 
+    if(mention.hasPermission('ADMINISTRATOR')) return message.channel.send(`**:x: This Person A Staff I Cant Mute Him :/**`); 
   
       if(message.guild.member(mention).roles.find('name', 'Muted')) return message.channel.send(`**:information_source: ${mention.user.username} Already Muted**`);
   
@@ -4304,11 +4305,11 @@ client.on('message', async message => {
       let thisEmbed = new Discord.RichEmbed()
       .setAuthor(mention.user.username, mention.user.avatarURL)
       .setTitle('**تم آعطائك ميوت**')
-      .addField('**__السيرفر__**',[ message.guild.name ]) 
-      .addField('**__تم آعطائك ميوت بواسطة__**', [ message.author ])
-      .addField('**__آلسبب__**',reason)
-    .addField('**__وقت الميوت__**',duration)
-  
+      .addField('- Server:',[ message.guild.name ]) 
+      .addField('- Muted By:',message.author)
+      .addField('- Muted User:',mention)
+      .addField('- Reason:',reason)
+      .addField('- Duration:',duration)
       let role = message.guild.roles.find('name', 'Muted') || message.guild.roles.get(r => r.name === 'Muted');
       if(!role) try {
         message.guild.createRole({
@@ -4349,6 +4350,7 @@ client.on('message', async message => {
       },duration * 60000); 
     } 
   });
+
   client.on('message', async message => {
     let mention = message.mentions.members.first();
   let command = message.content.split(" ")[0];
