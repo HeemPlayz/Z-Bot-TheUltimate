@@ -3979,7 +3979,6 @@ client.on('message', async message => {
   
   const mmss = require('ms');
   client.on('message', async message => {
-    let args = message.content.split(" ");
     let messageArray = message.content.split(" ");
     let reason = message.content.split(" ").slice(3).join(" ");
     let user = message.mentions.members.first();
@@ -4040,7 +4039,7 @@ client.on('message', async message => {
       .addField('- Muted By:',`${message.author}`)
       .addField('- Muted User:', `${user}`)
       .addField('- Reason:', `${reason}`)
-      .addField('- Duration:', `${time}`)
+      .addField('- Duration:', `${time}` || `NULL`)
       let role = message.guild.roles.find('name', 'Muted') || message.guild.roles.get(r => r.name === 'Muted');
       if(!role) try {
         message.guild.createRole({
@@ -4671,11 +4670,12 @@ client.on('message', message => {
 client.on('message', message => {
   if (message.content === "p#banslist") {
   if(!message.channel.guild) return;
-      var bans = message.guild.fetchBans.map(banslist => `${bans.name}, `).join(' ')
+      var bans = message.guild.fetchBans().map(`${bans.name}`).join(' ')
       const embed = new Discord.RichEmbed()
       .setColor('RANDOM')
       .addField('bans:',`**[${bans}]**`)
       message.channel.sendEmbed(embed);
+
   }
 });
   client.on('message', message => {
