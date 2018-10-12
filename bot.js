@@ -5764,7 +5764,7 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#createcolors → create 132 colors
 ❯ p#colors → View the colors menu
 ❯ p#color → To give the color you want
-**BOT VERSION : v0.1**
+**BOT VERSION : v0.2**
         `)
         }
         });
