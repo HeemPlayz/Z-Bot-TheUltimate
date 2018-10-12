@@ -101,32 +101,39 @@ message.author.send(`
     ❯ p#setDays → Create Day Room 
     ❯ p#setCount → Member Count Room 
     ❯ p#setVoice → Create Voice Online Room 
-    :busts_in_silhouette: __Social Commands:__
-    ❯ p#credit → Shows your credit card balance
-    ❯ p#daily → Get your daily credits
-    ❯ p#profile → To View Your Profile
-    ❯ p#store → To View The Profile Background Store
-    ❯ p#buy → To Buy A Background Profile
-    ❯ p#note → To Type A Text In The Information Profile
-    ❯ p#rep → To Give Someone A Like
-    ❯ p#transfer → To Transfer A Credits To Someone
-    ❯ p#id → Shows the user ID card.
-    ❯ p#rep → Give someone a reputation point!
-    :high_brightness: Ulti Commands:
-    ❯ p#short → Shorten the url provided
-    :headphones: __Music Commands:__
-    ❯ p#play → To play the song in the voice room
-    ❯ p#stop → To stop the song
-    ❯ p#skip → To skip the song
-    ❯ p#queue → View the waiting list
-    :barber: __Colors Commands:__
-    ❯ p#deletecolors → delete 132 colors
-    ❯ p#createcolors → create 132 colors
-    ❯ p#colors → View the colors menu
-    ❯ p#color → To give the color you want
-    **BOT VERSION : v0.2**
     `)
   }
+});
+
+client.on("message", message => {
+  if (message.content === "p#help") {
+message.author.send(`
+:busts_in_silhouette: __Social Commands:__
+❯ p#credit → Shows your credit card balance
+❯ p#daily → Get your daily credits
+❯ p#profile → To View Your Profile
+❯ p#store → To View The Profile Background Store
+❯ p#buy → To Buy A Background Profile
+❯ p#note → To Type A Text In The Information Profile
+❯ p#rep → To Give Someone A Like
+❯ p#transfer → To Transfer A Credits To Someone
+❯ p#id → Shows the user ID card.
+❯ p#rep → Give someone a reputation point!
+:high_brightness: Ulti Commands:
+❯ p#short → Shorten the url provided
+:headphones: __Music Commands:__
+❯ p#play → To play the song in the voice room
+❯ p#stop → To stop the song
+❯ p#skip → To skip the song
+❯ p#queue → View the waiting list
+:barber: __Colors Commands:__
+❯ p#deletecolors → delete 132 colors
+❯ p#createcolors → create 132 colors
+❯ p#colors → View the colors menu
+❯ p#color → To give the color you want
+**BOT VERSION : v0.2**
+`)
+}
 });
 client.on('message', message => {
     if (message.author.x5bz) return;
@@ -6656,5 +6663,5 @@ client.on('message', message => {
 
     }})
 
-
+  
         client.login(process.env.BOT_TOKEN)
