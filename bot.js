@@ -21,6 +21,113 @@ client.on("ready", () => {
 }).on("guildDelete", () => {
   client.user.setGame("On " + client.guilds.size + " guilds")
 })
+client.on("message", message => {
+  if (message.content === "p#help") {
+message.author.send(`
+:record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
+:fire: __Action Commands:__
+❯ p#new → create ticket for you (need support-team role)
+❯ p#close → close the ticket
+❯ p#slap → slap someone
+❯ p#hug → hug someone
+❯ p#tickle → tickle someone
+❯ p#poke → poke someone
+❯ p#cuddle → cuddle someone
+❯ p#pat → cuddle someone
+❯ p#botinvite → To add a bot link inside the server
+:video_game: __Game Commands:__
+❯ p#xo → xo game
+❯ p#صراحه → Frankly Game
+❯ p#عواصم → Capitals Game
+❯ p#حجرة أو ورقة أو مقص → Paper scissors game
+❯ p#كت تويت → Tweets Game
+❯ p#لو خيروك → If they made you choose game
+❯ p#قرعة → Lot game
+❯ p#فكك → Decrypt game
+❯ p#لغز → Gas game
+❯ p#شقلب → Chuckle game
+❯ p#اسرع → The fastest writing game
+❯ p#ركب → Synthesis assembly game
+❯ p#رياضيات → Math game
+:globe_with_meridians: __General Commands:__
+❯ p#8ball → Ask magic 8ball something
+❯ p#avatar → Shows yours or the user avatar
+❯ p#invite → Invite PlexBot to your guild
+❯ p#membercount → Shows membercount in your server
+❯ p#support → Dah It's support!?
+❯ p#td → Get the date in nice looking way!
+:information_source: __Info Commands:__
+❯ p#ping → Shows the bot ping.
+❯ p#botinfo → Shows informations about the bot.
+❯ p#server → Shows informations about the server.
+❯ p#userinfo → Shows informations about the user.
+`)
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
+  }
+  });
+
+  client.on("message", message => {
+    if (message.content === "p#membercount") {
+      if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
+      const memberc = new Discord.RichEmbed()
+      .addField('Members:', `${message.guild.memberCount}`)
+ message.channel.sendEmbed(memberc)
+    }})
+
+    client.on("message", message => {
+      if (message.content === "p#help") {
+    message.author.send(`
+    :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
+    ❯ p#setwelcomer → To setwelcome channel
+    ❯ p#setlogs → To setlogs channel
+    ❯ p#autorole → autorole options **(to set the role type p#autorole set rolename
+    and to turn on the autorole type p#autorole toggle)** 
+    ❯ p#prune → To clear the chat (you can use p#clear)
+    ❯ p#bans → Shows a bans size
+    ❯ p#ban → To ban a member **Permanently**
+    ❯ p#role → To give someone a role (you can use p#role all to give everyone the rank of your choice)
+    ❯ p#-role → To Pull the rank of a particular person (you can use p#-role all to Pull everyone the rank of your choice)
+    ❯ p#temp on → To Turn on the temporary rooms 
+    ❯ p#temp off → To Turn off the temporary rooms 
+    ❯ p#tempban → To ban a member **Temporary**
+    ❯ p#mute → To mute a member **Permanently**
+    ❯ p#tempmute → To mute a member **Temporary**
+    ❯ p#kick → To kick a member
+    ❯ p#unban → Unban member by id
+    ❯ p#unmute → Unmutes a member
+    ❯ p#warn → Warns a member
+    ❯ p#setTime → Create Hour Room 
+    ❯ p#setDate → Create Date Room 
+    ❯ p#setDays → Create Day Room 
+    ❯ p#setCount → Member Count Room 
+    ❯ p#setVoice → Create Voice Online Room 
+    :busts_in_silhouette: __Social Commands:__
+    ❯ p#credit → Shows your credit card balance
+    ❯ p#daily → Get your daily credits
+    ❯ p#profile → To View Your Profile
+    ❯ p#store → To View The Profile Background Store
+    ❯ p#buy → To Buy A Background Profile
+    ❯ p#note → To Type A Text In The Information Profile
+    ❯ p#rep → To Give Someone A Like
+    ❯ p#transfer → To Transfer A Credits To Someone
+    ❯ p#id → Shows the user ID card.
+    ❯ p#rep → Give someone a reputation point!
+    :high_brightness: Ulti Commands:
+    ❯ p#short → Shorten the url provided
+    :headphones: __Music Commands:__
+    ❯ p#play → To play the song in the voice room
+    ❯ p#stop → To stop the song
+    ❯ p#skip → To skip the song
+    ❯ p#queue → View the waiting list
+    :barber: __Colors Commands:__
+    ❯ p#deletecolors → delete 132 colors
+    ❯ p#createcolors → create 132 colors
+    ❯ p#colors → View the colors menu
+    ❯ p#color → To give the color you want
+    **BOT VERSION : v0.2**
+    `)
+  }
+});
 client.on('message', message => {
     if (message.author.x5bz) return;
     if (!message.content.startsWith(prefix)) return;
@@ -5373,110 +5480,7 @@ msg.channel.send(`${item.type}`).then(() => {
            })
            
       
-        client.on("message", message => {
-          if (message.content === "p#help") {
-        message.author.send(`
-:record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
-:fire: __Action Commands:__
-❯ p#new → create ticket for you (need support-team role)
-❯ p#close → close the ticket
-❯ p#slap → slap someone
-❯ p#hug → hug someone
-❯ p#tickle → tickle someone
-❯ p#poke → poke someone
-❯ p#cuddle → cuddle someone
-❯ p#pat → cuddle someone
-❯ p#botinvite → To add a bot link inside the server
-:video_game: __Game Commands:__
-❯ p#xo → xo game
-❯ p#صراحه → Frankly Game
-❯ p#عواصم → Capitals Game
-❯ p#حجرة أو ورقة أو مقص → Paper scissors game
-❯ p#كت تويت → Tweets Game
-❯ p#لو خيروك → If they made you choose game
-❯ p#قرعة → Lot game
-❯ p#فكك → Decrypt game
-❯ p#لغز → Gas game
-❯ p#شقلب → Chuckle game
-❯ p#اسرع → The fastest writing game
-❯ p#ركب → Synthesis assembly game
-❯ p#رياضيات → Math game
-:globe_with_meridians: __General Commands:__
-❯ p#8ball → Ask magic 8ball something
-❯ p#avatar → Shows yours or the user avatar
-❯ p#invite → Invite PlexBot to your guild
-❯ p#membercount → Shows membercount in your server
-❯ p#support → Dah It's support!?
-❯ p#td → Get the date in nice looking way!
-:information_source: __Info Commands:__
-❯ p#ping → Shows the bot ping.
-❯ p#botinfo → Shows informations about the bot.
-❯ p#server → Shows informations about the server.
-❯ p#userinfo → Shows informations about the user.
-:wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
-❯ p#setwelcomer → To setwelcome channel
-❯ p#setlogs → To setlogs channel
-❯ p#autorole → autorole options **(to set the role type p#autorole set rolename
-and to turn on the autorole type p#autorole toggle)** 
-❯ p#prune → To clear the chat (you can use p#clear)
-❯ p#bans → Shows a bans size
-❯ p#ban → To ban a member **Permanently**
-❯ p#role → To give someone a role (you can use p#role all to give everyone the rank of your choice)
-❯ p#-role → To Pull the rank of a particular person (you can use p#-role all to Pull everyone the rank of your choice)
-❯ p#temp on → To Turn on the temporary rooms 
-❯ p#temp off → To Turn off the temporary rooms 
-❯ p#tempban → To ban a member **Temporary**
-❯ p#mute → To mute a member **Permanently**
-❯ p#tempmute → To mute a member **Temporary**
-❯ p#kick → To kick a member
-❯ p#unban → Unban member by id
-❯ p#unmute → Unmutes a member
-❯ p#warn → Warns a member
-❯ p#setTime → Create Hour Room 
-❯ p#setDate → Create Date Room 
-❯ p#setDays → Create Day Room 
-❯ p#setCount → Member Count Room 
-❯ p#setVoice → Create Voice Online Room 
-:busts_in_silhouette: __Social Commands:__
-❯ p#credit → Shows your credit card balance
-❯ p#daily → Get your daily credits
-❯ p#profile → To View Your Profile
-❯ p#store → To View The Profile Background Store
-❯ p#buy → To Buy A Background Profile
-❯ p#note → To Type A Text In The Information Profile
-❯ p#rep → To Give Someone A Like
-❯ p#transfer → To Transfer A Credits To Someone
-❯ p#id → Shows the user ID card.
-❯ p#rep → Give someone a reputation point!
-:high_brightness: Ulti Commands:
-❯ p#short → Shorten the url provided
-:headphones: __Music Commands:__
-❯ p#play → To play the song in the voice room
-❯ p#stop → To stop the song
-❯ p#skip → To skip the song
-❯ p#queue → View the waiting list
-:barber: __Colors Commands:__
-❯ p#deletecolors → delete 132 colors
-❯ p#createcolors → create 132 colors
-❯ p#colors → View the colors menu
-❯ p#color → To give the color you want
-**BOT VERSION : v0.2**
-        `)
-              message.channel.send(":white_check_mark: I've DMed you with my help list")
-          }
-          });
-        
-          client.on("message", message => {
-            if (message.content === "p#membercount") {
-              if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
-              const memberc = new Discord.RichEmbed()
-              .addField('Members:', `${message.guild.memberCount}`)
-         message.channel.sendEmbed(memberc)
-            }})
-        
-        
 
-    
    client.on('message', message => {
 	   if(message.content.startsWith(`${prefix}invite`)){
 		   if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
