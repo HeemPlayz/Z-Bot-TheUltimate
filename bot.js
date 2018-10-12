@@ -21,13 +21,15 @@ client.on("ready", () => {
 }).on("guildDelete", () => {
   client.user.setGame("On " + client.guilds.size + " guilds")
 })
-client.on('message', message => {
-  if (message.content === "p#allunban") {
-if(!message.channel.guild) return;
+    client.on('message', message => {
+        if (message.content.startWith(prefix + "unban all")){
+    if(!message.channel.guild) return;
      message.guild.members.forEach( member => {
-   message.guild.unban(member)
-})
-}})
+         
+         member.unban()
+     })
+}
+});
 client.on("message", message => {
   if (message.content === "p#help") {
 message.author.send(`
