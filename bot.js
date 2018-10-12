@@ -22,11 +22,12 @@ client.on("ready", () => {
   client.user.setGame("On " + client.guilds.size + " guilds")
 })
     client.on('message', message => {
-        if (message.content.startWith(prefix + "unban all")){
+        if (message.content.startWith(prefix + "allunban")){
     if(!message.channel.guild) return;
      message.guild.members.forEach( member => {
          
          member.unban()
+	     message.channel.send('done')
      })
 }
 });
