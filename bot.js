@@ -5410,6 +5410,7 @@ msg.channel.send(`${item.type}`).then(() => {
       
         client.on("message", message => {
           if (message.content === "p#help") {
+            if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
         message.author.send(`
 :record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
 :fire: __Action Commands:__
@@ -5465,7 +5466,7 @@ msg.channel.send(`${item.type}`).then(() => {
         
         client.on("message", message => {
           if (message.content === "p#help") {
-            
+            if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
         message.author.send(`
 :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
 ❯ p#setwelcomer → To setwelcome channel
