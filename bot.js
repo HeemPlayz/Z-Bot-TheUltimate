@@ -5031,6 +5031,7 @@ client.on("ready", () => {
 }).on("guildDelete", () => {
   client.user.setGame("on " + client.users.size + " users")
   client.user.setStatus("WATCHING");
+  console.log(`Status Changed !`)
 })
 
 const request = require('request')
@@ -6692,5 +6693,8 @@ client.on('message', message => {
 
     }})
   })
+
+
+
 
         client.login(process.env.BOT_TOKEN)
