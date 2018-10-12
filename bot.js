@@ -22,7 +22,7 @@ client.on("ready", () => {
   client.user.setGame("On " + client.guilds.size + " guilds")
 })
 client.on('message', message => {
-  if (message.content.startWith(prefix + "unban all")){
+  if (message.content === "p#allunban") {
 if(!message.channel.guild) return;
 message.guild.members.forEach( member => {
    mssage.channel.send(`__**Please Wait To Unban All Members...**__`)
