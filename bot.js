@@ -13,37 +13,7 @@ var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
-client.on('message', message => {
-let perm = message.guild.member(message.author).hasPermission('ADMINISTRATOR') || message.guild.member(message.author).hasPermission('BAN_MEMBERS')
-if (!perm) return message.reply(':x: | **You don\'t have `BAN_MEMBERS` permission to use this command**.')
-if(message.content.startsWith(prefix + 'hackban')) {
-  let nourid = message.content.split(" ").slice(3).join(" ");
-  client.fetchUser(nourid).then(id => {
-    message.guild.ban(id).catch(err => {
-      message.channel.send("Error 404, failed to ban this user :( -> " +id)
-      console.log(err)
-    })
-    message.channel.send(`I banned the user ${id} successfully.`)
-  }).catch(() => {
-    message.channel.send(`Theres no user with the ID of ${nourid}, please try again. :face_palm:`)
-  })
-  }});
-client.on('message', message => {
-let perm = message.guild.member(message.author).hasPermission('ADMINISTRATOR') || message.guild.member(message.author).hasPermission('BAN_MEMBERS')
-if (!perm) return message.reply(':x: | **You don\'t have `BAN_MEMBERS` permission to use this command**.')
-if(message.content.startsWith(prefix + 'unhackban')) {
-  let nourid = message.content.split(" ").slice(3).join(" ");
-  let nour = bot.fetchUser(nourid)
-  .then(user => {
-    message.guild.unban(user.id)
-    .then(() => {
-      message.channel.send(`Alright, I unhackbanned ${user}.`)
-    }).catch(err => {
-        message.channel.send(`Failed to unban :( ${user}`)
-    })
-  }).catch(() => message.channel.send("Theres no user with the this ID :face_palm:"))
-}
-  })
+
 client.on('message', message => {
   if (message.author.x5bz) return;
   if (!message.content.startsWith(prefix)) return;
@@ -85,6 +55,79 @@ incidentchannel.send(banEmbed);
 message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
   }})
 
+client.on('message', message => {
+  var prefix = "p#";
+    if (message.author.kick) return;
+    if (!message.content.startsWith(prefix)) return;
+  
+    let command = message.content.split(" ")[0];
+    command = command.slice(prefix.length);
+  
+    let args = message.content.split(" ").slice(1);
+  
+    if (command == "kick") {
+                 if(!message.channel.guild) return;
+  
+    if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("You Don't Have KICK_MEMBERS Permission").then(msg => msg.delete(5000));
+    if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("I Don't Have KICK_Members Permission");
+    let user = message.mentions.users.first();
+    let reason = message.content.split(" ").slice(2).join(" ");
+  
+    if (message.mentions.users.size < 1) return message.reply("Mention Someone");
+    if(!reason) return message.reply ("Type The Reason Please");
+    if (!message.guild.member(user)
+    .bannable) return message.reply("I can not be higher than my rank");
+  
+    message.guild.member(user).kick(7, user);
+  
+    const Kickembed = new Discord.RichEmbed()
+    .setTitle('**New Kicked User !**')
+    .setThumbnail(message.guild.iconURL)
+    .setColor("RANDOM")
+    .addField("Kicked User:",  `${user.tag}`)
+    .addField("Kicked By:", `${message.author.tag}`)
+    .addField("Reason:", `${reason}`)
+    .addField("Kicked In :", `${message.channel.name}`)
+    .addField("Time & Date :", `${message.createdAt}`)
+    .setFooter('Plexbot');
+    message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
+  message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
+  user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
+      message.delete()
+  }
+  });
+
+client.on('message', message => {
+let perm = message.guild.member(message.author).hasPermission('ADMINISTRATOR') || message.guild.member(message.author).hasPermission('BAN_MEMBERS')
+if (!perm) return message.reply(':x: | **You don\'t have `BAN_MEMBERS` permission to use this command**.')
+if(message.content.startsWith(prefix + 'hackban')) {
+  let nourid = message.content.split(" ").slice(3).join(" ");
+  client.fetchUser(nourid).then(id => {
+    message.guild.ban(id).catch(err => {
+      message.channel.send("Error 404, failed to ban this user :( -> " +id)
+      console.log(err)
+    })
+    message.channel.send(`I banned the user ${id} successfully.`)
+  }).catch(() => {
+    message.channel.send(`Theres no user with the ID of ${nourid}, please try again. :face_palm:`)
+  })
+  }});
+client.on('message', message => {
+let perm = message.guild.member(message.author).hasPermission('ADMINISTRATOR') || message.guild.member(message.author).hasPermission('BAN_MEMBERS')
+if (!perm) return message.reply(':x: | **You don\'t have `BAN_MEMBERS` permission to use this command**.')
+if(message.content.startsWith(prefix + 'unhackban')) {
+  let nourid = message.content.split(" ").slice(3).join(" ");
+  let nour = bot.fetchUser(nourid)
+  .then(user => {
+    message.guild.unban(user.id)
+    .then(() => {
+      message.channel.send(`Alright, I unhackbanned ${user}.`)
+    }).catch(err => {
+        message.channel.send(`Failed to unban :( ${user}`)
+    })
+  }).catch(() => message.channel.send("Theres no user with the this ID :face_palm:"))
+}
+  })
 client.on("guildMemberAdd", member => {
   member.createDM().then(function (channel) {
   return channel.send(`👑ولكم نورت السيرفر | Welcome To Server👑
@@ -6709,66 +6752,8 @@ client.on('message', message => {
     })
   }
   });
-client.on('message', message => {
-  if (message.author.bot) return;
-    if (message.author.id === client.user.id) return;
-  if(!message.channel.guild) return;
-        if(message.content.startsWith('=inforprofile')) {
-        let args = message.content.split(' ').slice(1).join(' ')
-        if(!args) return message.channel.send(`**${message.author.username}, يرجى كتابة المعلومات**`)
-        if(args.length > 25) return message.channel.send(`**${message.author.username} يجب ان لا تكون المعلومات اكثر من 25 حرف**`)
-        profile[message.author.id].info = args
-        message.channel.send(`**${message.author.username}**| تم تغير معلوماتك الى  =${args}>`)
-    }
-});
 
-
-    client.on('message', message => {
-        var prefix = "p#";
-          if (message.author.kick) return;
-          if (!message.content.startsWith(prefix)) return;
-        
-          let command = message.content.split(" ")[0];
-          command = command.slice(prefix.length);
-        
-          let args = message.content.split(" ").slice(1);
-        
-          if (command == "kick") {
-                       if(!message.channel.guild) return;
-        
-          if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("You Don't Have KICK_MEMBERS Permission").then(msg => msg.delete(5000));
-          if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("I Don't Have KICK_Members Permission");
-          let user = message.mentions.users.first();
-          let reason = message.content.split(" ").slice(2).join(" ");
-        
-          if (message.mentions.users.size < 1) return message.reply("Mention Someone");
-          if(!reason) return message.reply ("Type The Reason Please");
-          if (!message.guild.member(user)
-          .bannable) return message.reply("I can not be higher than my rank");
-        
-          message.guild.member(user).kick(7, user);
-        
-          const Kickembed = new Discord.RichEmbed()
-          .setTitle('**New Kicked User !**')
-          .setThumbnail(message.guild.iconURL)
-          .setColor("RANDOM")
-          .setTimestamp()
-          .addField("Kicked User:",  `${user.tag}`)
-          .addField("Kicked By:", `${message.author.tag}`)
-          .addField("Reason:", `${reason}`)
-          .addField("Kicked In :", `${message.channel.name}`)
-          .addField("Time & Date :", `${message.createdAt}`)
-          .setFooter(message.author.tag,message.author.avatarURL);
-          message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
-        message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
-        user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
-            message.delete()
-        }
-        });
     }})
-
-
-
-
   })
+
         client.login(process.env.BOT_TOKEN)
