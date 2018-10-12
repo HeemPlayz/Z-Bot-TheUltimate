@@ -5046,10 +5046,15 @@ embed: new Discord.RichEmbed()
 
 
 client.on('ready', () => {
-client.user.setGame(`p#help | p#support`,'https://www.twitch.tv/fofodiscord');
-});
 
-
+client.on("ready", () => {
+  client.user.setGame("on " + client.users.size + " users")
+}).on("guildCreate", () => {
+  client.user.setGame("on " + client.users.size + " users")
+}).on("guildDelete", () => {
+  client.user.setGame("on " + client.users.size + " users")
+  client.user.setStatus("Streaming");
+})
 
 const request = require('request')
 var Canvas = require('canvas')
@@ -6765,5 +6770,5 @@ client.on('message', message => {
 
 
 
-
+  })
         client.login(process.env.BOT_TOKEN)
