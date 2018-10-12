@@ -13,7 +13,46 @@ var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
+client.on("guildMemberAdd", member => {
+  member.createDM().then(function (channel) {
+  return channel.send(`👑ولكم نورت السيرفر | Welcome To Server👑
+اسم العضو المحترم |name member🌷  ${member}
+انت العضو الأسطورة رقم |you member number is👑 ${member.guild.memberCount}`)
+}).catch(console.error)
+})
 
+
+
+client.on('message',message =>{
+ var command = message.content.toLowerCase().split(" ")[0];
+   var args = message.content.toLowerCase().split(" ");
+   var userM = message.mentions.users.first()
+   if(command == prefix + 'unban') {
+       if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
+       if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(':no_entry: | I dont have **BAN_MEMBERS** Permission!');
+       if(!args[1]) return  message.channel.send(':no_entry: | Please type the ID of user');
+       if(args[1].length < 16) return message.reply(':no_entry: | This ID is not id user!');
+       message.guild.fetchBans().then(bans => {
+           var Found = bans.find(m => m.id === args[1]);
+           if(!Found) return message.channel.send(`:no_entry: | <@${message.author.id}> This preson not have any ban from this server! :unlock:`);
+           message.guild.unban(args[1]);
+           message.channel.send(`:white_check_mark: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!`);
+          
+           let banInfo = new Discord.RichEmbed()
+           .setTitle('**New Unbanned User !**')
+           .setThumbnail(message.author.avatarURL)
+           .setColor('GREEN')
+           .setDescription(`**\n:airplane: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!\n\n**User:** <@${args[1]}> (ID: ${args[1]})\n**By:** <@${message.author.id}> (ID: ${message.author.id})`)
+           .setTimestamp()
+           .setFooter(userM.user.tag, userM.user.avatarURL)
+          
+           let incidentchannel = message.guild.channels.find(`name`, "incidents");
+           if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+           incidentchannel.send(banEmbed);
+           }
+
+       )}
+     })
 client.on('message', message => {
   if (message.content === "p#ping") {
    const embed = new Discord.RichEmbed()
@@ -4036,7 +4075,7 @@ client.on('message', async message => {
         user.setMute(true); 
       })
       .then(() => { setTimeout(() => {
-        message.guild.member(user).removeRole(muteRole);
+        message.guild.member(user).removeRole(role);
     }, mmss(time))
   })
 });
@@ -6580,46 +6619,7 @@ if (err) console.error(err);
      });
    }
  });
- client.on("guildMemberAdd", member => {
-   member.createDM().then(function (channel) {
-   return channel.send(`👑ولكم نورت السيرفر | Welcome To Server👑
- اسم العضو المحترم |name member🌷  ${member}
- انت العضو الأسطورة رقم |you member number is👑 ${member.guild.memberCount}`)
- }).catch(console.error)
- })
 
-
-
-client.on('message',message =>{
-  var command = message.content.toLowerCase().split(" ")[0];
-    var args = message.content.toLowerCase().split(" ");
-    var userM = message.mentions.users.first()
-    if(command == prefix + 'unban') {
-        if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
-        if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(':no_entry: | I dont have **BAN_MEMBERS** Permission!');
-        if(!args[1]) return  message.channel.send(':no_entry: | Please type the ID of user');
-        if(args[1].length < 16) return message.reply(':no_entry: | This ID is not id user!');
-        message.guild.fetchBans().then(bans => {
-            var Found = bans.find(m => m.id === args[1]);
-            if(!Found) return message.channel.send(`:no_entry: | <@${message.author.id}> This preson not have any ban from this server! :unlock:`);
-            message.guild.unban(args[1]);
-            message.channel.send(`:white_check_mark: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!`);
-           
-            let banInfo = new Discord.RichEmbed()
-            .setTitle('**New Unbanned User !**')
-            .setThumbnail(message.author.avatarURL)
-            .setColor('GREEN')
-            .setDescription(`**\n:airplane: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!\n\n**User:** <@${args[1]}> (ID: ${args[1]})\n**By:** <@${message.author.id}> (ID: ${message.author.id})`)
-            .setTimestamp()
-            .setFooter(userM.user.tag, userM.user.avatarURL)
-           
-            let incidentchannel = message.guild.channels.find(`name`, "incidents");
-            if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-            incidentchannel.send(banEmbed);
-            }
-
-        )}
-      })
 client.on('message', message => {
   if (message.author.x5bz) return;
   if (!message.content.startsWith(prefix)) return;
