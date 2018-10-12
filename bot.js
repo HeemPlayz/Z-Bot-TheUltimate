@@ -149,6 +149,121 @@ client.on("ready", () => {
 }
 });
 
+var Swears = JSON.parse(fs.readFileSync("./swears.json", "utf8"));
+client.on('message', message => {
+    var args = message.content.toLowerCase().split(' ');
+	var args1 = args.slice(1).join(' ');
+    var command = args[0];
+
+   
+   
+  	if(Swears.some(word => message.content.toLowerCase().includes(word))) {
+		if(message.member.hasPermission('ADMINISTRATOR')) return;
+		message.delete();
+		message.channel.send(`:no_entry: | Hey <@${message.author.id}>! Dont swear or you will get mute!`).then(msg => msg.delete(2000));
+	}
+   
+   
+    if(command == prefix + 'swears') {// حقوق الفا كودز & عبود
+        if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(':no_entry: | You dont have **MANAGE_MESSAGES** Permission!');
+        if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return meessage.channel.send(':no_entry: | I dont have **EMBED_LINKS** Permission!');
+        if(Swears.length < 1) return message.channel.send(`:no_entry: | No swears words founds! \`\`If you want to add some words type ${prefix}add-swear <SWEAR>\`\``);
+        var number = 1;// حقوق الفا كودز & عبود
+       
+        if(!args[1] || isNaN(args[1]) || args[1] === '1') {// حقوق الفا كودز & عبود
+            if(Swears.length > 10) {
+                var more = `\n__:sparkles: **More?** \`\`${prefix}swears 2\`\` (${Math.round(Math.round(Swears.length / 10) + 1)} pages)`;
+            }else {
+                var more = '\n__';
+            }
+           
+            let swearsWords = new Discord.RichEmbed()// حقوق الفا كودز & عبود
+            .setTitle(`:white_check_mark: **${Swears.length}** Swears Words.`)
+            .setColor('RED')
+            .setDescription(`__\n__${Swears.map(w => `**${number++}.** ${w}`).slice(0, 10).join('\n')}__\n${more}`)
+            .setTimestamp()
+            .setFooter(message.author.tag, message.author.avatarURL)
+           
+            message.channel.send(swearsWords);
+        }else if(!isNaN(args[1])) {// حقوق الفا كودز & عبود
+            if(Swears.length < 10) {
+                var morepage = 'This server have **1** Pages only.';
+            }else {
+                var morepage = `Please select page from 1 to ${Math.round(Swears.length / 10) + 1}`;
+            }
+            if(args[1] > Math.round(Swears.length / 10) + 1) return message.channel.send(`:no_entry: | I couldn\'t find the page. ${morepage}`);
+            if(args[1] < 1) return message.channel.send(`:no_entry: | I couldn\'t find the page. ${morepage}`);// حقوق الفا كودز & عبود
+            if(Swears.length > 10) {
+                var more = `\n__:sparkles: **More?** \`\`${prefix}swears ${Math.round(args[1]) + 1}\`\` (${Math.round(Swears.length / 10) + 1} pages)`;
+            }else {
+                var more = '\n__';
+            }
+            if(args[1] === '5' && Swears.length > 40) more = '\n__';// حقوق الفا كودز & عبود
+            var number = 1;
+           
+            let swearsWords = new Discord.RichEmbed()
+            .setTitle(`:white_check_mark: **${Swears.length}** Swears Words.`)
+            .setColor('RED')
+            .setDescription(`__\n__${Swears.map(w => `**${number++}.** ${w}`).slice(10 * Math.round(args[1].replace('-', '')) - 10, 10 * Math.round(args[1].replace('-', ''))).join('\n')}__\n${more}`)
+            .setTimestamp()
+            .setFooter(message.author.tag, message.author.avatarURL)// حقوق الفا كودز & عبود
+           
+            message.channel.send(swearsWords);
+        }
+    }
+   
+   
+    if(command == prefix + 'add-swear') {// حقوق الفا كودز & عبود
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(':no_entry: | You dont have **ADMINISTRATOR** Permission!');
+        if(!args1) return message.channel.send(`**➥ Useage:** ${prefix}add-swear <SWEAR>`);
+        if(Swears.length == 50) return message.channel.send(':no_entry: | Maxmium number of swears is **50**');
+        if(args1.length > 30) return message.channel.send(`:no_entry: | The swear **${args1.length}** characters. Please try with characters less then **30**`);
+       
+        Swears.push(args1);// حقوق الفا كودز & عبود
+        fs.writeFile('./swears.json', JSON.stringify(Swears), (err) => {
+            if(err) console.error(err);
+        })
+        message.channel.send(`:white_check_mark: | Successfully added **${args1}** To swears words!`);
+    }// حقوق الفا كودز & عبود
+   
+   
+    if(command == prefix + 'remove-swear') {// حقوق الفا كودز & عبود
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(':no_entry: | You dont have **ADMINISTRATOR** Permission!');
+        if(Swears.length < 1) return message.channel.send(`:no_entry: | No swears words founds to remove it! \`\`If you want to add some words type ${prefix}add-swear <SWEAR>\`\``);
+        if(Swears.length == 1) {
+            var to = 1;
+        }else if(Swears.length > 1) {
+            var to = `<1 to ${Swears.length}>`;// حقوق الفا كودز & عبود
+        }
+        if(!args[1]) return message.channel.send(`**➥ Useage:** ${prefix}remove-swear ${to}`);
+		if(isNaN(args[1])) return message.channel.send(`:no_entry: | The args must be a number!`);
+		if(args[1] > Swears.length) return message.channel.send(`:no_entry: | Please choose number from 1 to ${Swears.length}`);
+       
+        message.channel.send(`:white_check_mark: | Successfully remove **${Swears.splice(args[1] - 1, 1)}** from swears words`);
+        fs.writeFile('./swears.json', JSON.stringify(Swears), (err) => {
+            if(err) console.error(err);
+        })
+    }
+   
+   
+    if(command == prefix + 'remove-all-swears') {// حقوق الفا كودز & عبود
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(':no_entry: | You dont have **ADMINISTRATOR** Permission!');
+        if(Swears.length < 1) return message.channel.send(`:no_entry: | No swears words founds to remove it! \`\`If you want to add some words type ${prefix}add-swear <SWEAR>\`\``);
+        message.channel.send(`:white_check_mark: | Successfully remove **${Swears.length}** Swears words!`);
+        Swears = [];
+        fs.writeFile('./swears.json', JSON.stringify(Swears), (err) => {
+            if(err) console.error(err);
+        })// حقوق الفا كودز & عبود
+    }
+});// حقوق الفا كودز & عبود
+client.on('messageUpdate', (oldMessage, newMessage) => {
+  	if(Swears.some(word => newMessage.content.toLowerCase().includes(word))) {// حقوق الفا كودز & عبود
+		if(oldMessage.member.hasPermission('ADMINISTRATOR')) return;
+		oldMessage.delete();// حقوق الفا كودز & عبود
+		oldMessage.channel.send(`:no_entry: | Hey <@${oldMessage.author.id}>! Dont swear or you will get mute!`).then(msg => msg.delete(2000));
+	}// حقوق الفا كودز & عبود
+});
+
 client.on("message", message => {
   if (message.content === "d!help") {
 message.author.send(`
@@ -207,8 +322,11 @@ message.author.send(`
     message.author.send(`
   :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
 ❯ d!setwelcomer → To setwelcome channel
-❯ d!setlogs → To setlogs channel
-❯ d!autorole → autorole options **(to set the role type d!autorole set rolename
+❯ d!autorole → autorole options **(to set the role type d!autorole set rolename)**
+❯ d!add-swear → To Add words that are forbidden
+❯ d!swears → Swears List
+❯ d!remove-swear → To Remove A Swear
+❯ d!remove-all-swears → To Remove All Swear
 and to turn on the autorole type d!autorole toggle)** 
 ❯ d!prune → To clear the chat (you can use d!clear)
 ❯ d!bans → Shows a bans size
@@ -5264,7 +5382,7 @@ points: 0,
 if (message.content.startsWith(prefix + 'فكك')) {
 if(!message.channel.guild) return message.reply('**لا تلعب عندي العب بالسيرفرات**').then(m => m.delete(3000));
 
-const type = require('./gamesbombot/fkk.json');
+const type = require('./gamesdragonbot/fkk.json');
 const item = type[Math.floor(Math.random() * type.length)];
 const filter = response => {
 return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5416,7 +5534,7 @@ points: 0,
 if (message.content.startsWith(prefix + 'عواصم')) {
 if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-const type = require('./gamesbombot/3awasem.json');
+const type = require('./gamesdragonbot/3awasem.json');
 const item = type[Math.floor(Math.random() * type.length)];
 const filter = response => {
 return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5457,7 +5575,7 @@ points: 0,
 if (message.content.startsWith(prefix + 'لغز')) {
 if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-const type = require('./gamesbombot/quiz.json');
+const type = require('./gamesdragonbot/quiz.json');
 const item = type[Math.floor(Math.random() * type.length)];
 const filter = response => {
 return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5497,7 +5615,7 @@ msg.channel.send(`${item.type}`).then(() => {
          if (message.content.startsWith(prefix + 'ركب')) {
            if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-         const type = require('./gamesbombot/RKB.json');
+         const type = require('./gamesdragonbot/RKB.json');
          const item = type[Math.floor(Math.random() * type.length)];
          const filter = response => {
              return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5532,7 +5650,7 @@ msg.channel.send(`${item.type}`).then(() => {
      if (message.content.startsWith(prefix + 'شقلب')) {
          if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-     const type = require('./gamesbombot/SHAKLEB.json');
+     const type = require('./gamesdragonbot/SHAKLEB.json');
      const item = type[Math.floor(Math.random() * type.length)];
      const filter = response => {
          return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -6552,7 +6670,7 @@ if (err) console.error(err);
  if (message.content.startsWith(prefix + 'رياضيات')) {
      if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
- const type = require('./gamesbombot/ryd.json');
+ const type = require('./gamesdragonbot/ryd.json');
  const item = type[Math.floor(Math.random() * type.length)];
  const filter = response => {
      return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -6587,7 +6705,7 @@ if (err) console.error(err);
                    if (message.content.startsWith(prefix + 'كتابة')) {
                      if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-                   const type = require('./gamesbombot/type.json');
+                   const type = require('./gamesdragonbot/type.json');
                    const item = type[Math.floor(Math.random() * type.length)];
                    const filter = response => {
                        return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -6759,7 +6877,7 @@ client.on('message', message => {
   if (message.content.startsWith(prefix + 'اسرع')) {
     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-  const type = require('./gamesbombot/type.json');
+  const type = require('./gamesdragonbot/type.json');
   const item = type[Math.floor(Math.random() * type.length)];
   const filter = response => {
       return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
