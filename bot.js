@@ -31,7 +31,7 @@ client.on('message', message => {
     let args = message.content.split(" ").slice(1);
   
     if (command == "ban") {
-                 if(!message.channel.guild) return message.reply('** This command only for servers**');
+      if (!message.channel.guild) return;
            
     if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You Don't Have ` BAN_MEMBERS ` Permission**");
     if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
@@ -72,7 +72,7 @@ client.on('message', message => {
     let args = message.content.split(" ").slice(1);
   
     if (command == "kick") {
-                 if(!message.channel.guild) return;
+      if (!message.channel.guild) return;
   
     if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("You Don't Have KICK_MEMBERS Permission").then(msg => msg.delete(5000));
     if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("I Don't Have KICK_Members Permission");
@@ -107,6 +107,8 @@ client.on('message', message => {
 let perm = message.guild.member(message.author).hasPermission('ADMINISTRATOR') || message.guild.member(message.author).hasPermission('BAN_MEMBERS')
 if (!perm) return message.reply(':x: | **You don\'t have `BAN_MEMBERS` permission to use this command**.')
 if(message.content.startsWith(prefix + 'hackban')) {
+  if (!message.channel.guild) return;
+
   let nourid = message.content.split(" ").slice(3).join(" ");
   client.fetchUser(nourid).then(id => {
     message.guild.ban(id).catch(err => {
@@ -119,9 +121,11 @@ if(message.content.startsWith(prefix + 'hackban')) {
   })
   }});
 client.on('message', message => {
-let perm = message.guild.member(message.author).hasPermission('ADMINISTRATOR') || message.guild.member(message.author).hasPermission('BAN_MEMBERS')
+let perm = message.guild.member(message.author).hasPermission('BAN_MEMBERS')
 if (!perm) return message.reply(':x: | **You don\'t have `BAN_MEMBERS` permission to use this command**.')
 if(message.content.startsWith(prefix + 'unhackban')) {
+  if (!message.channel.guild) return;
+
   let nourid = message.content.split(" ").slice(3).join(" ");
   let nour = bot.fetchUser(nourid)
   .then(user => {
@@ -4028,6 +4032,7 @@ client.on('message', async message => {
     let messageArray = message.content.split(" ");
     let time = messageArray[2];
     if(message.content.startsWith(prefix + "tempban")) {
+      if (!message.channel.guild) return;
        if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**You dont have ban_members permission :/ **");
        if(!User) message.channel.send("Mention Someone");
        if(User.id === client.user.id) return message.channel.send("**Why you want to ban me ? :/**");
