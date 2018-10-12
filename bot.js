@@ -5375,7 +5375,6 @@ msg.channel.send(`${item.type}`).then(() => {
       
         client.on("message", message => {
           if (message.content === "p#help") {
-            if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
         message.author.send(`
 :record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
 :fire: __Action Commands:__
@@ -5414,25 +5413,6 @@ msg.channel.send(`${item.type}`).then(() => {
 ❯ p#botinfo → Shows informations about the bot.
 ❯ p#server → Shows informations about the server.
 ❯ p#userinfo → Shows informations about the user.
-        `)
-              message.channel.send(":white_check_mark: I've DMed you with my help list")
-          }
-          });
-        
-          client.on("message", message => {
-            if (message.content === "p#membercount") {
-              if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
-              const memberc = new Discord.RichEmbed()
-              .addField('Members:', `${message.guild.memberCount}`)
-         message.channel.sendEmbed(memberc)
-            }})
-        
-        
-        
-        client.on("message", message => {
-          if (message.content === "p#help") {
-            if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
-        message.author.send(`
 :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
 ❯ p#setwelcomer → To setwelcome channel
 ❯ p#setlogs → To setlogs channel
@@ -5482,9 +5462,21 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#color → To give the color you want
 **BOT VERSION : v0.2**
         `)
-        }
-        });
+              message.channel.send(":white_check_mark: I've DMed you with my help list")
+          }
+          });
+        
+          client.on("message", message => {
+            if (message.content === "p#membercount") {
+              if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
+              const memberc = new Discord.RichEmbed()
+              .addField('Members:', `${message.guild.memberCount}`)
+         message.channel.sendEmbed(memberc)
+            }})
+        
+        
 
+    
    client.on('message', message => {
 	   if(message.content.startsWith(`${prefix}invite`)){
 		   if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
