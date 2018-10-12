@@ -40,10 +40,10 @@ client.on('message', message => {
     /*let b5bzlog = client.channels.find("name", "5bz-log");
   
     if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
-    if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+    if (message.mentions.users.size < 1) return message.reply("**Mention Someone**");
     if(!reason) return;
     if (!message.guild.member(user)
-    .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
+    .bannable) return message.reply("**This person has a grade higher than his bot rank**");
   
     message.guild.member(user).ban(7, user);
     message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
