@@ -1231,10 +1231,8 @@ client.on('ready', () => {
     console.log(`[ ] ${client.users.size}`)
     client.user.setStatus("idle")
 });
-client.on('ready', () => {
-     client.user.setActivity("you",{type: 'WATCHING'});
 
-});
+
 
 client.on('message', async msg => {
   if (msg.author.bot) return undefined;
@@ -5032,7 +5030,7 @@ client.on("ready", () => {
   client.user.setGame("on " + client.users.size + " users")
 }).on("guildDelete", () => {
   client.user.setGame("on " + client.users.size + " users")
-  client.user.setStatus("Streaming");
+  client.user.setStatus("WATCHING");
 })
 
 const request = require('request')
