@@ -26,7 +26,7 @@ client.on('message', message => {
 if(!message.channel.guild) return;
      message.guild.members.forEach( member => {
    message.channel.send(`__**Please Wait To Unban All Members...**__`)
-   member.unban()
+   message.guild.unban(member)
    message.channel.send(`__**Done!**__`)
 
 client.on("message", message => {
