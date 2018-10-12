@@ -4137,6 +4137,7 @@ client.on('message', async message => {
     message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmuted! **`);
     let mutedEmbed = new Discord.RichEmbed()
   .setDescription("New UnMute User")
+  .setThumbnail(message.guild.iconURL)
   .setColor("#bc0000")
   .addField("Unmuted", `${Warned} with ID ${Warned.id}`)
   .addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
@@ -4161,12 +4162,13 @@ if(message.content.startsWith(prefix  +  'warn'))  {
     if(!user)  return  message.channel.send("**  -  mention  a  member  **")//by  orochix
     if(!reason)  return  message.channel.send("**  -  Type  Reason  **")//by  orochix
     let  reportembed  =  new  Discord.RichEmbed()
-    .setTitle(`**New  Warned User !**`)
-.addField("**-  Warned  User:**",  `[${user}  with  ID  ${user.id}]`)//by  orochix
-.addField('**-  Warned  By:**',`[${message.author.tag} with id ${message.author.id}]`)//by  orochix
-.addField('**-  Reason:**',  `[${reason}]`,  true)
-.addField("**-  Warned  in:**",`[${message.channel.name}]`)
-.addField("**-  Time & Date:**",`[${message.createdAt}]`)
+    .setTitle(`New  Warned User !`)
+    .setThumbnail(message.guild.iconURL)
+.addField("Warned  User:",  `${user}`)//by  orochix
+.addField('Warned  By:',`${message.author.tag} with id ${message.author.id}]`)//by  orochix
+.addField('Reason:',  `${reason}`,  true)
+.addField("Warned  in:",`${message.channel.name}`)
+.addField("Time & Date:",`${message.createdAt}`)
 .setFooter("Plexbot")
 .setColor('#060c37')
 message.guild.channels.find('name',  'incidents').sendEmbed(reportembed)
@@ -6743,13 +6745,14 @@ client.on('message', message => {
         
           const Kickembed = new Discord.RichEmbed()
           .setTitle('**New Kicked User !**')
+          .setThumbnail(message.guild.iconURL)
           .setColor("RANDOM")
           .setTimestamp()
-          .addField("Kicked User:",  `[ + ${user.tag} + ]`)
-          .addField("Kicked By:", `[  + ${message.author.tag} +  ]`)
-          .addField("Reason:", `[ + ${reason} +  ]`)
-          .addField("Kicked In :", `[${message.channel.name}]`)
-          .addField("Time & Date :", `[${message.createdAt}]`)
+          .addField("Kicked User:",  `${user.tag}`)
+          .addField("Kicked By:", `${message.author.tag}`)
+          .addField("Reason:", `${reason}`)
+          .addField("Kicked In :", `${message.channel.name}`)
+          .addField("Time & Date :", `${message.createdAt}`)
           .setFooter(message.author.tag,message.author.avatarURL);
           message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
         message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
