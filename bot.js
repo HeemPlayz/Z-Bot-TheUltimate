@@ -4712,7 +4712,7 @@ client.on('message', message => {
 client.on('message', message => {
   if (message.content === "p#banslist") {
   if(!message.channel.guild) return;
-      var bans = message.guild.fetchBans().map(``).join(' ')
+      var bans = message.guild.fetchBans()
       const embed = new Discord.RichEmbed()
       .setColor('RANDOM')
       .addField('bans:',`**[${bans.tag}]**`)
