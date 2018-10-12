@@ -13,6 +13,14 @@ var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const prefix = "p#";
 let done = {};
+client.on("ready", () => {
+  client.user.setGame("on " + client.guilds.size + " Guild")
+}).on("guildCreate", () => {
+  client.user.setGame("on " + client.guilds.size + " Guild")
+}).on("guildDelete", () => {
+  client.user.setGame("on " + client.guilds.size + " Guild")
+  console.log(`Status Changed !`)
+})
 client.on('message', message => {
   var prefix = "p#";
     if (message.author.x5bz) return;
@@ -5022,16 +5030,8 @@ embed: new Discord.RichEmbed()
 });
 
 
-client.on('ready', () => {
 
-client.on("ready", () => {
-  client.user.setGame("on " + client.guilds.size + " Guild")
-}).on("guildCreate", () => {
-  client.user.setGame("on " + client.guilds.size + " Guild")
-}).on("guildDelete", () => {
-  client.user.setGame("on " + client.guilds.size + " Guild")
-  console.log(`Status Changed !`)
-})
+
 
 const request = require('request')
 var Canvas = require('canvas')
@@ -6691,6 +6691,6 @@ client.on('message', message => {
   });
 
     }})
-  })
+
 
         client.login(process.env.BOT_TOKEN)
