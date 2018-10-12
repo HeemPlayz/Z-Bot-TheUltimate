@@ -22,7 +22,6 @@ client.on("ready", () => {
   client.user.setGame("On " + client.guilds.size + " guilds")
 })
 client.on('message', message => {
-  var prefix = "p#";
     if (message.author.x5bz) return;
     if (!message.content.startsWith(prefix)) return;
   
@@ -31,37 +30,36 @@ client.on('message', message => {
   
     let args = message.content.split(" ").slice(1);
   
-if (command == "ban") {
-               if(!message.channel.guild) return message.reply('** This command only for servers**');
-         
-  if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return;
-  if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return;
-  let user = message.mentions.users.first();
-  let reason = message.content.split(" ").slice(2).join(" ");
-  /*let b5bzlog = client.channels.find("name", "5bz-log");
-
-  if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
-  if (message.mentions.users.size < 1) return;
-  if(!reason) return message.reply('منشن الشخص يلي تبي تعطيه باند للابد')
-  if (!message.guild.member(user)
-  .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
-
-  message.guild.member(user).ban(7, user);
-
-	  
-  let banEmbed = new Discord.RichEmbed()
-  .setAuthor(`New Banned User !`)
-  .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
-  .addField('- Banned By: ',message.author.tag,true)
-  .addField('- Banned User:', `${user}`)
-  .addField('- Reason:',reason,true)
-  .addField('- Time & Date:', `${message.createdAt}`)
-  .setFooter(message.author.tag,message.author.avatarURL);
-  let incidentchannel = message.guild.channels.find(`name`, "incidents");
-if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-incidentchannel.send(banEmbed);
-message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
-  }})
+    if (command == "ban") {
+                 if(!message.channel.guild) return message.reply('** This command only for servers**');
+           
+    if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You Don't Have ` BAN_MEMBERS ` Permission**");
+    if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
+    let user = message.mentions.users.first();
+    let reason = message.content.split(" ").slice(2).join(" ");
+    /*let b5bzlog = client.channels.find("name", "5bz-log");
+  
+    if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
+    if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+    if(!reason) return;
+    if (!message.guild.member(user)
+    .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
+  
+    message.guild.member(user).ban(7, user);
+    message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
+    let banEmbed = new Discord.RichEmbed()
+    .setAuthor(`New Banned User !`)
+    .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
+    .addField('- Banned By: ',message.author.tag,true)
+    .addField('- Banned User:', `${user}`)
+    .addField('- Reason:',reason,true)
+    .addField('- Time & Date:', `${message.createdAt}`)
+    .setFooter(message.author.tag,message.author.avatarURL);
+    let incidentchannel = message.guild.channels.find(`name`, "incidents");
+  if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+  incidentchannel.send(banEmbed);
+  user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: ${reason}`)
+    }})
 
 client.on('message', message => {
   var prefix = "p#";
