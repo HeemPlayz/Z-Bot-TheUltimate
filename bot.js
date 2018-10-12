@@ -10,10 +10,39 @@ const moment = require('moment');
 var Canvas = require('canvas')
 const games = JSON.parse(fs.readFileSync('./games.json', "utf8"))
 var jimp = require('jimp')
+const bane = JSON.parse(fs.readFileSync("./alpha.json", "utf8"));
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d!";
 let done = {};
+let banse = new Set();
+client.on('guildBanAdd', function(guild) {
+  guild.fetchAuditLogs().then(logs => {
+    const ser = logs.entries.first().executor;
+    if(!bane[ser.id+guild.id]) bane[ser.id+guild.id] = {
+      bans: 2
+    }
+    let boner = bane[ser.id+guild.id]
+banse.add(ser.id)
+boner.bans = Math.floor(boner.bans+1)
+
+
+setTimeout(() => {
+  boner.bans = 2
+  banse.delete(ser.id)
+},8000)
+
+if(boner.bans > 2) {
+  let roles = guild.members.get(ser.id).roles.array()
+guild.members.get(ser.id).removeRoles(roles)
+}
+
+    })
+    fs.writeFile('./alpha.json', JSON.stringify(bane), (err) => {
+if (err) console.error(err);
+})
+
+})
 client.on('guildMemberRemove', (u) => {
     u.guild.fetchAuditLogs().then( s => {
         var ss = s.entries.first();
