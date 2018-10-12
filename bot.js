@@ -11,6 +11,7 @@ var Canvas = require('canvas')
 const games = JSON.parse(fs.readFileSync('./games.json', "utf8"))
 var jimp = require('jimp')
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
+const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d#";
 let done = {};
 client.on('guildMemberRemove', (u) => {
