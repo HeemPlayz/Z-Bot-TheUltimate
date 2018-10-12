@@ -31,6 +31,7 @@ client.on("ready", () => {
      })
 }
 });
+
 client.on("message", message => {
   if (message.content === "p#help") {
 message.author.send(`
