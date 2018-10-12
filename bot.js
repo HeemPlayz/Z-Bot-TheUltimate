@@ -5025,12 +5025,11 @@ embed: new Discord.RichEmbed()
 client.on('ready', () => {
 
 client.on("ready", () => {
-  client.user.setGame("on " + client.users.size + " users")
+  client.user.setGame("on " + client.guilds.size + " Guild")
 }).on("guildCreate", () => {
-  client.user.setGame("on " + client.users.size + " users")
+  client.user.setGame("on " + client.guilds.size + " Guild")
 }).on("guildDelete", () => {
-  client.user.setGame("on " + client.users.size + " users")
-  client.user.setStatus("WATCHING");
+  client.user.setGame("on " + client.guilds.size + " Guild")
   console.log(`Status Changed !`)
 })
 
@@ -6693,8 +6692,5 @@ client.on('message', message => {
 
     }})
   })
-
-
-
 
         client.login(process.env.BOT_TOKEN)
