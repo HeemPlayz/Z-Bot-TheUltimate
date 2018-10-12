@@ -4036,7 +4036,7 @@ client.on('message', async message => {
         user.setMute(true); 
       })
       .then(() => { setTimeout(() => {
-        message.guild.member(mutePerson).removeRole(muteRole);
+        message.guild.member(user).removeRole(muteRole);
     }, mmss(time))
   })
 });
