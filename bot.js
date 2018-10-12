@@ -25,10 +25,9 @@ client.on('message', message => {
   if (message.content === "p#allunban") {
 if(!message.channel.guild) return;
      message.guild.members.forEach( member => {
-   message.channel.send(`__**Please Wait To Unban All Members...**__`)
    message.guild.unban(member)
-   message.channel.send(`__**Done!**__`)
-
+})
+}})
 client.on("message", message => {
   if (message.content === "p#help") {
 message.author.send(`
@@ -6672,6 +6671,4 @@ client.on('message', message => {
 
     }})
 
-  })
-}})
         client.login(process.env.BOT_TOKEN)
