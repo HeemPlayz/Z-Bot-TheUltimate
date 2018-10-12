@@ -15,11 +15,11 @@ const prefix = "p#";
 let done = {};
 client.on("ready", () => {
 	  console.log(`Status Changed !`)
-  client.user.setGame("on " + client.guilds.size + " Guild")
+  client.user.setGame("On " + client.guilds.size + " guilds")
 }).on("guildCreate", () => {
-  client.user.setGame("on " + client.guilds.size + " Guild")
+  client.user.setGame("On " + client.guilds.size + " guilds")
 }).on("guildDelete", () => {
-  client.user.setGame("on " + client.guilds.size + " Guild")
+  client.user.setGame("On " + client.guilds.size + " guilds")
 })
 client.on('message', message => {
   var prefix = "p#";
