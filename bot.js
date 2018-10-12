@@ -5744,9 +5744,14 @@ and to turn on the autorole type p#autorole toggle)**
 :busts_in_silhouette: __Social Commands:__
 ❯ p#credit → Shows your credit card balance
 ❯ p#daily → Get your daily credits
+❯ p#profile → To View Your Profile
+❯ p#store → To View The Profile Background Store
+❯ p#buy → To Buy A Background Profile
+❯ p#note → To Type A Text In The Information Profile
+❯ p#rep → To Give Someone A Like
+❯ p#transfer → To Transfer A Credits To Someone
 ❯ p#id → Shows the user ID card.
 ❯ p#rep → Give someone a reputation point!
-❯ p#setinfo → Sets your profile info title
 :high_brightness: Ulti Commands:
 ❯ p#short → Shorten the url provided
 :headphones: __Music Commands:__
@@ -5758,7 +5763,7 @@ and to turn on the autorole type p#autorole toggle)**
 ❯ p#deletecolors → delete 132 colors
 ❯ p#createcolors → create 132 colors
 ❯ p#colors → View the colors menu
-❯ p#colors → To give the color you want
+❯ p#color → To give the color you want
 **BOT VERSION : v0.1**
         `)
         }
