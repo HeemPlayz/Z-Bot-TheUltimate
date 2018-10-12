@@ -104,10 +104,11 @@ client.on('message', message => {
   });
 
 client.on('message', message => {
-let perm = message.guild.member(message.author).hasPermission('ADMINISTRATOR') || message.guild.member(message.author).hasPermission('BAN_MEMBERS')
-if (!perm) return message.reply(':x: | **You don\'t have `BAN_MEMBERS` permission to use this command**.')
+	  if (!message.channel.guild) return;
+
+    if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("You Don't Have BAN_MEMBERS Permission").then(msg => msg.delete(5000));
+
 if(message.content.startsWith(prefix + 'hackban')) {
-  if (!message.channel.guild) return;
 
   let nourid = message.content.split(" ").slice(3).join(" ");
   client.fetchUser(nourid).then(id => {
