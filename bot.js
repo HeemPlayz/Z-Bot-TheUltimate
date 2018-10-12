@@ -24,9 +24,9 @@ client.on("ready", () => {
 client.on('message', message => {
   if (message.content === "p#allunban") {
 if(!message.channel.guild) return;
-let allu = message.guild.members.forEach()
+     message.guild.members.forEach( member => {
    message.channel.send(`__**Please Wait To Unban All Members...**__`)
-   allu.unban()
+   member.unban()
    message.channel.send(`__**Done!**__`)
 
 client.on("message", message => {
@@ -6672,5 +6672,6 @@ client.on('message', message => {
 
     }})
 
-  }})
+  })
+}})
         client.login(process.env.BOT_TOKEN)
