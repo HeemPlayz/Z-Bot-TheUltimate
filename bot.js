@@ -16,6 +16,77 @@ const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d!";
 let done = {};
 
+client.on("message", (message) => {
+  function clean(text) {
+    if (typeof(text) === "string")
+      return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+    else
+        return text;
+  }
+  client.on("ready", () => {
+  console.log(`OrochiX | Logged in! Server count: ${client.guilds.size}`);
+  });  
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (message.content.toLowerCase().startsWith(prefix + `new`)) {
+    const reason = message.content.split(" ").slice(1).join(" ");
+    if (!message.guild.roles.exists("name", "Support Team")) return message.channel.send(`This server doesn't have a \`Support Team\` role made, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
+    if (message.guild.channels.exists("name", "ticket-" + message.author.id)) return message.channel.send(`You already have a ticket open.`);
+    message.guild.createChannel(`ticket-${message.author.id}`, "text").then(c => {
+        let role = message.guild.roles.find("name", "Support Team");
+        let role2 = message.guild.roles.find("name", "@everyone");
+        c.overwritePermissions(role, {
+            SEND_MESSAGES: true,
+            READ_MESSAGES: true
+        });
+        c.overwritePermissions(role2, {
+            SEND_MESSAGES: false,
+            READ_MESSAGES: false
+        });
+        c.overwritePermissions(message.author, {
+            SEND_MESSAGES: true,
+            READ_MESSAGES: true
+        });
+        message.channel.send(`:white_check_mark: Your ticket has been created, #${c.name}.`);
+        const embed = new Discord.RichEmbed()
+        .setColor(0xCF40FA)
+        .addField(`Hey ${message.author.username}!`, `Please try explain why you opened this ticket with as much detail as possible. Our **Support Team** will be here soon to help.`)
+        .setTimestamp();
+        c.send({ embed: embed });
+    }).catch(console.error);
+  }
+  if (message.content.toLowerCase().startsWith(prefix + `close`)) {
+    if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send(`You can't use the close command outside of a ticket channel.`);
+  
+    message.channel.send(`Are you sure? Once confirmed, you cannot reverse this action!\nTo confirm, type \`-confirm\`. This will time out in 10 seconds and be cancelled.`)
+    .then((m) => {
+      message.channel.awaitMessages(response => response.content === 'd!confirm', {
+        max: 1,
+        time: 10000,
+        errors: ['time'],
+      })
+      .then((collected) => {
+          message.channel.delete();
+        })
+        .catch(() => {
+          m.edit('Ticket close timed out, the ticket was not closed.').then(m2 => {
+              m2.delete();
+          }, 3000);
+        });
+    });
+  }
+  
+  });
+
+  client.on('message', message =>{
+    if(message.content === 'd!ping'){
+  let start = Date.now(); message.channel.send('pong').then(message => { 
+  message.edit(`\`\`\`js
+  Time taken: ${Date.now() - start} ms
+  Discord API: ${client.ping.toFixed(0)} ms\`\`\``);
+    });
+    }
+  });
+
 let points = {}
 
 client.on('message', message => {
@@ -741,7 +812,16 @@ client.on("ready", () => {
 
 client.on("message", message => {
   if (message.content === "d!help") {
-message.author.send(`
+message.author.send(`**
+╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+╰╮╭╮┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+╱┃┃┃┣━┳━━┳━━┳━━┳━╮╱┃╰╯╰┳━┻╮╭╯
+╱┃┃┃┃╭┫╭╮┃╭╮┃╭╮┃╭╮╮┃╭━╮┃╭╮┃┃
+╭╯╰╯┃┃┃╭╮┃╰╯┃╰╯┃┃┃┃┃╰━╯┃╰╯┃╰╮
+╰━━━┻╯╰╯╰┻━╮┣━━┻╯╰╯╰━━━┻━━┻━╯
+╱╱╱╱╱╱╱╱╱╭━╯┃
+╱╱╱╱╱╱╱╱╱╰━━╯
+
 :record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
 :fire: __Action Commands:__
 ❯ d!new → create ticket for you (need support-team role)
@@ -780,7 +860,7 @@ message.author.send(`
 ❯ d!botinfo → Shows informations about the bot.
 ❯ d!server → Shows informations about the server.
 ❯ d!userinfo → Shows informations about the user.
-`)
+**`)
       message.channel.send(":white_check_mark: I've DMed you with my help list")
   }
   });
@@ -795,7 +875,7 @@ message.author.send(`
 
     client.on("message", message => {
       if (message.content === "d!help") {
-    message.author.send(`
+    message.author.send(`**
   :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
 ❯ d!setwelcomer → To setwelcome channel
 ❯ d!autorole → autorole options **(to set the role type d!autorole set rolename
@@ -820,13 +900,13 @@ and to turn on the autorole type d!autorole toggle)**
 ❯ d!setDays → Create Day Room 
 ❯ d!setCount → Member Count Room 
 ❯ d!setVoice → Create Voice Online Room 
-    `)
+    **`)
   }
 });
 
 client.on("message", message => {
   if (message.content === "d!help") {
-message.author.send(`
+message.author.send(`**
 :busts_in_silhouette: __Social Commands:__
 ❯ d!credit → Shows your credit card balance
 ❯ d!daily → Get your daily credits
@@ -850,8 +930,8 @@ message.author.send(`
 ❯ d!createcolors → create 132 colors
 ❯ d!colors → View the colors menu
 ❯ d!color → To give the color you want
-**BOT VERSION : v0.2**
-`)
+**BOT VERSION : v1.0**
+**`)
 }
 });
 client.on('message', message => {
@@ -6775,4 +6855,9 @@ if (err) console.error(err);
       };
       });
     }})})
+    
+
+
+
+
         client.login(process.env.BOT_TOKEN)
