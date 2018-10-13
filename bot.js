@@ -50,6 +50,293 @@ msg.channel.send(`${item.type}`).then(() => {
 }
 });
 
+
+
+    client.on('message', msg => {
+   //Code By : ‡ ♪ ℬℐℓѦℓ✋ ‡#2026
+   if(msg.content.startsWith('d!suggest')) {
+     if(!msg.channel.guild) return msg.reply('** هاذا الامر فقط للسيرفرات**');
+     if(!msg.guild.channels.find('name', 'suggestions')) return msg.reply('**الرجاء إضافة روم بإسم (suggestions)**');
+     let args = msg.content.split(" ").slice(1);
+     if(!args[1]) return msg.reply(`**الرجاء كتابة اقتراح**`)
+     //غيره على حسب اسم روم الاقتراحات او سوي مثل اسم الروم الموجود هنا
+     if(msg.guild.channels.find('name', 'suggestions')) {
+       //غيره هنا كمان اذا غيرت فوق
+       msg.guild.channels.find('name', 'suggestions').send(`
+     **New Suggestion By** : ${msg.member}
+
+       **The Suggestion** :
+       ${args.join(" ").split(msg.mentions.members.first()).slice(' ')}
+       `)
+       .then(function (message) {
+         message.react('✅')
+         message.react('❌')
+       })
+       }
+     }
+
+ });
+
+
+
+
+ client.on('message', function(message) {
+     if(message.content.startsWith(prefix + 'قرعة')) {
+         let args = message.content.split(" ").slice(1);
+         if (!args[0]) {
+             message.channel.send('**حط رقم معين يتم السحب منه**');
+             return;
+             }
+     message.channel.send(Math.floor(Math.random() * args.join(' ')));
+             if (!args[0]) {
+           message.edit('1')
+           return;
+         }
+     }
+ });
+
+
+
+ client.on('message', message => {
+ if (!points[message.author.id]) points[message.author.id] = {
+     points: 0,
+   };
+ if (message.content.startsWith(prefix + 'رياضيات')) {
+     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+ const type = require('./gamesbombot/ryd.json');
+ const item = type[Math.floor(Math.random() * type.length)];
+ const filter = response => {
+     return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+ };
+ message.channel.send('**👑لديك 30 ثانية يلا ركز يا بطل👑**').then(msg => {
+
+
+ msg.channel.send(`${item.type}`).then(() => {
+         message.channel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] })
+         .then((collected) => {
+         message.channel.send(`${collected.first().author} ✅ **والله أنك ذكي وحش يا بطل**`);
+         console.log(`[Typing] ${collected.first().author} typed the word.`);
+             let points = {}
+             let userData = points[message.author.id];
+             let userdata = require('./points.json');
+             userData.points++;
+           })
+           .catch(collected => {
+             message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
+           })
+         })
+     })
+ }
+ });
+
+
+
+                 client.on('message', message => {
+                   if (!points[message.author.id]) points[message.author.id] = {
+                     points: 0,
+                     };
+                   if (message.content.startsWith(prefix + 'كتابة')) {
+                     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+                   const type = require('./gamesbombot/type.json');
+                   const item = type[Math.floor(Math.random() * type.length)];
+                   const filter = response => {
+                       return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+                   };
+                   message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
+
+
+                   msg.channel.send(`${item.type}`).then(() => {
+                           message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
+                           .then((collected) => {
+                       message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
+                       console.log(`[Typing] ${collected.first().author} typed the word.`);
+                               let won = collected.first().author;
+                               points[won.id].points++;
+                             })
+                             .catch(collected => {
+                               message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
+                         console.log('[Typing] Error: No one type the word.');
+                             })
+                       })
+                     })
+                   }
+                   });
+
+const afk = require('./afk.json');
+client.on('message',async rebel => {
+      if(rebel.author.bot) return;
+  if (afk[rebel.author.id]) {
+    delete afk[rebel.author.id];
+    if (rebel.member.nickname === null) {
+rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> أنأ **أحاول** ان أزيل عنك الأفك.");     } else {
+      rebel.member.setNickname(rebel.member.nickname.replace(/(\[AFK\])/,''));
+      rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> تم فك عنك الأفك بسبب رجوعك.");
+    }
+    fs.writeFile("./afk.json", JSON.stringify(afk), (err) => {if (err) console.error(err);});
+} else {
+    if (rebel.content.startsWith(prefix + 'afk ')||rebel.content === prefix + 'afk') {
+      rebel.member.setNickname("[AFK] " + rebel.member.displayName);
+      let args1 = rebel.content.split(' ').slice(1);
+      if (args1.length === 0) {
+        afk[rebel.author.id] = {"reason": true};
+        rebel.reply("** لقد وضعتك بوضع الأفك **")
+      } else {
+        afk[rebel.author.id] = {"reason": args1.join(" ")}; // with reason
+        rebel.reply("لقد أضفتك للأفك بسبب "+ args1.join(" ") + ".")
+      }
+      fs.writeFile("./afk.json", JSON.stringify(afk), (err) => {if (err) console.error(err);});
+  }
+}
+         var mentionned = rebel.mentions.users.first();
+if(rebel.mentions.users.size > 0) return ;
+if (afk[rebel.mentions.users.first()]) {
+if (afk[rebel.mentions.users.first()].reason === true) {
+rebel.channel.send(`**<@!${mentionned.id}> مأفك** `);
+}else{
+rebel.channel.send(`**<@!${mentionned.username}> مأفك , سبب الأفك \n ${afk[rebel.mentions.users.first().id].reason}**`);
+}
+}
+});
+
+ client.on('message',async message => {
+   var time = moment().format('Do MMMM YYYY , hh:mm');
+   var room;
+   var title;
+   var duration;
+   var gMembers;
+   var currentTime = new Date(),
+ hours = currentTime.getHours() + 3 ,
+ minutes = currentTime.getMinutes(),
+ done = currentTime.getMinutes() + duration / 60000 ,
+ seconds = currentTime.getSeconds();
+ if (minutes < 10) {
+ minutes = "0" + minutes;
+ }
+ var suffix = "AM";
+ if (hours >= 12) {
+ suffix = "PM";
+ hours = hours - 12;
+ }
+ if (hours == 0) {
+ hours = 12;
+ }
+   var filter = m => m.author.id === message.author.id;
+   if(message.content.startsWith(prefix + "giveaway")) {
+
+     if(!message.guild.member(message.author).hasPermission('MANAGE_GUILD')) return message.channel.send(':heavy_multiplication_x:| **يجب أن يكون لديك خاصية التعديل على السيرفر**');
+     message.channel.send(`:eight_pointed_black_star:| **Send Name channel For the Giveaway**`).then(msg => {
+       message.channel.awaitMessages(filter, {
+         max: 1,
+         time: 20000,
+         errors: ['time']
+       }).then(collected => {
+         let room = message.guild.channels.find('name' , collected.first().content);
+         if(!room) return message.channel.send(':heavy_multiplication_x:| **i Found It :(**');
+         room = collected.first().content;
+         collected.first().delete();
+         msg.edit(':eight_pointed_black_star:| **Time For The Giveaway**').then(msg => {
+           message.channel.awaitMessages(filter, {
+             max: 1,
+             time: 20000,
+             errors: ['time']
+           }).then(collected => {
+             if(isNaN(collected.first().content)) return message.channel.send(':heavy_multiplication_x:| **The Time Be Nambers `` Do the Commend Agin``**');
+             duration = collected.first().content * 60000;
+             collected.first().delete();
+             msg.edit(':eight_pointed_black_star:| **Now send The Present **').then(msg => {
+               message.channel.awaitMessages(filter, {
+                 max: 1,
+                 time: 20000,
+                 errors: ['time']
+               }).then(collected => {
+                 title = collected.first().content;
+                 collected.first().delete();
+                 msg.delete();
+                 message.delete();
+                 try {
+                   let giveEmbed = new Discord.RichEmbed()
+                   .setDescription(`**${title}** \nReact With 🎉 To Enter! \nTime remaining : ${duration / 60000} **Minutes**\n **Created at :** ${hours}:${minutes}:${seconds} ${suffix}`)
+                   .setFooter(message.author.username, message.author.avatarURL);
+                   message.guild.channels.find("name" , room).send(' :heavy_check_mark: **Giveaway Created** :heavy_check_mark:' , {embed: giveEmbed}).then(m => {
+                      let re = m.react('🎉');
+                      setTimeout(() => {
+                        let users = m.reactions.get("🎉").users;
+                        let list = users.array().filter(u => u.id !== m.author.id !== client.user.id);
+                        let gFilter = list[Math.floor(Math.random() * list.length) + 0]
+                        let endEmbed = new Discord.RichEmbed()
+                        .setAuthor(message.author.username, message.author.avatarURL)
+                        .setTitle(title)
+                        .addField('Giveaway Ended !🎉',`Winners : ${gFilter} \nEnded at :`)
+                        .setTimestamp()
+            m.edit('** 🎉 GIVEAWAY ENDED 🎉**' , {embed: endEmbed});
+           message.guild.channels.find("name" , room).send(`**Congratulations ${gFilter}! You won The \`${title}\`**` , {embed: {}})
+                      },duration);
+                    });
+                 } catch(e) {
+                 message.channel.send(`:heavy_multiplication_x:| **i Don't Have Prem**`);
+                   console.log(e);
+                 }
+               });
+             });
+           });
+         });
+       });
+     });
+   }
+ });
+
+const shorten = require('isgd');
+client.on('message', message => {
+ if (message.content.startsWith(prefix + 'short')) {
+    let args = message.content.split(" ").slice(1);
+  if (!args[0]) return message.channel.send('**Usage**: '+ prefix +'short <رابط>')
+  if (!args[1]) { 
+    shorten.shorten(args[0], function(res) {
+      if (res.startsWith('Error:')) return message.channel.send('**Usage**: '+ prefix +'short <link>');
+      message.channel.send(`اختصار الرابط:**<${res}>**`); 
+    })
+  } else { 
+    shorten.custom(args[0], args[1], function(res) { 
+      if (res.startsWith('Error:')) return message.channel.send(`اختصار الرابط:**${res}**`); 
+      message.channel.send(`اختصار الرابط:**<${res}>**`); 
+ })}}});
+
+
+client.on('message', message => {
+  if (!points[message.author.id]) points[message.author.id] = {
+    points: 0,
+    };
+  if (message.content.startsWith(prefix + 'اسرع')) {
+    if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
+
+  const type = require('./gamesbombot/type.json');
+  const item = type[Math.floor(Math.random() * type.length)];
+  const filter = response => {
+      return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+  };
+  message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
+
+
+  msg.channel.send(`${item.type}`).then(() => {
+          message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
+          .then((collected) => {
+      message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
+      console.log(`[Typing] ${collected.first().author} typed the word.`);
+              let won = collected.first().author;
+              points[won.id].points++;
+            })
+            .catch(collected => {
+              message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
+        console.log('[Typing] Error: No one type the word.');
+            })
+      })
+    })
+  }
+  });
+
+
 client.on("message", async message => {
 if(message.author.bot) return;
 if(message.channel.type === "dm") return;
@@ -466,6 +753,7 @@ message.author.send(`
 ❯ d!cuddle → cuddle someone
 ❯ d!pat → cuddle someone
 ❯ d!botinvite → To add a bot link inside the server
+❯ d!afk → To make in afk status
 :video_game: __Game Commands:__
 ❯ d!xo → xo game
 ❯ d!صراحه → Frankly Game
@@ -6459,14 +6747,6 @@ if (err) console.error(err);
 });
 });
 
-
-
-
-
-
-
-
-
         const math = require('math-expression-evaluator');
       const stripIndents = require('common-tags').stripIndents;
 
@@ -6494,296 +6774,5 @@ if (err) console.error(err);
         }
       };
       });
-
-
-
-
-
-
-    client.on('message', msg => {
-   //Code By : ‡ ♪ ℬℐℓѦℓ✋ ‡#2026
-   if(msg.content.startsWith('d!suggest')) {
-     if(!msg.channel.guild) return msg.reply('** هاذا الامر فقط للسيرفرات**');
-     if(!msg.guild.channels.find('name', 'suggestions')) return msg.reply('**الرجاء إضافة روم بإسم (suggestions)**');
-     let args = msg.content.split(" ").slice(1);
-     if(!args[1]) return msg.reply(`**الرجاء كتابة اقتراح**`)
-     //غيره على حسب اسم روم الاقتراحات او سوي مثل اسم الروم الموجود هنا
-     if(msg.guild.channels.find('name', 'suggestions')) {
-       //غيره هنا كمان اذا غيرت فوق
-       msg.guild.channels.find('name', 'suggestions').send(`
-     **New Suggestion By** : ${msg.member}
-
-       **The Suggestion** :
-       ${args.join(" ").split(msg.mentions.members.first()).slice(' ')}
-       `)
-       .then(function (message) {
-         message.react('✅')
-         message.react('❌')
-       })
-       }
-     }
-
- });
-
-
-
-
- client.on('message', function(message) {
-     if(message.content.startsWith(prefix + 'قرعة')) {
-         let args = message.content.split(" ").slice(1);
-         if (!args[0]) {
-             message.channel.send('**حط رقم معين يتم السحب منه**');
-             return;
-             }
-     message.channel.send(Math.floor(Math.random() * args.join(' ')));
-             if (!args[0]) {
-           message.edit('1')
-           return;
-         }
-     }
- });
-
-
-
- client.on('message', message => {
- if (!points[message.author.id]) points[message.author.id] = {
-     points: 0,
-   };
- if (message.content.startsWith(prefix + 'رياضيات')) {
-     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
- const type = require('./gamesbombot/ryd.json');
- const item = type[Math.floor(Math.random() * type.length)];
- const filter = response => {
-     return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
- };
- message.channel.send('**👑لديك 30 ثانية يلا ركز يا بطل👑**').then(msg => {
-
-
- msg.channel.send(`${item.type}`).then(() => {
-         message.channel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] })
-         .then((collected) => {
-         message.channel.send(`${collected.first().author} ✅ **والله أنك ذكي وحش يا بطل**`);
-         console.log(`[Typing] ${collected.first().author} typed the word.`);
-             let points = {}
-             let userData = points[message.author.id];
-             let userdata = require('./points.json');
-             userData.points++;
-           })
-           .catch(collected => {
-             message.channel.send(`🕓😀أنتهى الوقت أعد العب مرة آخرى😀🕓`);
-           })
-         })
-     })
- }
- });
-
-
-
-                 client.on('message', message => {
-                   if (!points[message.author.id]) points[message.author.id] = {
-                     points: 0,
-                     };
-                   if (message.content.startsWith(prefix + 'كتابة')) {
-                     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
-                   const type = require('./gamesbombot/type.json');
-                   const item = type[Math.floor(Math.random() * type.length)];
-                   const filter = response => {
-                       return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-                   };
-                   message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
-
-
-                   msg.channel.send(`${item.type}`).then(() => {
-                           message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
-                           .then((collected) => {
-                       message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
-                       console.log(`[Typing] ${collected.first().author} typed the word.`);
-                               let won = collected.first().author;
-                               points[won.id].points++;
-                             })
-                             .catch(collected => {
-                               message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
-                         console.log('[Typing] Error: No one type the word.');
-                             })
-                       })
-                     })
-                   }
-                   });
-                     const afk = require('./afk.json');
- client.on('message',async rebel => {
-       if(rebel.author.bot) return;
-   if (afk[rebel.author.id]) {
-     delete afk[rebel.author.id];
-     if (rebel.member.nickname === null) {
- rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> أنأ **أحاول** ان أزيل عنك الأفك.");     } else {
-       rebel.member.setNickname(rebel.member.nickname.replace(/(\[AFK\])/,''));
-       rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> تم فك عنك الأفك بسبب رجوعك.");
-     }
-     fs.writeFile("./afk.json", JSON.stringify(afk), (err) => {if (err) console.error(err);});
- } else {
-     if (rebel.content.startsWith(prefix + 'afk ')||rebel.content === prefix + 'afk') {
-       rebel.member.setNickname("[AFK] " + rebel.member.displayName);
-       let args1 = rebel.content.split(' ').slice(1);
-       if (args1.length === 0) {
-         afk[rebel.author.id] = {"reason": true};
-         rebel.reply("** لقد وضعتك بوضع الأفك **")
-       } else {
-         afk[rebel.author.id] = {"reason": args1.join(" ")}; // with reason
-         rebel.reply("لقد أضفتك للأفك بسبب "+ args1.join(" ") + ".")
-       }
-       fs.writeFile("./afk.json", JSON.stringify(afk), (err) => {if (err) console.error(err);});
-   }
- }
-          var mentionned = rebel.mentions.users.first();
- if(rebel.mentions.users.size > 0) return ;
- if (afk[rebel.mentions.users.first()]) {
- if (afk[rebel.mentions.users.first()].reason === true) {
- rebel.channel.send(`**<@!${mentionned.id}> مأفك** `);
- }else{
- rebel.channel.send(`**<@!${mentionned.username}> مأفك , سبب الأفك \n ${afk[rebel.mentions.users.first().id].reason}**`);
- }
- }
- });
-
- client.on('message',async message => {
-   var time = moment().format('Do MMMM YYYY , hh:mm');
-   var room;
-   var title;
-   var duration;
-   var gMembers;
-   var currentTime = new Date(),
- hours = currentTime.getHours() + 3 ,
- minutes = currentTime.getMinutes(),
- done = currentTime.getMinutes() + duration / 60000 ,
- seconds = currentTime.getSeconds();
- if (minutes < 10) {
- minutes = "0" + minutes;
- }
- var suffix = "AM";
- if (hours >= 12) {
- suffix = "PM";
- hours = hours - 12;
- }
- if (hours == 0) {
- hours = 12;
- }
-   var filter = m => m.author.id === message.author.id;
-   if(message.content.startsWith(prefix + "giveaway")) {
-
-     if(!message.guild.member(message.author).hasPermission('MANAGE_GUILD')) return message.channel.send(':heavy_multiplication_x:| **يجب أن يكون لديك خاصية التعديل على السيرفر**');
-     message.channel.send(`:eight_pointed_black_star:| **Send Name channel For the Giveaway**`).then(msg => {
-       message.channel.awaitMessages(filter, {
-         max: 1,
-         time: 20000,
-         errors: ['time']
-       }).then(collected => {
-         let room = message.guild.channels.find('name' , collected.first().content);
-         if(!room) return message.channel.send(':heavy_multiplication_x:| **i Found It :(**');
-         room = collected.first().content;
-         collected.first().delete();
-         msg.edit(':eight_pointed_black_star:| **Time For The Giveaway**').then(msg => {
-           message.channel.awaitMessages(filter, {
-             max: 1,
-             time: 20000,
-             errors: ['time']
-           }).then(collected => {
-             if(isNaN(collected.first().content)) return message.channel.send(':heavy_multiplication_x:| **The Time Be Nambers `` Do the Commend Agin``**');
-             duration = collected.first().content * 60000;
-             collected.first().delete();
-             msg.edit(':eight_pointed_black_star:| **Now send The Present **').then(msg => {
-               message.channel.awaitMessages(filter, {
-                 max: 1,
-                 time: 20000,
-                 errors: ['time']
-               }).then(collected => {
-                 title = collected.first().content;
-                 collected.first().delete();
-                 msg.delete();
-                 message.delete();
-                 try {
-                   let giveEmbed = new Discord.RichEmbed()
-                   .setDescription(`**${title}** \nReact With 🎉 To Enter! \nTime remaining : ${duration / 60000} **Minutes**\n **Created at :** ${hours}:${minutes}:${seconds} ${suffix}`)
-                   .setFooter(message.author.username, message.author.avatarURL);
-                   message.guild.channels.find("name" , room).send(' :heavy_check_mark: **Giveaway Created** :heavy_check_mark:' , {embed: giveEmbed}).then(m => {
-                      let re = m.react('🎉');
-                      setTimeout(() => {
-                        let users = m.reactions.get("🎉").users;
-                        let list = users.array().filter(u => u.id !== m.author.id !== client.user.id);
-                        let gFilter = list[Math.floor(Math.random() * list.length) + 0]
-                        let endEmbed = new Discord.RichEmbed()
-                        .setAuthor(message.author.username, message.author.avatarURL)
-                        .setTitle(title)
-                        .addField('Giveaway Ended !🎉',`Winners : ${gFilter} \nEnded at :`)
-                        .setTimestamp()
-            m.edit('** 🎉 GIVEAWAY ENDED 🎉**' , {embed: endEmbed});
-           message.guild.channels.find("name" , room).send(`**Congratulations ${gFilter}! You won The \`${title}\`**` , {embed: {}})
-                      },duration);
-                    });
-                 } catch(e) {
-                 message.channel.send(`:heavy_multiplication_x:| **i Don't Have Prem**`);
-                   console.log(e);
-                 }
-               });
-             });
-           });
-         });
-       });
-     });
-   }
- });
-
-
-   const shorten = require('isgd');
-   client.on('message', message => {
-    if (message.content.startsWith(prefix + 'short')) {
-       let args = message.content.split(" ").slice(1);
-     if (!args[0]) return message.channel.send('**Usage**: '+ prefix +'short <رابط>')
-     if (!args[1]) { 
-       shorten.shorten(args[0], function(res) {
-         if (res.startsWith('Error:')) return message.channel.send('**Usage**: '+ prefix +'short <link>');
-         message.channel.send(`اختصار الرابط:**<${res}>**`); 
-       })
-     } else { 
-       shorten.custom(args[0], args[1], function(res) { 
-         if (res.startsWith('Error:')) return message.channel.send(`اختصار الرابط:**${res}**`); 
-         message.channel.send(`اختصار الرابط:**<${res}>**`); 
-    })}}});
-
-
-client.on('message', message => {
-  if (!points[message.author.id]) points[message.author.id] = {
-    points: 0,
-    };
-  if (message.content.startsWith(prefix + 'اسرع')) {
-    if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
-
-  const type = require('./gamesbombot/type.json');
-  const item = type[Math.floor(Math.random() * type.length)];
-  const filter = response => {
-      return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-  };
-  message.channel.send('** لديك 15 ثانيه لكتابه هذه الكلمه بسرعة**').then(msg => {
-
-
-  msg.channel.send(`${item.type}`).then(() => {
-          message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
-          .then((collected) => {
-      message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
-      console.log(`[Typing] ${collected.first().author} typed the word.`);
-              let won = collected.first().author;
-              points[won.id].points++;
-            })
-            .catch(collected => {
-              message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
-        console.log('[Typing] Error: No one type the word.');
-            })
-      })
-    })
-  }
-  });
-
-    }})
-})
+    }})})
         client.login(process.env.BOT_TOKEN)
