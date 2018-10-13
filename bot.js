@@ -799,16 +799,17 @@ client.on("ready", () => {
 }).on("guildDelete", () => {
   client.user.setGame("On " + client.guilds.size + " guilds")
 })
-    client.on('message', message => {
-        if (message.content.startsWith(prefix + "allunban")){
-    if(!message.channel.guild) return;
-     message.guild.members.forEach( member => {
-         
-         member.unban()
-	     message.channel.send('done')
-     })
-}
-});
+
+client.on('message',async message => {
+    if(message.content === '#allunban') {
+        if( !message.member.hasPermission('ADMINISTRATO')) return message.reply('You Need ADMINSTRATOR Permission To Do This !');
+    message.guild.fetchBans().then(ba => {
+    ba.forEach(ns => {
+    message.guild.unban(ns);
+    });
+    });
+    }
+    });
 
 client.on("message", message => {
   if (message.content === "d!help") {
