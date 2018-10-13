@@ -942,7 +942,7 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 	}
 });
 client.on('message', message => {
-    if(message.content.startsWith(prefix + 'role')) {
+    if(message.content.startsWith(prefix + 'hrole')) {
         if(!message.member.hasPermission('MANAGE_ROLES')) return
       let role = new Discord.RichEmbed()
     .setDescription(`
@@ -956,7 +956,7 @@ client.on('message', message => {
     }})
     
   client.on('message', message => {
-    if(message.content.startsWith(prefix + '-role')) {
+    if(message.content.startsWith(prefix + '-hrole')) {
         if(!message.member.hasPermission('MANAGE_ROLES')) return
       let role = new Discord.RichEmbed()
     .setDescription(`
