@@ -5263,7 +5263,7 @@ points: 0,
 if (message.content.startsWith(prefix + 'فكك')) {
 if(!message.channel.guild) return message.reply('**لا تلعب عندي العب بالسيرفرات**').then(m => m.delete(3000));
 
-const type = require('./gamesdragonbot/fkk.json');
+const type = require('./gamesbombot/fkk.json');
 const item = type[Math.floor(Math.random() * type.length)];
 const filter = response => {
 return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5415,7 +5415,7 @@ points: 0,
 if (message.content.startsWith(prefix + 'عواصم')) {
 if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-const type = require('./gamesdragonbot/3awasem.json');
+const type = require('./gamesbombot/3awasem.json');
 const item = type[Math.floor(Math.random() * type.length)];
 const filter = response => {
 return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5456,7 +5456,7 @@ points: 0,
 if (message.content.startsWith(prefix + 'لغز')) {
 if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-const type = require('./gamesdragonbot/quiz.json');
+const type = require('./gamesbombot/quiz.json');
 const item = type[Math.floor(Math.random() * type.length)];
 const filter = response => {
 return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5496,7 +5496,7 @@ msg.channel.send(`${item.type}`).then(() => {
          if (message.content.startsWith(prefix + 'ركب')) {
            if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-         const type = require('./gamesdragonbot/RKB.json');
+         const type = require('./gamesbombot/RKB.json');
          const item = type[Math.floor(Math.random() * type.length)];
          const filter = response => {
              return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -5531,7 +5531,7 @@ msg.channel.send(`${item.type}`).then(() => {
      if (message.content.startsWith(prefix + 'شقلب')) {
          if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-     const type = require('./gamesdragonbot/SHAKLEB.json');
+     const type = require('./gamesbombot/SHAKLEB.json');
      const item = type[Math.floor(Math.random() * type.length)];
      const filter = response => {
          return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -6551,7 +6551,7 @@ if (err) console.error(err);
  if (message.content.startsWith(prefix + 'رياضيات')) {
      if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
- const type = require('./gamesdragonbot/ryd.json');
+ const type = require('./gamesbombot/ryd.json');
  const item = type[Math.floor(Math.random() * type.length)];
  const filter = response => {
      return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -6586,7 +6586,7 @@ if (err) console.error(err);
                    if (message.content.startsWith(prefix + 'كتابة')) {
                      if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-                   const type = require('./gamesdragonbot/type.json');
+                   const type = require('./gamesbombot/type.json');
                    const item = type[Math.floor(Math.random() * type.length)];
                    const filter = response => {
                        return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
@@ -6758,7 +6758,7 @@ client.on('message', message => {
   if (message.content.startsWith(prefix + 'اسرع')) {
     if(!message.channel.guild) return message.reply('**هذا الأمر للسيرفرات فقط**').then(m => m.delete(3000));
 
-  const type = require('./gamesdragonbot/type.json');
+  const type = require('./gamesbombot/type.json');
   const item = type[Math.floor(Math.random() * type.length)];
   const filter = response => {
       return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
