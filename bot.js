@@ -170,9 +170,9 @@ client.on('message',async rebel => {
   if (afk[rebel.author.id]) {
     delete afk[rebel.author.id];
     if (rebel.member.nickname === null) {
-rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> أنأ **أحاول** ان أزيل عنك الأفك.");     } else {
+rebel.channel.send(" , <@"+rebel.author.id+"> I Try To Remove Afk Mode For You.");     } else {
       rebel.member.setNickname(rebel.member.nickname.replace(/(\[AFK\])/,''));
-      rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> تم فك عنك الأفك بسبب رجوعك.");
+      rebel.channel.send(" , <@"+rebel.author.id+"> Your Afk Has Been Removed Becouse You Back.");
     }
     fs.writeFile("./afk.json", JSON.stringify(afk), (err) => {if (err) console.error(err);});
 } else {
@@ -181,10 +181,10 @@ rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> أنأ **أحاول**
       let args1 = rebel.content.split(' ').slice(1);
       if (args1.length === 0) {
         afk[rebel.author.id] = {"reason": true};
-        rebel.reply("** لقد وضعتك بوضع الأفك **")
+        rebel.reply("** You Are In Afk Mode **")
       } else {
         afk[rebel.author.id] = {"reason": args1.join(" ")}; // with reason
-        rebel.reply("لقد أضفتك للأفك بسبب "+ args1.join(" ") + ".")
+        rebel.reply("You Are In Afk Mode Becouse "+ args1.join(" ") + ".")
       }
       fs.writeFile("./afk.json", JSON.stringify(afk), (err) => {if (err) console.error(err);});
   }
@@ -193,9 +193,9 @@ rebel.channel.send("أهلا بك , <@"+rebel.author.id+"> أنأ **أحاول**
 if(rebel.mentions.users.size > 0) return ;
 if (afk[rebel.mentions.users.first()]) {
 if (afk[rebel.mentions.users.first()].reason === true) {
-rebel.channel.send(`**<@!${mentionned.id}> مأفك** `);
+rebel.channel.send(`**<@!${mentionned.id}> In Afk Mode** `);
 }else{
-rebel.channel.send(`**<@!${mentionned.username}> مأفك , سبب الأفك \n ${afk[rebel.mentions.users.first().id].reason}**`);
+rebel.channel.send(`**<@!${mentionned.username}> In Afk Mode Reason: \n ${afk[rebel.mentions.users.first().id].reason}**`);
 }
 }
 });
