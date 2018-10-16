@@ -3013,9 +3013,6 @@ msg.channel.send(`${item.type}`).then(() => {
 
 
 
-const cheak = client.emojis.get("501807338106126336");
-const markx = client.emojis.get("501786909677322270");
-
 
 
 
