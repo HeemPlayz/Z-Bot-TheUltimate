@@ -26,7 +26,7 @@ client.on("message", async message => {
     const command = args.shift().toLowerCase();
     if(message.author.bot) return;
     if(message.content.indexOf(prefix) !== 0) return;
- if (msg.content === 'd!autoc') {
+ if (message.content === 'd!autoC') {
       if(!message.channel.guild) return message.reply(`**this ~~command~~ __for servers only__**`);
       if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("sorry you can't do this");
       if(!args[0] || args[1]) return message.channel.send(`\`\`\`${prefix}autoC <role-name>\`\`\``);
