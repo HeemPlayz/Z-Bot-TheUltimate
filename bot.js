@@ -3271,7 +3271,8 @@ message.author.send(`**
 ❯ d!server → Shows informations about the server.
 ❯ d!userinfo → Shows informations about the user.
 **`)
-      message.channel.send(`${cheak} I've DMed you with my help list`)
+const cheakt = client.emojis.get("501807338106126336");
+      message.channel.send(`${cheakt} I've DMed you with my help list`)
   }
   });
 
