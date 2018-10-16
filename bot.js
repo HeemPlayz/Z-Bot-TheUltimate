@@ -14,8 +14,8 @@ const sql = require('sqlite')
 const bane = JSON.parse(fs.readFileSync('./alpha.json', 'utf8'));
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
-const cheak = client.emojis.get("501807338106126336");
-const markx = client.emojis.get("501786909677322270");
+const cheak = client.emojis.get("501807338106126336") || client.emojis.get("✅")
+const markx = client.emojis.get("501786909677322270") || client.emojis.get("❌")
 const prefix = "d!";
 let done = {};
 
