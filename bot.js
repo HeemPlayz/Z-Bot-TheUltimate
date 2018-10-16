@@ -14,14 +14,14 @@ const sql = require('sqlite')
 const bane = JSON.parse(fs.readFileSync('./alpha.json', 'utf8'));
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
-const stopReacord = true;
-const reactionRoles = [];
-const definedReactionRole = null;
 const prefix = "d!";
 let done = {};
 
  
 client.on("message", async message => {
+const stopReacord = true
+const reactionRoles = []
+const definedReactionRole = null
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     if(message.author.bot) return;
