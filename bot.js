@@ -14,6 +14,8 @@ const sql = require('sqlite')
 const bane = JSON.parse(fs.readFileSync('./alpha.json', 'utf8'));
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
+const cheak = client.emojis.get("501807338106126336");
+const markx = client.emojis.get("501786909677322270");
 const prefix = "d!";
 let done = {};
 
@@ -2417,7 +2419,7 @@ if (message.content.startsWith("d!deletecolors")) {
 		   .setTimestamp()
 		   .setFooter(`Requested By | ${message.author.username}`)
 		   .setColor("RANDOM")
-		   message.channel.send(":white_check_mark: | Check Your DM! تم الأرسال بلخاص")
+		   message.channel.send(`${cheak} | Check Your DM! تم الأرسال بلخاص`)
 		   message.author.send({embed})
 	   }
    });
@@ -2454,7 +2456,7 @@ message.channel.send('**الحق عندك 15 ثانية**').then(msg => {
 msg.channel.send(`${item.type}`).then(() => {
  message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
  .then((collected) => {
- message.channel.send(`${collected.first().author} ✅ أصلي عليك`);
+ message.channel.send(`${collected.first().author} ${cheak} أصلي عليك`);
      let points = {}
      let userData = points[message.author.id];
      let userdata = require('./Points.json');
@@ -2499,7 +2501,7 @@ client.on("message", (message) => {
             SEND_MESSAGES: true,
             READ_MESSAGES: true
         });
-        message.channel.send(`:white_check_mark: Your ticket has been created, #${c.name}.`);
+        message.channel.send(`${cheak} Your ticket has been created, #${c.name}.`);
         const embed = new Discord.RichEmbed()
         .setColor(0xCF40FA)
         .addField(`Hey ${message.author.username}!`, `Please try explain why you opened this ticket with as much detail as possible. Our **Support Team** will be here soon to help.`)
@@ -2547,8 +2549,8 @@ client.on("message", (message) => {
        ${args.join(" ").split(msg.mentions.members.first()).slice(' ')}
        `)
        .then(function (message) {
-         message.react('✅')
-         message.react('❌')
+         message.react('501807338106126336')
+         message.react('501786909677322270')
        })
        }
      }
@@ -2593,7 +2595,7 @@ client.on("message", (message) => {
  msg.channel.send(`${item.type}`).then(() => {
          message.channel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] })
          .then((collected) => {
-         message.channel.send(`${collected.first().author} ✅ **والله أنك ذكي وحش يا بطل**`);
+         message.channel.send(`${collected.first().author} ${cheak} **والله أنك ذكي وحش يا بطل**`);
          console.log(`[Typing] ${collected.first().author} typed the word.`);
              let points = {}
              let userData = points[message.author.id];
@@ -2628,13 +2630,13 @@ client.on("message", (message) => {
                    msg.channel.send(`${item.type}`).then(() => {
                            message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
                            .then((collected) => {
-                       message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
+                       message.channel.send(`${collected.first().author} ${cheak} **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
                        console.log(`[Typing] ${collected.first().author} typed the word.`);
                                let won = collected.first().author;
                                points[won.id].points++;
                              })
                              .catch(collected => {
-                               message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
+                               message.channel.send(`${markx} **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
                          console.log('[Typing] Error: No one type the word.');
                              })
                        })
@@ -2800,13 +2802,13 @@ client.on('message', message => {
   msg.channel.send(`${item.type}`).then(() => {
           message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
           .then((collected) => {
-      message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
+      message.channel.send(`${collected.first().author} ${cheak} **احسنت لقد تمكنت من كتابه هذه الكلمه بسرعه**`);
       console.log(`[Typing] ${collected.first().author} typed the word.`);
               let won = collected.first().author;
               points[won.id].points++;
             })
             .catch(collected => {
-              message.channel.send(`:x: **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
+              message.channel.send(`${markx} **لم يتمكن احد من كتابه هذه الكلمه في الوقت المناسب**`);
         console.log('[Typing] Error: No one type the word.');
             })
       })
@@ -2953,7 +2955,7 @@ message.channel.send('**👑لديك 15 ثانية للإجابة على الس�
 msg.channel.send(`${item.type}`).then(() => {
  message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
  .then((collected) => {
- message.channel.send(`${collected.first().author} ✅ **الإجابة صحيحة بطل**`);
+ message.channel.send(`${collected.first().author} ${cheak} **الإجابة صحيحة بطل**`);
  console.log(`[Typing] ${collected.first().author} typed the word.`);
      let points = {}
      let userData = points[message.author.id];
@@ -2994,7 +2996,7 @@ message.channel.send('**👑لديك 30 ثانية لحل هذا الغز👑**'
 msg.channel.send(`${item.type}`).then(() => {
  message.channel.awaitMessages(filter, { maxMatches: 1, time: 30000, errors: ['time'] })
  .then((collected) => {
- message.channel.send(`${collected.first().author} ✅ **الجواب صحيح صح عليك**`);
+ message.channel.send(`${collected.first().author} ${cheak} **الجواب صحيح صح عليك**`);
  console.log(`[Typing] ${collected.first().author} typed the word.`);
      let points = {}
      let userData = points[message.author.id];
@@ -3034,13 +3036,13 @@ msg.channel.send(`${item.type}`).then(() => {
          msg.channel.send(`${item.type}`).then(() => {
                  message.channel.awaitMessages(filter, { maxMatches: 1, time: 20000, errors: ['time'] })
                  .then((collected) => {
-             message.channel.send(`${collected.first().author} ✅ **احسنت لقد تمكنت من تركيب الكلمه بسرعه**`);
+             message.channel.send(`${collected.first().author} ${cheak} **احسنت لقد تمكنت من تركيب الكلمه بسرعه**`);
              console.log(`[Typing] ${collected.first().author} typed the word.`);
                      let won = collected.first().author;
                      points[won.id].points++;
                    })
                    .catch(collected => {
-                     message.channel.send(`:x: **لم يتمكن احد من تركيب الكلمه في الوقت المناسب**`);
+                     message.channel.send(`${markx} **لم يتمكن احد من تركيب الكلمه في الوقت المناسب**`);
                console.log('[Typing] Error: No one type the word.');
                    })
              })
@@ -3069,13 +3071,13 @@ msg.channel.send(`${item.type}`).then(() => {
      msg.channel.send(`${item.type}`).then(() => {
              message.channel.awaitMessages(filter, { maxMatches: 1, time: 15000, errors: ['time'] })
              .then((collected) => {
-             message.channel.send(`${collected.first().author} ✅ **احسنت,لقد تمكنت من شقلبة الكلمة في الوقت المناسب**`);
+             message.channel.send(`${collected.first().author} ${cheak} **احسنت,لقد تمكنت من شقلبة الكلمة في الوقت المناسب**`);
              console.log(`[Typing] ${collected.first().author} typed the word.`);
                  let won = collected.first().author;
                  points[won.id].points++;
                })
                .catch(collected => {
-                 message.channel.send(`:x: **لم يتمكن احد من شقلبة الكلمه في الوقت المناسب**`);
+                 message.channel.send(`${markx} **لم يتمكن احد من شقلبة الكلمه في الوقت المناسب**`);
                  console.log('[Typing] Error: No one type the word.');
                })
              })
@@ -3269,7 +3271,7 @@ message.author.send(`**
 ❯ d!server → Shows informations about the server.
 ❯ d!userinfo → Shows informations about the user.
 **`)
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
+      message.channel.send(`${cheak} I've DMed you with my help list`)
   }
   });
 
@@ -3367,7 +3369,7 @@ client.on('message', message => {
     .bannable) return message.reply("**This person has a grade higher than his bot rank**");
   
     message.guild.member(user).ban(7, user);
-    message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
+    message.channel.send(`**${cheak} ${user} has been banned :airplane: **`)
     let banEmbed = new Discord.RichEmbed()
     .setAuthor(`New Banned User !`)
     .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
@@ -3418,7 +3420,7 @@ client.on('message', message => {
     .addField("Time & Date :", `${message.createdAt}`)
     .setFooter('DragonBot 🐲');
     message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
-  message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
+  message.channel.send(`**${cheak} ${user} has been kicked ! :airplane:**`)
   user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
       message.delete()
   }
@@ -3448,7 +3450,7 @@ client.on('message',message =>{
            var Found = bans.find(m => m.id === args[1]);
            if(!Found) return message.channel.send(`:no_entry: | <@${message.author.id}> This preson not have any ban from this server! :unlock:`);
            message.guild.unban(args[1]);
-           message.channel.send(`:white_check_mark: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!`);
+           message.channel.send(`${cheak} Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!`);
           
            let banInfo = new Discord.RichEmbed()
            .setTitle('**New Unbanned User !**')
@@ -3534,7 +3536,7 @@ client.on('roleCreate', role => {
 		let roleCreate = new Discord.RichEmbed()
 		.setTitle('**[ROLE CREATE]**')
 		.setThumbnail(userAvatar)
-		.setDescription(`**\n**:white_check_mark: Successfully \`\`CREATE\`\` Role.\n\n**Role Name:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
+		.setDescription(`**\n**${cheak} Successfully \`\`CREATE\`\` Role.\n\n**Role Name:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
 		.setColor('GREEN')
 		.setTimestamp()
 		.setFooter(role.guild.name, role.guild.iconURL)
@@ -3557,7 +3559,7 @@ client.on('roleDelete', role => {
 		let roleDelete = new Discord.RichEmbed()
 		.setTitle('**[ROLE DELETE]**')
 		.setThumbnail(userAvatar)
-		.setDescription(`**\n**:white_check_mark: Successfully \`\`DELETE\`\` Role.\n\n**Role Name:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
+		.setDescription(`**\n**${cheak} Successfully \`\`DELETE\`\` Role.\n\n**Role Name:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
 		.setColor('RED')
 		.setTimestamp()
 		.setFooter(role.guild.name, role.guild.iconURL)
@@ -3582,7 +3584,7 @@ client.on('roleUpdate', (oldRole, newRole) => {
 			.setTitle('**[ROLE NAME UPDATE]**')
 			.setThumbnail(userAvatar)
 			.setColor('BLUE')
-			.setDescription(`**\n**:white_check_mark: Successfully \`\`EDITED\`\` Role Name.\n\n**Old Name:** \`\`${oldRole.name}\`\`\n**New Name:** \`\`${newRole.name}\`\`\n**Role ID:** ${oldRole.id}\n**By:** <@${userID}> (ID: ${userID})`)
+			.setDescription(`**\n**${cheak} Successfully \`\`EDITED\`\` Role Name.\n\n**Old Name:** \`\`${oldRole.name}\`\`\n**New Name:** \`\`${newRole.name}\`\`\n**Role ID:** ${oldRole.id}\n**By:** <@${userID}> (ID: ${userID})`)
 			.setTimestamp()
 			.setFooter(oldRole.guild.name, oldRole.guild.iconURL)
 
@@ -3603,7 +3605,7 @@ client.on('roleUpdate', (oldRole, newRole) => {
 			.setTitle('**[ROLE COLOR UPDATE]**')
 			.setThumbnail(userAvatar)
 			.setColor('BLUE')
-			.setDescription(`**\n**:white_check_mark: Successfully \`\`EDITED\`\` **${oldRole.name}** Role Color.\n\n**Old Color:** ${oldColor}\n**New Color:** ${newColor}\n**Role ID:** ${oldRole.id}\n**By:** <@${userID}> (ID: ${userID})`)
+			.setDescription(`**\n**${cheak} Successfully \`\`EDITED\`\` **${oldRole.name}** Role Color.\n\n**Old Color:** ${oldColor}\n**New Color:** ${newColor}\n**Role ID:** ${oldRole.id}\n**By:** <@${userID}> (ID: ${userID})`)
 			.setTimestamp()
 			.setFooter(oldRole.guild.name, oldRole.guild.iconURL)
 
@@ -3639,7 +3641,7 @@ client.on('channelCreate', channel => {
 		let channelCreate = new Discord.RichEmbed()
 		.setTitle('**[CHANNEL CREATE]**')
 		.setThumbnail(userAvatar)
-		.setDescription(`**\n**:white_check_mark: Successfully \`\`CREATE\`\` **${roomType}** channel.\n\n**Channel Name:** \`\`${channel.name}\`\` (ID: ${channel.id})\n**By:** <@${userID}> (ID: ${userID})`)
+		.setDescription(`**\n**${cheak} Successfully \`\`CREATE\`\` **${roomType}** channel.\n\n**Channel Name:** \`\`${channel.name}\`\` (ID: ${channel.id})\n**By:** <@${userID}> (ID: ${userID})`)
 		.setColor('GREEN')
 		.setTimestamp()
 		.setFooter(channel.guild.name, channel.guild.iconURL)
@@ -3672,7 +3674,7 @@ client.on('channelDelete', channel => {
 		let channelDelete = new Discord.RichEmbed()
 		.setTitle('**[CHANNEL DELETE]**')
 		.setThumbnail(userAvatar)
-		.setDescription(`**\n**:white_check_mark: Successfully \`\`DELETE\`\` **${roomType}** channel.\n\n**Channel Name:** \`\`${channel.name}\`\` (ID: ${channel.id})\n**By:** <@${userID}> (ID: ${userID})`)
+		.setDescription(`**\n**${cheak} Successfully \`\`DELETE\`\` **${roomType}** channel.\n\n**Channel Name:** \`\`${channel.name}\`\` (ID: ${channel.id})\n**By:** <@${userID}> (ID: ${userID})`)
 		.setColor('RED')
 		.setTimestamp()
 		.setFooter(channel.guild.name, channel.guild.iconURL)
@@ -3792,7 +3794,7 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
 			.setTitle('**[CHANGE GUILD NAME]**')
 			.setThumbnail(userAvatar)
 			.setColor('BLUE')
-			.setDescription(`**\n**:white_check_mark: Successfully \`\`EDITED\`\` The guild name.\n\n**Old Name:** \`\`${oldGuild.name}\`\`\n**New Name:** \`\`${newGuild.name}\`\`\n**By:** <@${userID}> (ID: ${userID})`)
+			.setDescription(`**\n**${cheak} Successfully \`\`EDITED\`\` The guild name.\n\n**Old Name:** \`\`${oldGuild.name}\`\`\n**New Name:** \`\`${newGuild.name}\`\`\n**By:** <@${userID}> (ID: ${userID})`)
 			.setTimestamp()
 			.setFooter(newGuild.name, oldGuild.iconURL)
 
@@ -3803,7 +3805,7 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
 			.setTitle('**[CHANGE GUILD REGION]**')
 			.setThumbnail(userAvatar)
 			.setColor('BLUE')
-			.setDescription(`**\n**:white_check_mark: Successfully \`\`EDITED\`\` The guild region.\n\n**Old Region:** ${oldGuild.region}\n**New Region:** ${newGuild.region}\n**By:** <@${userID}> (ID: ${userID})`)
+			.setDescription(`**\n**${cheak} Successfully \`\`EDITED\`\` The guild region.\n\n**Old Region:** ${oldGuild.region}\n**New Region:** ${newGuild.region}\n**By:** <@${userID}> (ID: ${userID})`)
 			.setTimestamp()
 			.setFooter(oldGuild.name, oldGuild.iconURL)
 
@@ -3846,7 +3848,7 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
 			.setTitle('**[GUILD VERIFICATION LEVEL CHANGE]**')
 			.setThumbnail(userAvatar)
 			.setColor('BLUE')
-			.setDescription(`**\n**:white_check_mark: Successfully \`\`EDITED\`\` Guild Verification level.\n\n**Old Verification Level:** ${oldVerLvl}\n**New Verification Level:** ${newVerLvl}\n**By:** <@${userID}> (ID: ${userID})`)
+			.setDescription(`**\n**${cheak} Successfully \`\`EDITED\`\` Guild Verification level.\n\n**Old Verification Level:** ${oldVerLvl}\n**New Verification Level:** ${newVerLvl}\n**By:** <@${userID}> (ID: ${userID})`)
 			.setTimestamp()
 			.setFooter(oldGuild.name, oldGuild.iconURL)
 
@@ -3894,7 +3896,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 			.setTitle('**[ADDED ROLE TO MEMBER]**')
 			.setThumbnail(oldMember.guild.iconURL)
 			.setColor('GREEN')
-			.setDescription(`**\n**:white_check_mark: Successfully \`\`ADDED\`\` Role to **${oldMember.user.username}**\n\n**User:** <@${oldMember.id}> (ID: ${oldMember.user.id})\n**Role:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
+			.setDescription(`**\n**${cheak} Successfully \`\`ADDED\`\` Role to **${oldMember.user.username}**\n\n**User:** <@${oldMember.id}> (ID: ${oldMember.user.id})\n**Role:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
 			.setTimestamp()
 			.setFooter(userTag, userAvatar)
 
@@ -3919,7 +3921,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 		.setTitle('**[UPDATE GUILD OWNER]**')
 		.setThumbnail(oldMember.guild.iconURL)
 		.setColor('GREEN')
-		.setDescription(`**\n**:white_check_mark: Successfully \`\`TRANSFER\`\` The Owner Ship.\n\n**Old Owner:** <@${oldMember.user.id}> (ID: ${oldMember.user.id})\n**New Owner:** <@${newMember.user.id}> (ID: ${newMember.user.id})`)
+		.setDescription(`**\n**${cheak} Successfully \`\`TRANSFER\`\` The Owner Ship.\n\n**Old Owner:** <@${oldMember.user.id}> (ID: ${oldMember.user.id})\n**New Owner:** <@${newMember.user.id}> (ID: ${newMember.user.id})`)
 		.setTimestamp()
 		.setFooter(oldMember.guild.name, oldMember.guild.iconURL)
 
@@ -4133,7 +4135,7 @@ client.on('message', async message => {
 
 client.on("message", message => {
     if (message.content === "d!support") {
-         message.channel.send(":white_check_mark: I've DMed you with my support server");
+         message.channel.send(`${cheak} I've DMed you with my support server`);
      const embed = new Discord.RichEmbed()
          .setColor("RANDOM")
          .setFooter('© DragonBot 🐲 جميع الحقوق محفوظة 2018 لــبوت')
@@ -4599,7 +4601,7 @@ ${videos.map(video2 => `[**${++index}**] **${video2.title}**`).join('\n')}`)
           var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
         } catch (err) {
           console.error(err);
-          return msg.channel.send(':x: لا يتوفر نتآئج بحث ');
+          return msg.channel.send(`${markx} لا يتوفر نتآئج بحث `);
         }
     }
 
@@ -4862,7 +4864,7 @@ if (message.member.voiceChannel != null) {
 var embed = new Discord.RichEmbed()
  .setTitle("Succes!")
  .setColor("#000000")
- .setDescription(`لقد قمت بسحب <@${usermentioned}> الى الروم الصوتي الخاص بك✅ `)
+ .setDescription(`لقد قمت بسحب <@${usermentioned}> الى الروم الصوتي الخاص بك${cheak} `)
 var embed = new Discord.RichEmbed()
 .setTitle(`You are Moved in ${message.guild.name}`)
  .setColor("RANDOM")
@@ -4876,7 +4878,7 @@ message.channel.send("``لا تستطيع سحب "+ message.mentions.members.fir
  message.channel.send("**``يجب ان تكون في روم صوتي لكي تقوم بسحب العضو أليك``**")
 }
 } else {
-message.react(":x:")
+message.react("${markx}")
  }}});
 
 
@@ -4889,11 +4891,11 @@ client.on('message', message => {
     var command = args[0];
     switch(command) {
         case "d!prune":
-        if (message.channel.type !== "text") return message.reply("** This Command is Only For Servers | :x: **");
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("** You Don't Have Access To Do This Command | :x: **");
+        if (message.channel.type !== "text") return message.reply(`** This Command is Only For Servers | ${markx} **`);
+        if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply(`** You Don't Have Access To Do This Command | ${markx} **`);
         if (!args[1]) args[1] = 100;
         var count = parseInt(args[1]);
-        if (isNaN(count)) return message.reply("** You Have To Type Number | :x: **");
+        if (isNaN(count)) return message.reply(`** You Have To Type Number | ${markx} **`);
         message.channel.bulkDelete(count).then(msgs => {
             message.channel.send(`** Done ** | I have Deleted ${msgs.size} Messages ...`).then(m => m.delete(3000));
             var x = 0;
@@ -4948,7 +4950,7 @@ client.on('message', async message => {
        let incidentchannel = message.guild.channels.find(`name`, "incidents");
   if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
   incidentchannel.send(banEmbed);
-  message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`).then(() => message.guild.member(User).ban({reason: Reason}))
+  message.channel.send(`**${cheak} ${User} has been banned :airplane: **`).then(() => message.guild.member(User).ban({reason: Reason}))
   User.send(`**:airplane: You are has been banned in ${message.guild.name} reason: ${Reason} by: ${message.author.tag} :airplane:**`)
        .then(() => { setTimeout(() => {
            message.guild.unban(User);
@@ -4976,7 +4978,7 @@ client.on('message', async message => {
           if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');
           if(!muteReason) return message.channel.send("**- اكتب السبب**");
           message.guild.member(mutePerson).addRole(muteRole);
-          message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
+          message.channel.send(`**${cheak} ${mutePerson} has been muted ! :zipper_mouth: **`)
           message.delete()
           let muteEmbed = new Discord.RichEmbed()
           .setTitle(`New Muted User`)
@@ -5018,7 +5020,7 @@ client.on('message', async message => {
     if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source:${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
   
     await kinggamer.removeRole(role) 
-    message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmuted! **`);
+    message.channel.sendMessage(`**${cheak} ${mention.user.username}  Unmuted! **`);
     let mutedEmbed = new Discord.RichEmbed()
   .setDescription("New UnMute User")
   .setThumbnail(message.guild.iconURL)
@@ -5074,7 +5076,7 @@ let args = message.content.split(' ').slice(1).join(' ');
 if (message.content.startsWith('d!ownerbc')){
 if (message.author.id !== '429972030092476437') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
 if(!message.author.id === '429972030092476437') return;
-message.channel.sendMessage('جار ارسال |✅')
+message.channel.sendMessage(`جار ارسال |${cheak}`)
 client.users.forEach(m =>{
 m.sendMessage(args)
 })
@@ -5496,7 +5498,7 @@ client.on('message', message => {
     client.on("message", msg => {
              var prefix = "d!";
     if(msg.content.startsWith (prefix + "id")) {
-      if(!msg.channel.guild) return msg.reply('**:x: اسف لكن هذا الامر للسيرفرات فقط **');
+      if(!msg.channel.guild) return msg.reply(`**${markx} اسف لكن هذا الامر للسيرفرات فقط **`);
         const embed = new Discord.RichEmbed();
     embed.addField(":cloud_tornado:  الاسم", `**[ ${msg.author.username}#${msg.author.discriminator} ]**`, true)
             .addField(":id:  الايدي", `**[ ${msg.author.id} ]**`, true)
@@ -5603,12 +5605,12 @@ if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.s
   let copy = "Plex Bot";
   let request = `Requested By ${message.author.username}`;
   if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
-  msg.react('✅')
-  .then(() => msg.react('❌'))
-  .then(() =>msg.react('✅'))
+  msg.react('501807338106126336')
+  .then(() => msg.react('501786909677322270'))
+  .then(() =>msg.react('501807338106126336'))
 
-  let reaction1Filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
-  let reaction2Filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+  let reaction1Filter = (reaction, user) => reaction.emoji.name === '501807338106126336' && user.id === message.author.id;
+  let reaction2Filter = (reaction, user) => reaction.emoji.name === '501786909677322270' && user.id === message.author.id;
      let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
   let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
   reaction1.on("collect", r => {
@@ -5671,7 +5673,7 @@ translate(finalToTrans, {to: language}).then(res => {
 }).catch(err => {
 message.channel.send({
    embed: {
-       description: '❌ We could not find the supplied language.',
+       description: `${markx} We could not find the supplied language.`,
        color: 0xE8642B
    }
 });
@@ -5694,13 +5696,13 @@ client.on('message', message => {
            let role1 = message.guild.roles.find('name', roleRe);
            console.log(`hi`);
     const ee =new Discord.RichEmbed()
-    .setDescription('**:x: I can’t find the role.**')
+    .setDescription(`**${markx} I can’t find the role.**`)
     .setFooter('Requested By '+message.author.username,message.author.avatarURL)
     if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1.id);
     
                 const e = new Discord.RichEmbed()
     
-            .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
+            .setDescription(`${cheak}** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**`)
            .setFooter('Requested By '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -5708,12 +5710,12 @@ client.on('message', message => {
            let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
            let role1 = message.guild.roles.find('name', roleRe);
     const ee =new Discord.RichEmbed()
-    .setDescription('**:x: I can’t find the role.**')
+    .setDescription(`**${markx} I can’t find the role.**`)
     .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
     if(!role1) return message.channel.send(ee);                message.guild.member(member).addRole(role1);
            const e = new Discord.RichEmbed()
     
-           .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
+           .setDescription(`${cheak}** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**`)
            .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -5729,7 +5731,7 @@ client.on('message', message => {
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+    msg.edit(`** ${cheak}   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
     });
     }
     if(role) {
@@ -5739,7 +5741,7 @@ client.on('message', message => {
     message.guild.members.forEach(m => {
        message.guild.member(m).addRole(role1);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
+    msg.edit(`** ${cheak}   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
     });
     }
     } else if(args[0] == 'humans') {
@@ -5750,7 +5752,7 @@ client.on('message', message => {
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+    msg.edit(`** ${cheak}   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
     });
     }
     
@@ -5765,7 +5767,7 @@ client.on('message', message => {
        message.guild.members.filter(m =>m.user.bot == false).forEach(m => {
            message.guild.member(m).addRole(role1);
        });
-    msg.edit(`** :white_check_mark:   Done...**`);
+    msg.edit(`** ${cheak}   Done...**`);
     });
     }
     } else if(args[0] == 'bots') {
@@ -5776,7 +5778,7 @@ client.on('message', message => {
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:  Done...**`);
+    msg.edit(`** ${cheak}  Done...**`);
     });
     }
     if(role) {
@@ -5789,7 +5791,7 @@ client.on('message', message => {
        message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
            message.guild.member(m).addRole(role1);
        });
-    msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
+    msg.edit(`** ${cheak}  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
     });
     }
     }
@@ -5866,7 +5868,7 @@ let args = message.content.split(' ').slice(1);
 if(message.content.split(' ')[0] == 'd!color'){
 const embedd = new Discord.RichEmbed()
 .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-.setDescription(`**لا يوجد لون بهذا الأسم ** :x: `)
+.setDescription(`**لا يوجد لون بهذا الأسم ** ${markx} `)
 .setColor(`ff0000`)
 
 if(!isNaN(args) && args.length > 0)
@@ -5880,7 +5882,7 @@ var a = message.guild.roles.find("name",`${args}`)
 const embed = new Discord.RichEmbed()
 
 .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-.setDescription(`**Done , تم تغير لونك . :white_check_mark: **`)
+.setDescription(`**Done , تم تغير لونك . ${cheak} **`)
 
 .setColor(`${a.hexColor}`)
 message.channel.sendEmbed(embed);
@@ -6005,7 +6007,7 @@ console.log('hello')
 		   .setTimestamp()
 		   .setFooter(`Requested By | ${message.author.username}`)
 		   .setColor("RANDOM")
-		   message.channel.send(":white_check_mark: | Check Your DM! تم الأرسال بلخاص")
+		   message.channel.send(`${cheak} | Check Your DM! تم الأرسال بلخاص`)
 		   message.author.send({embed})
 	   }
    });
@@ -6026,13 +6028,13 @@ console.log('hello')
            let role1 = message.guild.roles.find('name', roleRe);
            console.log(`hi`);
     const ee =new Discord.RichEmbed()
-    .setDescription('**:x: I can’t find the role.**')
+    .setDescription(`**${markx} I can’t find the role.**`)
     .setFooter('Requested By '+message.author.username,message.author.avatarURL)
     if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1.id);
     
                 const e = new Discord.RichEmbed()
     
-            .setDescription(':white_check_mark:** Pull Role For **'+member+'**,** '+'**'+'-'+role1.name+'**')
+            .setDescription(`${cheak}** Pull Role For **'+member+'**,** '+'**'+'-'+role1.name+'**`)
            .setFooter('Requested By '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -6040,12 +6042,12 @@ console.log('hello')
            let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
            let role1 = message.guild.roles.find('name', roleRe);
     const ee =new Discord.RichEmbed()
-    .setDescription('**:x: I can’t find the role.**')
+    .setDescription(`**${markx} I can’t find the role.**`)
     .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
     if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1);
            const e = new Discord.RichEmbed()
     
-           .setDescription(':white_check_mark:** Pull Role For **'+member+'**,** '+'**'+'+'+role1.name+'**')
+           .setDescription(`${cheak}** Pull Role For **'+member+'**,** '+'**'+'+'+role1.name+'**`)
            .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
@@ -6061,7 +6063,7 @@ console.log('hello')
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Pull From __${message.guild.members.size}__ Member**`);
+    msg.edit(`** ${cheak}   Done...\n**` +role1.name+`** Has Pull From __${message.guild.members.size}__ Member**`);
     });
     }
     if(role) {
@@ -6071,7 +6073,7 @@ console.log('hello')
     message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Pull To __${message.guild.members.size}__ Members **`);
+    msg.edit(`** ${cheak}   Done...\n**` +  role1.name+`** Has Pull To __${message.guild.members.size}__ Members **`);
     });
     }
     } else if(args[0] == 'humans') {
@@ -6082,7 +6084,7 @@ console.log('hello')
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Pull From __${message.guild.members.size}__ Member**`);
+    msg.edit(`** ${cheak}   Done...\n**` +role1.name+`** Has Pull From __${message.guild.members.size}__ Member**`);
     });
     }
     
@@ -6097,7 +6099,7 @@ console.log('hello')
        message.guild.members.filter(m =>m.user.bot == false).forEach(m => {
            message.guild.member(m).removeRole(role1);
        });
-    msg.edit(`** :white_check_mark:   Done...**`);
+    msg.edit(`** ${cheak}   Done...**`);
     });
     }
     } else if(args[0] == 'bots') {
@@ -6108,7 +6110,7 @@ console.log('hello')
       message.guild.members.forEach(m => {
        message.guild.member(m).removeRole(role1.id);
     });
-    msg.edit(`** :white_check_mark:  Done...**`);
+    msg.edit(`** ${cheak}  Done...**`);
     });
     }
     if(role) {
@@ -6121,7 +6123,7 @@ console.log('hello')
        message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
            message.guild.member(m).removeRole(role1);
        });
-    msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** rank has been pull To __${message.guild.members.size}__ Member**`);
+    msg.edit(`** ${cheak}  Done...\n**` +role1.name+`** rank has been pull To __${message.guild.members.size}__ Member**`);
     });
     }
     }
@@ -6131,9 +6133,9 @@ console.log('hello')
 
 client.on('message',async message => {
     if(message.content.startsWith(prefix + "setVoice")) {
-    if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
-    if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **ليس معي الصلاحيات الكافية**');
-    message.channel.send('✅| **تم عمل الروم بنجاح**');
+    if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply(`${markx} **ليس لديك الصلاحيات الكافية**`);
+    if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply(`${markx} **ليس معي الصلاحيات الكافية**`);
+    message.channel.send(`${cheak}| **تم عمل الروم بنجاح**`);
     message.guild.createChannel(`Voice Online : [ ${message.guild.members.filter(m => m.voiceChannel).size} ]` , 'voice').then(c => {
       console.log(`Voice online channel setup for guild: \n ${message.guild.name}`);
       c.overwritePermissions(message.guild.id, {
@@ -6149,9 +6151,9 @@ client.on('message',async message => {
 
   client.on('message',async message => {
     if(message.content.startsWith(prefix + "setCount")) {
-    if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
-    if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **ليس معي الصلاحيات الكافية**');
-    message.channel.send('✅| **تم عمل الروم بنجاح**');
+    if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply(`${markx} **ليس لديك الصلاحيات الكافية**`);
+    if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply(`${markx} **ليس معي الصلاحيات الكافية**`);
+    message.channel.send(`${cheak}| **تم عمل الروم بنجاح**`);
     message.guild.createChannel(`Members Count : [ ${message.guild.members.size} ]` , 'voice').then(c => {
       console.log(`Count Members channel setup for guild: \n ${message.guild.name}`);
       c.overwritePermissions(message.guild.id, {
@@ -6168,9 +6170,9 @@ client.on('message',async message => {
 
   client.on('message',async message => {
     if(message.content.startsWith(prefix + "setTime")) {
-    if(!message.guild.member(message.author).hasPermission('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
-    if(!message.guild.member(client.user).hasPermission(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **ليس معي الصلاحيات الكافية**');
-    message.channel.send('✅| **تم عمل الروم بنجاح**');
+    if(!message.guild.member(message.author).hasPermission('MANAGE_CHANNELS')) return message.reply(`${markx} **ليس لديك الصلاحيات الكافية**`);
+    if(!message.guild.member(client.user).hasPermission(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply(`${markx} **ليس معي الصلاحيات الكافية**`);
+    message.channel.send(`${cheak}| **تم عمل الروم بنجاح**`);
     message.guild.createChannel("🕐 - Time  00", 'voice').then((c) => {
       console.log(`Time channel setup for guild: \n ${message.guild.name}`);
       c.overwritePermissions(message.guild.id, {
@@ -6215,9 +6217,9 @@ client.on('message',async message => {
         month = currentTime.getMonth() + 1,
         day = currentTime.getDate(),
         week = currentTime.getDay();
-    if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
-    if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **ليس معي الصلاحيات الكافية**');
-    message.channel.send('✅| **تم عمل الروم بنجاح**');
+    if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply(`${markx} **ليس لديك الصلاحيات الكافية**`);
+    if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('${markx} **ليس معي الصلاحيات الكافية**');
+    message.channel.send(`${cheak}| **تم عمل الروم بنجاح**`);
     message.guild.createChannel("📅 - Date " + "「" + day + "-" + month + "-" + years + "」" , 'voice').then(c => {
       console.log(`Date channel setup for guild: \n ${message.guild.name}`);
       c.overwritePermissions(message.guild.id, {
@@ -6234,9 +6236,9 @@ client.on('message',async message => {
   client.on('message',async message => {
     var moment = require('moment');
       if(message.content.startsWith(prefix + "setDays")) {
-      if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
-      if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **ليس معي الصلاحيات الكافية**');
-      message.channel.send('✅| **تم عمل الروم بنجاح**');
+      if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply(`${markx} **ليس لديك الصلاحيات الكافية**`);
+      if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply(`${markx} **ليس معي الصلاحيات الكافية**`);
+      message.channel.send(`${cheak}| **تم عمل الروم بنجاح**`);
       message.guild.createChannel(`Day : ${moment().format('dddd')}` , 'voice').then(c => {
         console.log(`Day channel setup for guild: \n ${message.guild.name}`);
         c.overwritePermissions(message.guild.id, {
@@ -6344,12 +6346,12 @@ client.on('message', message => {
     .setFooter("لو ان الابلاغ فيه مزح راح يتعرض صاحب الابلاغ لقوبات")
 message.channel.send(Rembed)
 message.channel.send("__Are you sure you want to send this to the Server owner??__").then(msg => {
-    msg.react("✅")
-    msg.react("❌")
-.then(() => msg.react('❌'))
-.then(() =>msg.react('✅'))
-let reaction1Filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
-let reaction2Filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+    msg.react("501807338106126336")
+    msg.react("501786909677322270")
+.then(() => msg.react('501786909677322270'))
+.then(() =>msg.react('501807338106126336'))
+let reaction1Filter = (reaction, user) => reaction.emoji.name === '501807338106126336' && user.id === message.author.id;
+let reaction2Filter = (reaction, user) => reaction.emoji.name === '501786909677322270' && user.id === message.author.id;
 
 let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
 let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
@@ -6710,7 +6712,7 @@ client.on("message", (message) => {
 if (message.content.startsWith("d!setchannel")) {
         let args = message.content.split(" ").slice(1);
     message.guild.createChannel(args.join(' '), 'text');
-message.channel.sendMessage('تـم إنـشاء روم كـتابـي بنجاح|✅')
+message.channel.sendMessage(`تـم إنـشاء روم كـتابـي بنجاح|${cheak}`)
 
 }
 });
@@ -6723,7 +6725,7 @@ client.on("message", (message) => {
 if (message.content.startsWith("d!setvoice")) {
         let args = message.content.split(" ").slice(1);
     message.guild.createChannel(args.join(' '), 'voice');
-    message.channel.sendMessage('تـم إنـشاء روم صـوتي بنجاح|✅')
+    message.channel.sendMessage('تـم إنـشاء روم صـوتي بنجاح|${cheak}')
 
 }
 });
@@ -6795,7 +6797,7 @@ if(message.content === prefix + "roomsall"){
         var channels = message.guild.channels.map(channels => `${channels.name}, `).join(' ')
         const embed = new Discord.RichEmbed()
         .setColor('RANDOM')
-        .addField(`${message.guild.name}`,`**Rooms:white_check_mark:**`)
+        .addField(`${message.guild.name}`,`**Rooms ${cheak}**`)
         .addField(':arrow_down: عدد الرومات. :heavy_check_mark:',`** ${message.guild.channels.size}**`)
 
 .addField(':arrow_down:اسماء الرومات. :heavy_check_mark::',`**[${channels}]**`)
