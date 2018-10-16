@@ -3013,7 +3013,8 @@ msg.channel.send(`${item.type}`).then(() => {
 
 
 
-
+const cheak = client.emojis.get("501807338106126336");
+const markx = client.emojis.get("501786909677322270");
 
 
 
@@ -4879,7 +4880,7 @@ message.channel.send("``لا تستطيع سحب "+ message.mentions.members.fir
  message.channel.send("**``يجب ان تكون في روم صوتي لكي تقوم بسحب العضو أليك``**")
 }
 } else {
-message.react("${markx}")
+message.react("501786909677322270")
  }}});
 
 
@@ -5902,6 +5903,8 @@ message.member.removeRole(message.guild.roles.find("name",`${x}`))
 }
 });
 
+const cheak = client.emojis.get("501807338106126336");
+const markx = client.emojis.get("501786909677322270");
 
 client.on('message', message => {
 if (message.content.startsWith("d!botinfo")) {
