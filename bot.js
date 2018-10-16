@@ -76,7 +76,7 @@ client.on('messageReactionRemove', (reaction, user) => {
  
   client.on('message', msg => {//msg
     if (msg.content === 'd!colors') {
-      msg.channel.send({file : "https://b.top4top.net/p_1002p20mv1.png"})
+      msg.channel.send({file : "https://cdn.discordapp.com/attachments/501774006966419458/501774646467887105/colors.png"})
     }
   });;
 
