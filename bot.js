@@ -17,6 +17,20 @@ const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d!";
 let done = {};
 
+client.on('message', message=>{
+if (message.content ===  'd!de-color 140'){
+if(!message.channel.guild) return;
+if (message.member.hasPermission('MANAGE_ROLES')){
+  setInterval(function(){})
+    let count = 0;
+    let ecount = 0;
+for(let x = 1; x < 141; x++){
+role.delete({name:x,
+color: 'RANDOM'})
+}
+}
+}
+});
 
 client.on('message', message => {
   if(message.content === prefix + 'colors') {
