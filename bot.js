@@ -586,7 +586,6 @@ message.channel.send(`${slots1} - ${we}`)
 
 client.on('message', message => {
 if (message.content === "d!server") {
-const emojiList = message.guild.emojis.map(e=>e.toString()).join(' '); if(emojiList === "") return;
 let embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setThumbnail(message.guild.iconURL)
@@ -599,7 +598,6 @@ let embed = new Discord.RichEmbed()
 .addField(" 🔐 Roles ", `➥ ${message.guild.roles.size} Role`,true)
 .addField(" 📅 Created On", `➥ ${message.guild.createdAt.toLocaleString()}`,true)
 .addField(" 💤 AFK channel",`➥ ` + message.guild.afkChannel || 'Null', true)
-.addField(" :grinning: Emojis",`➥ ` + `${emojiList}` || 'Null', true)
 .setTimestamp()
 .setFooter(message.author.tag, message.author.avatarURL)
 
