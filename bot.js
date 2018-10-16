@@ -2349,7 +2349,7 @@ if (message.content.startsWith("d!deletecolors")) {
 
 });
 })
-}})
+
 
 
    client.on('message', message => {
