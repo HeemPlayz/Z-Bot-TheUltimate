@@ -17,6 +17,22 @@ const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d!";
 let done = {};
 
+
+   client.on('message', message => {
+	   if(message.content.startsWith(`${prefix}invite`)){
+		   if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
+		   var embed = new Discord.RichEmbed()
+		   .setTitle(">> ClickHere To Add" + `${client.user.username}` + " <<")
+		   .setURL("https://discordapp.com/oauth2/authorize?client_id=" + `${client.user.id}` + "&scope=bot&permissions=2080374975")
+		   .setTimestamp()
+		   .setFooter(`Requested By | ${message.author.username}`)
+		   .setColor("RANDOM")
+		   message.channel.send(":white_check_mark: | Check Your DM! تم الأرسال بلخاص")
+		   message.author.send({embed})
+	   }
+   });
+
+
 client.on('message', message => {
 sql.open("./score.sqlite");
   sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
