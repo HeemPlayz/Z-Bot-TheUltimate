@@ -16,42 +16,13 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d!";
 let done = {};
-client.on('message', function(message) {
-    if(!message.channel.guild) return;
-if(message.content ===  'd!color 140') {
-if(message.member.hasPermission('MANAGE_ROLES')) {
-setInterval(function(){})
-message.channel.send('جاري عمل الالوان |✅')
-}else{
-message.channel.send('ما معاك البرمشن المطلوب  |❌')
-}
-}
-});
 
-client.on('message', message=>{
-if (message.content ===  'd!color 140'){
-if(!message.channel.guild) return;
-if (message.member.hasPermission('MANAGE_ROLES')){
-  setInterval(function(){})
-  let role7
-    let count = 0;
-    let ecount = 0;
-for(let x = 1; x < 141; x++){
-role7.delete()
-}
-}
-}
-});
-
-client.on('message', message => {
-  if(message.content === prefix + 'colors') {
-  if(!message.channel.guild) return message.channel.send('**This Commnad only For Servers !**'); 
-let menu = new Discord.RichEmbed()
-.setImage('https://b.top4top.net/p_1002p20mv1.png')
-.setFooter('Colors Menu')
-message.channel.sendEmbed(menu)
-
-
+ 
+  client.on('message', msg => {//msg
+    if (msg.content === 'd!colors') {
+      msg.channel.send({file : "https://b.top4top.net/p_1002p20mv1.png"})
+    }
+  });;
 
 
 client.on('message', message => {
