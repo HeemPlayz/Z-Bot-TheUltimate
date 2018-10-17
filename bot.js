@@ -86,6 +86,8 @@ user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: 
 
   const mmss = require('ms');
   client.on('message', async message => {
+    let tst = new Discord.RichEmbed()
+    .setImage('https://e.top4top.net/p_1020yqk6i1.png')
       let muteReason = message.content.split(" ").slice(3).join(" ");
       let mutePerson = message.mentions.users.first();
       let messageArray = message.content.split(" ");
@@ -93,10 +95,7 @@ user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: 
       let time = messageArray[2];
       if(message.content.startsWith(prefix + "tempmute")) {
           if(!message.member.hasPermission('MUTE_MEMBERS')) return message.channel.send('**للأسف لا تمتلك صلاحية** `MUTE_MEMBERS`' );
-          if(!mutePerson) return 
-          let tst = new Discord.RichEmbed()
-          .setImage('https://e.top4top.net/p_1020yqk6i1.png')
-          message.channel.sendEmbed(tst)
+          if(!mutePerson) return message.channel.sendEmbed(tst);
           if(mutePerson === message.author) return message.channel.send('**- ماتقدر تعطي نفسك ميوت**');
           if(mutePerson === client.user) return message.channel.send('**- ماتقدر تعطي البوت ميوت :)**');
           if(message.guild.member(mutePerson).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
