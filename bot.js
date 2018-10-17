@@ -87,7 +87,7 @@ user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: 
   const mmss = require('ms');
   client.on('message', async message => {
     let tst = new Discord.RichEmbed()
-    .setImage('https://e.top4top.net/p_1020yqk6i1.png')
+    .setImage('https://b.top4top.net/p_1020ijdwc1.png')
       let muteReason = message.content.split(" ").slice(3).join(" ");
       let mutePerson = message.mentions.users.first();
       let messageArray = message.content.split(" ");
