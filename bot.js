@@ -6861,10 +6861,6 @@ if (err) console.error(err);
       });
     }})})
     
-
-
-  }})
-
   
 client.on("message", message => {
 	if (message.content === "d!support") {
