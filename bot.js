@@ -18,6 +18,16 @@ const prefix = "d!";
 let done = {};
 
  
+client.on('message', message => {
+    let id = message.content.split(" ").slice(1);
+    if(message.content.startsWith(prefix + 'botinvite')) {
+        if(!id) return message.reply('اكتب ايدي البوت يلي تبي الانفايت حقه')
+        let idembed = new Discord.RichEmbed()
+        .setTitle(`https://discordapp.com/oauth2/authorize?client_id=${id}&permissions=2080374975&scope=bot`)
+        .setFooter(`Requested By | ${message.author.username}`)
+.addField('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط', `DragonBot 🐲`)
+message.channel.sendEmbed(idembed)
+	    
 client.on("message", message => {
   if (message.content === "d!support") {
        message.channel.send(":white_check_mark: I've DMed you with my support server");
