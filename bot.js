@@ -5831,7 +5831,7 @@ client.on('message', message => {
   if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
 if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
   let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
-  let copy = "Plex Bot";
+  let copy = "Dragon Bot";
   let request = `Requested By ${message.author.username}`;
   if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
   msg.react('✅')
@@ -5884,18 +5884,18 @@ translate(finalToTrans, {to: language}).then(res => {
    message.channel.send({embed: {
        color: 3447003,
        author: {
-         name: 'Plex translator',
+         name: 'Dragon translator',
          icon_url: client.user.avatarURL
        },
        fields: [{
-           name: "Plex",
+           name: "Dragon",
            value: `**From:** ${res.from.language.iso}\n\`\`\`${finalToTrans}\`\`\`\n**To: **${language}\n\`\`\`${res.text}\`\`\``
          }
        ],
        timestamp: new Date(),
        footer: {
          icon_url: client.user.avatarURL,
-         text: "Plex"
+         text: "Dragon"
        }
      }
    });
@@ -6021,7 +6021,7 @@ embed: new Discord.RichEmbed()
    .setAuthor(client.user.username,client.user.avatarURL)
    .setThumbnail(client.user.avatarURL)
    .setColor('RANDOM')
-   .setTitle('``INFO  Plex Bot`` ')
+   .setTitle('``INFO  Dragon Bot`` ')
    .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
    .addField('``servers``', [client.guilds.size], true)
    .addField('``channels``' , `[ ${client.channels.size} ]` , true)
