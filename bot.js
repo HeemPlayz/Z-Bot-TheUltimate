@@ -6885,6 +6885,6 @@ if (err) console.error(err);
     
 
 
-
+  }})
 
         client.login(process.env.BOT_TOKEN)
