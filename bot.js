@@ -17,29 +17,30 @@ const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d!";
 let done = {};
 
- 
-client.on('message', message => {
-    let id = message.content.split(" ").slice(1);
-    if(message.content.startsWith(prefix + 'botinvite')) {
-        if(!id) return message.reply('اكتب ايدي البوت يلي تبي الانفايت حقه')
-        let idembed = new Discord.RichEmbed()
-        .setTitle(`https://discordapp.com/oauth2/authorize?client_id=${id}&permissions=2080374975&scope=bot`)
-        .setFooter(`Requested By | ${message.author.username}`)
-.addField('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط', `DragonBot 🐲`)
-message.channel.sendEmbed(idembed)
-	    
-client.on("message", message => {
-  if (message.content === "d!support") {
-       message.channel.send(":white_check_mark: I've DMed you with my support server");
-   const embed = new Discord.RichEmbed()
-       .setColor("RANDOM")
-       .setFooter('© DragonBot 🐲 جميع الحقوق محفوظة 2018 لــبوت')
-       .addField('سيرفر الدعم الفني', `https://discord.gg/eHV24X`)
-   message.author.send({embed});
-  }
- });
-
-
+client.on('ready', () => {
+	console.log(`Logged in as ${client.user.tag}!`);
+	console.log('')
+	console.log('')
+	console.log('╔[═════════════════════════════════════════════════════════════════]╗')
+	console.log(`[Start] ${new Date()}`);
+	console.log('╚[═════════════════════════════════════════════════════════════════]╝')
+	console.log('')
+	console.log('╔[═════════════════════════════════════]╗');
+	console.log(`Logged in as * [ " ${client.user.username} " ]`);
+	console.log('')
+	console.log('Informations :')
+	console.log('')
+	console.log(`servers! [ " ${client.guilds.size} " ]`);
+	console.log(`Users! [ " ${client.users.size} " ]`);
+	console.log(`channels! [ " ${client.channels.size} " ]`);
+	console.log('╚[════════════════════════════════════]╝')
+	console.log('')
+	console.log('╔[════════════]╗')
+	console.log(' Bot Is Online')
+	console.log('╚[════════════]╝')
+	console.log('')
+	console.log('')
+  });
 
 const temp = JSON.parse(fs.readFileSync('./temp.json', 'utf8'));
 client.on('message', async message => {
@@ -5297,30 +5298,7 @@ client.on('message', message => {
 });
 
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-  console.log('')
-  console.log('')
-  console.log('╔[═════════════════════════════════════════════════════════════════]╗')
-  console.log(`[Start] ${new Date()}`);
-  console.log('╚[═════════════════════════════════════════════════════════════════]╝')
-  console.log('')
-  console.log('╔[═════════════════════════════════════]╗');
-  console.log(`Logged in as * [ " ${client.user.username} " ]`);
-  console.log('')
-  console.log('Informations :')
-  console.log('')
-  console.log(`servers! [ " ${client.guilds.size} " ]`);
-  console.log(`Users! [ " ${client.users.size} " ]`);
-  console.log(`channels! [ " ${client.channels.size} " ]`);
-  console.log('╚[════════════════════════════════════]╝')
-  console.log('')
-  console.log('╔[════════════]╗')
-  console.log(' Bot Is Online')
-  console.log('╚[════════════]╝')
-  console.log('')
-  console.log('')
-});
+
 client.on('message', message => {
 
   if(message.content.split(' ')[0] == prefix + 'id') {
@@ -6887,4 +6865,17 @@ if (err) console.error(err);
 
   }})
 
+  
+client.on("message", message => {
+	if (message.content === "d!support") {
+		 message.channel.send(":white_check_mark: I've DMed you with my support server");
+	 const embed = new Discord.RichEmbed()
+		 .setColor("RANDOM")
+		 .setFooter('© DragonBot 🐲 جميع الحقوق محفوظة 2018 لــبوت')
+		 .addField('سيرفر الدعم الفني', `https://discord.gg/eHV24X`)
+	 message.author.send({embed});
+	}
+   });
+
+   
         client.login(process.env.BOT_TOKEN)
