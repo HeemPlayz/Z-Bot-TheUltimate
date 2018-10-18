@@ -16,196 +16,186 @@ const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = "d!";
 let done = {};
-
-client.on('ready', () => {
-	console.log(`Logged in as ${client.user.tag}!`);
-	console.log('')
-	console.log('')
-	console.log('╔[═════════════════════════════════════════════════════════════════]╗')
-	console.log(`[Start] ${new Date()}`);
-	console.log('╚[═════════════════════════════════════════════════════════════════]╝')
-	console.log('')
-	console.log('╔[═════════════════════════════════════]╗');
-	console.log(`Logged in as * [ " ${client.user.username} " ]`);
-	console.log('')
-	console.log('Informations :')
-	console.log('')
-	console.log(`servers! [ " ${client.guilds.size} " ]`);
-	console.log(`Users! [ " ${client.users.size} " ]`);
-	console.log(`channels! [ " ${client.channels.size} " ]`);
-	console.log('╚[════════════════════════════════════]╝')
-	console.log('')
-	console.log('╔[════════════]╗')
-	console.log(' Bot Is Online')
-	console.log('╚[════════════]╝')
-	console.log('')
-	console.log('')
-  });
-
+client.on('message', message => {
+  if(message.content.startsWith(prefix + 'hrole')) {
+      if(!message.member.hasPermission('MANAGE_ROLES')) return
+    let role = new Discord.RichEmbed()
+  .setDescription(`
+  أمثله على الأوامر : 
+  d!role @mention rolename : لأعطاء رتبة لعضو معين
+  d!role all rolename : لأعطاء رتبة للجميع 
+  d!role humans rolename : لأعطاء رتبة للاشخاص فقط
+  d!role bots rolename : لأعطاء رتبة لجميع البوتات`)
+  .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+message.channel.sendEmbed(role)
+  }})
   
 client.on('message', message => {
-  if (message.author.x5bz) return;
-  if (!message.content.startsWith(prefix)) return;
-
-  let command = message.content.split(" ")[0];
-  command = command.slice(prefix.length);
-
-  let args = message.content.split(" ").slice(1);
-
-  if (command == "ban") {
-    if (!message.channel.guild) return;
-         
-  if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You Don't Have ` BAN_MEMBERS ` Permission**");
-  if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
-  let user = message.mentions.users.first();
-  let reason = message.content.split(" ").slice(2).join(" ");
-  /*let b5bzlog = client.channels.find("name", "5bz-log");
-
-  if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
-  if (message.mentions.users.size < 1) return message.reply("**Mention Someone**");
-  if(!reason) return;
-  if (!message.guild.member(user)
-  .bannable) return message.reply("**This person has a grade higher than his bot rank**");
-
-  message.guild.member(user).ban(7, user);
-  message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
-  let banEmbed = new Discord.RichEmbed()
-  .setAuthor(`New Banned User !`)
-  .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
-  .addField('- Banned By: ',message.author.tag,true)
-  .addField('- Banned User:', `${user}`)
-  .addField('- Reason:',reason,true)
-  .addField('- Time & Date:', `${message.createdAt}`)
-  .setFooter(message.author.tag,message.author.avatarURL);
-  let incidentchannel = message.guild.channels.find(`name`, "incidents");
-if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-incidentchannel.send(banEmbed);
-user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: ${reason}`)
+  if(message.content.startsWith(prefix + '-hrole')) {
+      if(!message.member.hasPermission('MANAGE_ROLES')) return
+    let role = new Discord.RichEmbed()
+  .setDescription(`
+  أمثله على الأوامر : 
+  d!-role @mention rolename : لسحب رتبة لعضو معين
+  d!-role all rolename : لسحب رتبة للجميع 
+  d!-role humans rolename : لسحب رتبة للاشخاص فقط
+  d!-role bots rolename : لسحب رتبة لجميع البوتات`)
+  .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+message.channel.sendEmbed(role)
   }})
 
 
-  const mmss = require('ms');
-  client.on('message', async message => {
-    let tst = new Discord.RichEmbed()
-    .setImage('https://c.top4top.net/p_1021nbiq71.png')
-      let muteReason = message.content.split(" ").slice(3).join(" ");
-      let mutePerson = message.mentions.users.first();
-      let messageArray = message.content.split(" ");
-      let muteRole = message.guild.roles.find("name", "Muted");
-      let time = messageArray[2];
-      if(message.content.startsWith(prefix + "tempmute")) {
-          if(!message.member.hasPermission('MUTE_MEMBERS')) return message.channel.send('**للأسف لا تمتلك صلاحية** `MUTE_MEMBERS`' );
-          if(!mutePerson) return message.channel.sendEmbed(tst);
-          if(mutePerson === message.author) return message.channel.send('**- ماتقدر تعطي نفسك ميوت**');
-          if(mutePerson === client.user) return message.channel.send('**- ماتقدر تعطي البوت ميوت :)**');
-          if(message.guild.member(mutePerson).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
-          if(!muteRole) return message.guild.createRole({ name: "Muted", permissions: [] });
-          if(!time) return message.channel.send("**- اكتب الوقت**");
-          if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');
-          if(!muteReason) return message.channel.send("**- اكتب السبب**");
-          message.guild.member(mutePerson).addRole(muteRole);
-          message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
-          message.delete()
-          let muteEmbed = new Discord.RichEmbed()
-          .setTitle(`New Muted User`)
-          .setThumbnail(message.guild.iconURL)
-          .addField('- Muted By:',message.author,true)
-          .addField('- Muted User:', `${mutePerson}`)
-          .addField('- Reason:',muteReason,true)
-          .addField('- Duration:',`${mmss(mmss(time), {long: true})}`)
-          .setFooter(message.author.username,message.author.avatarURL);
-          let incidentchannel = message.guild.channels.find(`name`, "incidents");
-          if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-          incidentchannel.sendEmbed(muteEmbed)
-          mutePerson.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
-          .then(() => { setTimeout(() => {
-             message.guild.member(mutePerson).removeRole(muteRole);
-         }, mmss(time));
-      });
-      }
-  });
-  
-  client.on('message', async message => {
-    var moment = require('moment');
-    var mmss = require('ms')
-    let date = moment().format('Do MMMM YYYY , hh:mm');
-    let User = message.mentions.users.first();
-    let Reason = message.content.split(" ").slice(3).join(" ");
+client.on('message',message =>{
+  var command = message.content.toLowerCase().split(" ")[0];
+    var args = message.content.toLowerCase().split(" ");
+    var userM = message.mentions.users.first()
+    if(command == prefix + 'unban') {
+        if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
+        if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(':no_entry: | I dont have **BAN_MEMBERS** Permission!');
+        if(!args[1]) return  message.channel.send(':no_entry: | Please type the ID of user');
+        if(args[1].length < 16) return message.reply(':no_entry: | This ID is not id user!');
+        message.guild.fetchBans().then(bans => {
+            var Found = bans.find(m => m.id === args[1]);
+            if(!Found) return message.channel.send(`:no_entry: | <@${message.author.id}> This preson not have any ban from this server! :unlock:`);
+            message.guild.unban(args[1]);
+            message.channel.send(`:white_check_mark: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!`);
+           
+            let banInfo = new Discord.RichEmbed()
+            .setTitle('**New Unbanned User !**')
+            .setThumbnail(message.author.avatarURL)
+            .setColor('GREEN')
+            .setDescription(`**\n:airplane: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!\n\n**User:** <@${args[1]}> (ID: ${args[1]})\n**By:** <@${message.author.id}> (ID: ${message.author.id})`)
+            .setTimestamp()
+            .setFooter(userM.user.tag, userM.user.avatarURL)
+           
+            let incidentchannel = message.guild.channels.find(`name`, "incidents");
+            if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+            incidentchannel.send(banEmbed);
+            }
+ 
+        )}
+      })
+
+const mmss = require('ms');
+client.on('message', async message => {
+  let helpembed = new Discord.RichEmbed()
+  .setImage('https://c.top4top.net/p_1021nbiq71.png')
+    let muteReason = message.content.split(" ").slice(3).join(" ");
+    let mutePerson = message.mentions.users.first();
     let messageArray = message.content.split(" ");
+    let muteRole = message.guild.roles.find("name", "Muted");
     let time = messageArray[2];
-    if(message.content.startsWith(prefix + "tempban")) {
-      if (!message.channel.guild) return;
-       if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**You dont have ban_members permission :/ **");
-       if(!User) message.channel.send("Mention Someone");
-       if(User.id === client.user.id) return message.channel.send("**Why you want to ban me ? :/**");
-       if(User.id === message.guild.owner.id) return message.channel.send("**Nice try man :> you cant ban the ownership**");
-       if(!time) return message.channel.send("**- اكتب الوقت**");
-       if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this Duration**');
-       if(!Reason) message.channel.send("**- اكتب Reason**");
-       let banEmbed = new Discord.RichEmbed()
-       .setAuthor(`New Banned User !`)
-       .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
-       .addField('- Banned By: ',message.author.tag,true)
-       .addField('- Banned User:', `${User}`)
-       .addField('- Reason:',Reason,true)
-       .addField('- Time & Date:', `${message.createdAt}`)
-       .addField('- Duration:',time,true)
-       .setFooter(message.author.tag,message.author.avatarURL);
-       let incidentchannel = message.guild.channels.find(`name`, "incidents");
-  if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-  incidentchannel.send(banEmbed);
-  message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`).then(() => message.guild.member(User).ban({reason: Reason}))
-  User.send(`**:airplane: You are has been banned in ${message.guild.name} reason: ${Reason} by: ${message.author.tag} :airplane:**`)
-       .then(() => { setTimeout(() => {
-           message.guild.unban(User);
+    if(message.content.startsWith(prefix + "tempmute")) {
+        if(!message.member.hasPermission('MUTE_MEMBERS')) return message.channel.send('**للأسف لا تمتلك صلاحية** `MUTE_MEMBERS`' );
+        if(!mutePerson) return message.channel.sendEmbed(helpembed);
+        if(mutePerson === message.author) return message.channel.send('**- ماتقدر تعطي نفسك ميوت**');
+        if(mutePerson === client.user) return message.channel.send('**- ماتقدر تعطي البوت ميوت :)**');
+        if(message.guild.member(mutePerson).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
+        if(!muteRole) return message.guild.createRole({ name: "Muted", permissions: [] });
+        if(!time) return message.channel.send("**- اكتب الوقت**");
+        if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');
+        if(!muteReason) return message.channel.send("**- اكتب السبب**");
+        message.guild.member(mutePerson).addRole(muteRole);
+        message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
+        message.delete()
+        let muteEmbed = new Discord.RichEmbed()
+        .setTitle(`New Muted User`)
+        .setThumbnail(message.guild.iconURL)
+        .addField('- Muted By:',message.author,true)
+        .addField('- Muted User:', `${mutePerson}`)
+        .addField('- Reason:',muteReason,true)
+        .addField('- Duration:',`${mmss(mmss(time), {long: true})}`)
+        .setFooter(message.author.username,message.author.avatarURL);
+        let incidentchannel = message.guild.channels.find(`name`, "incidents");
+        if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+        incidentchannel.sendEmbed(muteEmbed)
+        mutePerson.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
+        .then(() => { setTimeout(() => {
+           message.guild.member(mutePerson).removeRole(muteRole);
        }, mmss(time));
     });
-   }
-  });
-
-  
-
-
-  client.on('message', async message => {
-    let mention = message.mentions.members.first();
-  let command = message.content.split(" ")[0];
-     command = command.slice(prefix.length);
-    let args = message.content.split(" ").slice(1);	 
-  if(command === `unmute`) {2
-    if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**You Donot HavePermission Mute_Members**").then(m => m.delete(5000));
-  if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I donot Have Permission Mute_Members**").then(msg => msg.delete(6000))
-  
-    let kinggamer = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
-       if(!kinggamer) return message.channel.send('').then(msg => {
-        msg.delete(3500);
-        message.delete(3500); 
-      });
-  
-    let role = message.guild.roles.find (r => r.name === "Muted");
-    
-    if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source:${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
-  
-    await kinggamer.removeRole(role) 
-    message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmuted! **`);
-    let mutedEmbed = new Discord.RichEmbed()
-  .setDescription("New UnMute User")
-  .setThumbnail(message.guild.iconURL)
-  .setColor("#bc0000")
-  .addField("Unmuted", `${Warned} with ID ${Warned.id}`)
-  .addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
-  .addField("Unmuted In", message.channel)
-  .addField("Time & Date", `${message.createdAt}`)
-  .setFooter("DragonBot 🐲")
-  let incidentchannel = message.guild.channels.find(`name`, "incidents");
-  if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-  
-    return;
-  
     }
-  
-  });
+});
 
+client.on('message', async message => {
+  var moment = require('moment');
+  var mmss = require('ms')
+  let date = moment().format('Do MMMM YYYY , hh:mm');
+  let User = message.mentions.users.first();
+  let Reason = message.content.split(" ").slice(3).join(" ");
+  let messageArray = message.content.split(" ");
+  let time = messageArray[2];
+  if(message.content.startsWith(prefix + "tempban")) {
+    if (!message.channel.guild) return;
+     if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**You dont have ban_members permission :/ **");
+     if(!User) message.channel.send("Mention Someone");
+     if(User.id === client.user.id) return message.channel.send("**Why you want to ban me ? :/**");
+     if(User.id === message.guild.owner.id) return message.channel.send("**Nice try man :> you cant ban the ownership**");
+     if(!time) return message.channel.send("**- اكتب الوقت**");
+     if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this Duration**');
+     if(!Reason) message.channel.send("**- اكتب Reason**");
+     let banEmbed = new Discord.RichEmbed()
+     .setAuthor(`New Banned User !`)
+     .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
+     .addField('- Banned By: ',message.author.tag,true)
+     .addField('- Banned User:', `${User}`)
+     .addField('- Reason:',Reason,true)
+     .addField('- Time & Date:', `${message.createdAt}`)
+     .addField('- Duration:',time,true)
+     .setFooter(message.author.tag,message.author.avatarURL);
+     let incidentchannel = message.guild.channels.find(`name`, "incidents");
+if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+incidentchannel.send(banEmbed);
+message.channel.send(`**:white_check_mark: ${User} has been banned :airplane: **`).then(() => message.guild.member(User).ban({reason: Reason}))
+User.send(`**:airplane: You are has been banned in ${message.guild.name} reason: ${Reason} by: ${message.author.tag} :airplane:**`)
+     .then(() => { setTimeout(() => {
+         message.guild.unban(User);
+     }, mmss(time));
+  });
+ }
+});
+
+
+
+
+client.on('message', async message => {
+  let mention = message.mentions.members.first();
+let command = message.content.split(" ")[0];
+   command = command.slice(prefix.length);
+  let args = message.content.split(" ").slice(1);	 
+if(command === `unmute`) {2
+  if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**You Donot HavePermission Mute_Members**").then(m => m.delete(5000));
+if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I donot Have Permission Mute_Members**").then(msg => msg.delete(6000))
+
+  let kinggamer = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
+     if(!kinggamer) return message.channel.send('').then(msg => {
+      msg.delete(3500);
+      message.delete(3500); 
+    });
+
+  let role = message.guild.roles.find (r => r.name === "Muted");
   
+  if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source:${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
+
+  await kinggamer.removeRole(role) 
+  message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmuted! **`);
+  let mutedEmbed = new Discord.RichEmbed()
+.setDescription("New UnMute User")
+.setThumbnail(message.guild.iconURL)
+.setColor("#bc0000")
+.addField("Unmuted", `${Warned} with ID ${Warned.id}`)
+.addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
+.addField("Unmuted In", message.channel)
+.addField("Time & Date", `${message.createdAt}`)
+.setFooter("DragonBot 🐲")
+let incidentchannel = message.guild.channels.find(`name`, "incidents");
+if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+
+  return;
+
+  }
+
+});
 client.on('message', message => {
   var prefix = "d!";
     if (message.author.kick) return;
@@ -246,8 +236,163 @@ client.on('message', message => {
   user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
       message.delete()
   }
-  });
+  })
+client.on('message', message => {
+  if (message.author.x5bz) return;
+  if (!message.content.startsWith(prefix)) return;
 
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+
+  if (command == "ban") {
+    if (!message.channel.guild) return;
+         
+  if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You Don't Have ` BAN_MEMBERS ` Permission**");
+  if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
+  let user = message.mentions.users.first();
+  let reason = message.content.split(" ").slice(2).join(" ");
+  /*let b5bzlog = client.channels.find("name", "5bz-log");
+
+  if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
+  if (message.mentions.users.size < 1) return message.reply("**Mention Someone**");
+  if(!reason) return;
+  if (!message.guild.member(user)
+  .bannable) return message.reply("**This person has a grade higher than his bot rank**");
+
+  message.guild.member(user).ban(7, user);
+  message.channel.send(`**:white_check_mark: ${user} has been banned :airplane: **`)
+  let banEmbed = new Discord.RichEmbed()
+  .setAuthor(`New Banned User !`)
+  .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
+  .addField('- Banned By: ',message.author.tag,true)
+  .addField('- Banned User:', `${user}`)
+  .addField('- Reason:',reason,true)
+  .addField('- Time & Date:', `${message.createdAt}`)
+  .setFooter(message.author.tag,message.author.avatarURL);
+  let incidentchannel = message.guild.channels.find(`name`, "incidents");
+if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+incidentchannel.send(banEmbed);
+user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: ${reason}`)
+  }})
+
+client.on('message', message => {
+  var prefix = "d!"
+  let args = message.content.split(' ').slice(1);
+  if(message.content.startsWith(prefix + 'role')) {
+      if(!message.member.hasPermission('MANAGE_ROLES')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `MANAGE_ROLES`' );
+  let member = message.mentions.users.first();
+  let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
+  console.log(role);
+  if(member) {
+       if(role.startsWith('-')) {
+         let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+         console.log(roleRe);
+         let role1 = message.guild.roles.find('name', roleRe);
+         console.log(`hi`);
+  const ee =new Discord.RichEmbed()
+  .setDescription('**:x: I can’t find the role.**')
+  .setFooter('Requested By '+message.author.username,message.author.avatarURL)
+  if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1.id);
+  
+              const e = new Discord.RichEmbed()
+  
+          .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
+         .setFooter('Requested By '+message.author.username,message.author.avatarURL)
+         .setColor('BLACK')
+          message.channel.send(e)
+     } else if(!role.startsWith('-')) {
+         let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+         let role1 = message.guild.roles.find('name', roleRe);
+  const ee =new Discord.RichEmbed()
+  .setDescription('**:x: I can’t find the role.**')
+  .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+  if(!role1) return message.channel.send(ee);                message.guild.member(member).addRole(role1);
+         const e = new Discord.RichEmbed()
+  
+         .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
+         .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+         .setColor('BLACK')
+          message.channel.send(e)
+     } else {
+         message.reply(`يجب عليك كتابة اسم الرتبة`);
+     }
+  }
+  else if(args[0] == 'all') {
+  if(role.startsWith('d!')) {
+  let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+  let role1 = message.guild.roles.find('name', roleRe);
+            message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
+    message.guild.members.forEach(m => {
+     message.guild.member(m).removeRole(role1.id);
+  });
+  msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+  });
+  }
+  if(role) {
+  let role1 = message.guild.roles.find('name', role);
+  if(!role1) return;
+  message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
+  message.guild.members.forEach(m => {
+     message.guild.member(m).addRole(role1);
+  });
+  msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
+  });
+  }
+  } else if(args[0] == 'humans') {
+  if(role.startsWith('d!')) {
+  let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+  let role1 = message.guild.roles.find('name', roleRe);
+            message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
+    message.guild.members.forEach(m => {
+     message.guild.member(m).removeRole(role1.id);
+  });
+  msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
+  });
+  }
+  
+  if(role) {
+  let role1 = message.guild.roles.find('name', role);
+  
+  const ee =new Discord.RichEmbed()
+  .setDescription('I Cann’t Find This Role')
+  .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+  if(!role1) return message.channel.send(ee);
+  message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
+     message.guild.members.filter(m =>m.user.bot == false).forEach(m => {
+         message.guild.member(m).addRole(role1);
+     });
+  msg.edit(`** :white_check_mark:   Done...**`);
+  });
+  }
+  } else if(args[0] == 'bots') {
+  if(role.startsWith('d!')) {
+  let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
+  let role1 = message.guild.roles.find('name', roleRe);
+            message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
+    message.guild.members.forEach(m => {
+     message.guild.member(m).removeRole(role1.id);
+  });
+  msg.edit(`** :white_check_mark:  Done...**`);
+  });
+  }
+  if(role) {
+  let role1 = message.guild.roles.find('name', role);
+  const ee =new Discord.RichEmbed()
+  .setDescription('I Cann’t Find This Role')
+  .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
+  if(!role1) return message.channel.send(ee);
+  message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
+     message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
+         message.guild.member(m).addRole(role1);
+     });
+  msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
+  });
+  }
+  }
+  }
+  });
 
   client.on('message', message => {
     var prefix = "d!"
@@ -366,122 +511,13 @@ client.on('message', message => {
     }
     });
     
-client.on('message', message => {
-    var prefix = "d!"
-    let args = message.content.split(' ').slice(1);
-    if(message.content.startsWith(prefix + 'role')) {
-        if(!message.member.hasPermission('MANAGE_ROLES')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `MANAGE_ROLES`' );
-    let member = message.mentions.users.first();
-    let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
-    console.log(role);
-    if(member) {
-         if(role.startsWith('-')) {
-           let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-           console.log(roleRe);
-           let role1 = message.guild.roles.find('name', roleRe);
-           console.log(`hi`);
-    const ee =new Discord.RichEmbed()
-    .setDescription('**:x: I can’t find the role.**')
-    .setFooter('Requested By '+message.author.username,message.author.avatarURL)
-    if(!role1) return message.channel.send(ee);                message.guild.member(member).removeRole(role1.id);
-    
-                const e = new Discord.RichEmbed()
-    
-            .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'-'+role1.name+'**')
-           .setFooter('Requested By '+message.author.username,message.author.avatarURL)
-           .setColor('BLACK')
-            message.channel.send(e)
-       } else if(!role.startsWith('-')) {
-           let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-           let role1 = message.guild.roles.find('name', roleRe);
-    const ee =new Discord.RichEmbed()
-    .setDescription('**:x: I can’t find the role.**')
-    .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-    if(!role1) return message.channel.send(ee);                message.guild.member(member).addRole(role1);
-           const e = new Discord.RichEmbed()
-    
-           .setDescription(':white_check_mark:** Changed Roles For **'+member+'**,** '+'**'+'+'+role1.name+'**')
-           .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-           .setColor('BLACK')
-            message.channel.send(e)
-       } else {
-           message.reply(`يجب عليك كتابة اسم الرتبة`);
-       }
-    }
-    else if(args[0] == 'all') {
-    if(role.startsWith('d!')) {
-    let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-    let role1 = message.guild.roles.find('name', roleRe);
-              message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
-      message.guild.members.forEach(m => {
-       message.guild.member(m).removeRole(role1.id);
-    });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
-    });
-    }
-    if(role) {
-    let role1 = message.guild.roles.find('name', role);
-    if(!role1) return;
-    message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
-    message.guild.members.forEach(m => {
-       message.guild.member(m).addRole(role1);
-    });
-    msg.edit(`** :white_check_mark:   Done...\n**` +  role1.name+`** Has Given To __${message.guild.members.size}__ Members **`);
-    });
-    }
-    } else if(args[0] == 'humans') {
-    if(role.startsWith('d!')) {
-    let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-    let role1 = message.guild.roles.find('name', roleRe);
-              message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
-      message.guild.members.forEach(m => {
-       message.guild.member(m).removeRole(role1.id);
-    });
-    msg.edit(`** :white_check_mark:   Done...\n**` +role1.name+`** Has Taken From __${message.guild.members.size}__ Member**`);
-    });
-    }
-    
-    if(role) {
-    let role1 = message.guild.roles.find('name', role);
-    
-    const ee =new Discord.RichEmbed()
-    .setDescription('I Cann’t Find This Role')
-    .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-    if(!role1) return message.channel.send(ee);
-    message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
-       message.guild.members.filter(m =>m.user.bot == false).forEach(m => {
-           message.guild.member(m).addRole(role1);
-       });
-    msg.edit(`** :white_check_mark:   Done...**`);
-    });
-    }
-    } else if(args[0] == 'bots') {
-    if(role.startsWith('d!')) {
-    let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
-    let role1 = message.guild.roles.find('name', roleRe);
-              message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
-      message.guild.members.forEach(m => {
-       message.guild.member(m).removeRole(role1.id);
-    });
-    msg.edit(`** :white_check_mark:  Done...**`);
-    });
-    }
-    if(role) {
-    let role1 = message.guild.roles.find('name', role);
-    const ee =new Discord.RichEmbed()
-    .setDescription('I Cann’t Find This Role')
-    .setFooter('Requested By : '+message.author.username,message.author.avatarURL)
-    if(!role1) return message.channel.send(ee);
-    message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg => {
-       message.guild.members.filter(m =>m.user.bot == true).forEach(m => {
-           message.guild.member(m).addRole(role1);
-       });
-    msg.edit(`** :white_check_mark:  Done...\n**` +role1.name+`** Has Given To __${message.guild.members.size}__ Member**`);
-    });
-    }
-    }
-    }
-    });
+  
+
+
+
+
+
+
 
 const temp = JSON.parse(fs.readFileSync('./temp.json', 'utf8'));
 client.on('message', async message => {
@@ -3897,36 +3933,6 @@ client.on("guildMemberAdd", member => {
 
 
 
-client.on('message',message =>{
- var command = message.content.toLowerCase().split(" ")[0];
-   var args = message.content.toLowerCase().split(" ");
-   var userM = message.mentions.users.first()
-   if(command == prefix + 'unban') {
-       if(!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send(':no_entry: | You dont have **BAN_MEMBERS** Permission!');
-       if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(':no_entry: | I dont have **BAN_MEMBERS** Permission!');
-       if(!args[1]) return  message.channel.send(':no_entry: | Please type the ID of user');
-       if(args[1].length < 16) return message.reply(':no_entry: | This ID is not id user!');
-       message.guild.fetchBans().then(bans => {
-           var Found = bans.find(m => m.id === args[1]);
-           if(!Found) return message.channel.send(`:no_entry: | <@${message.author.id}> This preson not have any ban from this server! :unlock:`);
-           message.guild.unban(args[1]);
-           message.channel.send(`:white_check_mark: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!`);
-          
-           let banInfo = new Discord.RichEmbed()
-           .setTitle('**New Unbanned User !**')
-           .setThumbnail(message.author.avatarURL)
-           .setColor('GREEN')
-           .setDescription(`**\n:airplane: Successfully \`\`UNBANNED\`\` <@${args[1]}> From the server!\n\n**User:** <@${args[1]}> (ID: ${args[1]})\n**By:** <@${message.author.id}> (ID: ${message.author.id})`)
-           .setTimestamp()
-           .setFooter(userM.user.tag, userM.user.avatarURL)
-          
-           let incidentchannel = message.guild.channels.find(`name`, "incidents");
-           if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-           incidentchannel.send(banEmbed);
-           }
-
-       )}
-     })
 client.on('message', message => {
   if (message.content === "d!ping") {
    const embed = new Discord.RichEmbed()
@@ -4482,34 +4488,6 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 		logChannel.send(voiceLeave);
 	}
 });
-client.on('message', message => {
-    if(message.content.startsWith(prefix + 'hrole')) {
-        if(!message.member.hasPermission('MANAGE_ROLES')) return
-      let role = new Discord.RichEmbed()
-    .setDescription(`
-    أمثله على الأوامر : 
-    d!role @mention rolename : لأعطاء رتبة لعضو معين
-    d!role all rolename : لأعطاء رتبة للجميع 
-    d!role humans rolename : لأعطاء رتبة للاشخاص فقط
-    d!role bots rolename : لأعطاء رتبة لجميع البوتات`)
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-  message.channel.sendEmbed(role)
-    }})
-    
-  client.on('message', message => {
-    if(message.content.startsWith(prefix + '-hrole')) {
-        if(!message.member.hasPermission('MANAGE_ROLES')) return
-      let role = new Discord.RichEmbed()
-    .setDescription(`
-    أمثله على الأوامر : 
-    d!-role @mention rolename : لسحب رتبة لعضو معين
-    d!-role all rolename : لسحب رتبة للجميع 
-    d!-role humans rolename : لسحب رتبة للاشخاص فقط
-    d!-role bots rolename : لسحب رتبة لجميع البوتات`)
-    .setFooter('Requested by '+message.author.username, message.author.avatarURL)
-  message.channel.sendEmbed(role)
-    }})
-
 
 
 
@@ -4892,12 +4870,6 @@ npm install simple-youtube-api
 npm install queue
 */
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-    console.log(`in ${client.guilds.size} servers `)
-    console.log(`[ ] ${client.users.size}`)
-    client.user.setStatus("idle")
-});
 
 
 
@@ -6310,20 +6282,6 @@ if (message.content.startsWith(prefix + "uptime")) {
 
 }
 });
-
-
-
-client.on('ready', () => {
-  console.log(`AutoRole Code Started By Friends Team`);
-});
-
-
-
-
-
-
-
-
 client.on('message', message => {
     if(message.content.startsWith(prefix + "report")) {
         let messageArgs = message.content.split(" ").slice(1).join(" ");
@@ -6364,42 +6322,6 @@ reaction2.on("collect", r => {
 
 
 
-
-
-
-
-
-
-
-const TOKEN = "";
-
-function commandIs(str, msg){
-    return msg.content.toLowerCase().startsWith('.' + str);
-}
-
-function pluck(array) {
-    return array.map(function(item) { return item["name"]; });
-}
-
-function hasRole(mem, role) {
-    if(pluck(mem.roles).includes(role)){
-        return true;
-    } else {
-        return false;
-    }
-
-  }
-
-
-
-
-
-
-
-
-
-
-
 client.on('message', message => {
      if (message.content === "d!servers") {
 		 if(!message.channel.guild) return;
@@ -6409,17 +6331,6 @@ client.on('message', message => {
   message.channel.sendEmbed(embed);
     }
 });
-
-
-
-
-
-
-
-
-
-
-
 
 var cats = [
 
