@@ -25,7 +25,6 @@ const prefix = "d!";
 let done = {};
 const Token = process.env.BOT_TOKEN
 
-
 client.on('message', message => {
   if(message.content.startsWith(prefix + 'hrole')) {
       if(!message.member.hasPermission('MANAGE_ROLES')) return
