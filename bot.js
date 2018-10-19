@@ -51,6 +51,8 @@ hastebins(`${array.slice(0, 30).join('\n')}`, 'txt').then(l => {
 client.on('message' , message => {
 var PREFIX = 'd!';
 if(message.content === `${PREFIX}discrim`) {
+	            var args = message.content.split(' ').slice(1).join(' ');
+	    if(!args) return message.reply('Please Type The Discrim Tag')
                       let array = [];
                       var i = 0;
 client.users.filter(u => u.discriminator == message.author.discriminator).map(u => {
