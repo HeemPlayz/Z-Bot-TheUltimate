@@ -30,6 +30,7 @@ client.on('message', message => {
 var PREFIX = 'd!';
     if(message.content.startsWith(PREFIX + 'discrim')) {
             var args = message.content.split(' ').slice(1).join(' ');
+	    if(!args) return message.reply('Please Type The Discrim Tag')
 }
       var array = [];
       var i = 0;
