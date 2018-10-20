@@ -4093,6 +4093,7 @@ message.author.send(`**
 ❯ d!createcolors → create 132 colors
 ❯ d!colors → View the colors menu
 ❯ d!color → To give the color you want
+صفحه البوت : https://dragonbot.site123.me/
 **BOT VERSION : v1.0**
 **`)
 }
@@ -6658,6 +6659,5 @@ client.on("message", message => {
    });
 
    
-  })
-})
+ 
 client.login(Token)
