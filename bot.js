@@ -26,8 +26,145 @@ let done = {};
 const Token = process.env.BOT_TOKEN
 
 
+  
+client.on("message", message => {
+	if (message.content === "d!support") {
+		 message.channel.send(":white_check_mark: I've DMed you with my support server");
+	 const embed = new Discord.RichEmbed()
+		 .setColor("RANDOM")
+		 .setFooter('© DragonBot 🐲 جميع الحقوق محفوظة 2018 لــبوت')
+		 .addField('سيرفر الدعم الفني', `https://discord.gg/eHV24X`)
+	 message.author.send({embed});
+	}
+   });
 
 
+client.on('message' , message => {
+  var prefix = "d!";
+  if(message.author.bot) return;
+  
+  if(message.content.startsWith(prefix + "xo")) {
+  let array_of_mentions = message.mentions.users.array();
+  let symbols = [':o:', ':heavy_multiplication_x:']
+  var grid_message;
+  
+  if (array_of_mentions.length == 1 || array_of_mentions.length == 2) {
+  let random1 = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+  let random2 = Math.abs(random1 - 1);
+  if (array_of_mentions.length == 1) {
+  random1 = 0;
+  random2 = 0;
+  }
+  let player1_id = array_of_mentions[random1].id;
+  let player2_id = array_of_mentions[random2].id;
+  var turn_id = player1_id;
+  var symbol = symbols[0];
+  let initial_message = `مباراة بين <@${player1_id}> و <@${player2_id}>!`;
+  if (player1_id == player2_id) {
+  initial_message += '\n_(من الخاسر, انت تلعب هذا الدور مع نفسك :joy:)_'
+  }
+  message.channel.send(`xo! ${initial_message}`)
+  .then(console.log("Successful tictactoe introduction"))
+  .catch(console.error);
+  message.channel.send(':one::two::three:' + '\n' +
+                  ':four::five::six:' + '\n' +
+                  ':seven::eight::nine:')
+  .then((new_message) => {
+  grid_message = new_message;
+  })
+  .then(console.log("Successful xo game initialization"))
+  .catch(console.error);
+  message.channel.send('يتم تحميل... انتظر الريئاكشن :ok:')
+  .then(async (new_message) => {
+  await new_message.react('1⃣');
+  await new_message.react('2⃣');
+  await new_message.react('3⃣');
+  await new_message.react('4⃣');
+  await new_message.react('5⃣');
+  await new_message.react('6⃣');
+  await new_message.react('7⃣');
+  await new_message.react('8⃣');
+  await new_message.react('9⃣');
+  await new_message.react('🆗');
+  await new_message.edit(`انه دور <@${turn_id}> علامتك هي${symbol}`)
+  .then((new_new_message) => {
+  require('./alpha.js')(client, message, new_new_message, player1_id, player2_id, turn_id, symbol, symbols, grid_message);
+  })
+  .then(console.log("Successful xo listener initialization"))
+  .catch(console.error);
+  })
+  .then(console.log("Successful xo react initialization"))
+  .catch(console.error);
+  }
+  else {
+  message.reply(`_مهلا مهلا_ :anger: \`(استعمل هذا: ${prefix}xo @player1 @player2)\``)
+  .then(console.log("Successful error reply"))
+  .catch(console.error);
+  }
+  }
+  });
+  client.on('message', message => {
+  let args = message.content.split(' ').slice(1);
+  if(message.content.split(' ')[0] == 'd!color'){
+  const embedd = new Discord.RichEmbed()
+  .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+  .setDescription(`**لا يوجد لون بهذا الأسم ** :x: `)
+  .setColor(`ff0000`)
+  
+  if(!isNaN(args) && args.length > 0)
+  
+  
+  if    (!(message.guild.roles.find("name",`${args}`))) return  message.channel.sendEmbed(embedd);
+  
+  
+  var a = message.guild.roles.find("name",`${args}`)
+   if(!a)return;
+  const embed = new Discord.RichEmbed()
+  
+  .setFooter('Requested by '+message.author.username, message.author.avatarURL)
+  .setDescription(`**Done , تم تغير لونك . :white_check_mark: **`)
+  
+  .setColor(`${a.hexColor}`)
+  message.channel.sendEmbed(embed);
+  if (!args)return;
+  setInterval(function(){})
+     let count = 0;
+     let ecount = 0;
+  for(let x = 1; x < 201; x++){
+  
+  message.member.removeRole(message.guild.roles.find("name",`${x}`))
+  
+  }
+   message.member.addRole(message.guild.roles.find("name",`${args}`));
+  
+  
+  }
+  });
+  
+  
+  client.on('message', message => {
+  if (message.content.startsWith("d!botinfo")) {
+  message.channel.send({
+  embed: new Discord.RichEmbed()
+     .setAuthor(client.user.username,client.user.avatarURL)
+     .setThumbnail(client.user.avatarURL)
+     .setColor('RANDOM')
+     .setTitle('``INFO  Dragon Bot`` ')
+     .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
+     .addField('``servers``', [client.guilds.size], true)
+     .addField('``channels``' , `[ ${client.channels.size} ]` , true)
+     .addField('``Users``' ,`[ ${client.users.size} ]` , true)
+     .addField('``My Name``' , `[ ${client.user.tag} ]` , true)
+     .addField('``My ID``' , `[ ${client.user.id} ]` , true)
+           .addField('``My Prefix``' , `[ d! ]` , true)
+           .addField('``My Language``' , `[ JavaScript ]` , true)
+           .addField('``Bot Version``' , `[ v0.1 ]` , true)
+           .setFooter('By | <@429972030092476437>')
+  })
+  }
+  });
+
+  
 const temp = JSON.parse(fs.readFileSync('./temp.json', 'utf8'));
 client.on('message', async message => {
  if(message.channel.type === "dm") return;
@@ -5704,198 +5841,10 @@ Discord.RichEmbed()
 
 
 
-client.on('message', message => {
-if (message.content.startsWith("d!tr")) {
-
-const translate = require('google-translate-api');
-let toTrans = message.content.split(' ').slice(1);
-let language;
-
-language = toTrans[toTrans.length - 2] === 'to' ? toTrans.slice(toTrans.length - 2, toTrans.length)[1].trim() : undefined;
-if (!language) {
-return message.reply(`Please supply valid agruments.\n**Example** \`d!tr [text] to [language]\``);
-}
-let finalToTrans = toTrans.slice(toTrans.length - toTrans.length, toTrans.length - 2).join(' ');
-translate(finalToTrans, {to: language}).then(res => {
-   message.channel.send({embed: {
-       color: 3447003,
-       author: {
-         name: 'Dragon translator',
-         icon_url: client.user.avatarURL
-       },
-       fields: [{
-           name: "Dragon",
-           value: `**From:** ${res.from.language.iso}\n\`\`\`${finalToTrans}\`\`\`\n**To: **${language}\n\`\`\`${res.text}\`\`\``
-         }
-       ],
-       timestamp: new Date(),
-       footer: {
-         icon_url: client.user.avatarURL,
-         text: "Dragon"
-       }
-     }
-   });
-}).catch(err => {
-message.channel.send({
-   embed: {
-       description: '❌ We could not find the supplied language.',
-       color: 0xE8642B
-   }
-});
-});
-}
-});
-
-
-client.on('message' , message => {
-var prefix = "d!";
-if(message.author.bot) return;
-
-if(message.content.startsWith(prefix + "xo")) {
-let array_of_mentions = message.mentions.users.array();
-let symbols = [':o:', ':heavy_multiplication_x:']
-var grid_message;
-
-if (array_of_mentions.length == 1 || array_of_mentions.length == 2) {
-let random1 = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
-let random2 = Math.abs(random1 - 1);
-if (array_of_mentions.length == 1) {
-random1 = 0;
-random2 = 0;
-}
-let player1_id = array_of_mentions[random1].id;
-let player2_id = array_of_mentions[random2].id;
-var turn_id = player1_id;
-var symbol = symbols[0];
-let initial_message = `مباراة بين <@${player1_id}> و <@${player2_id}>!`;
-if (player1_id == player2_id) {
-initial_message += '\n_(من الخاسر, انت تلعب هذا الدور مع نفسك :joy:)_'
-}
-message.channel.send(`xo! ${initial_message}`)
-.then(console.log("Successful tictactoe introduction"))
-.catch(console.error);
-message.channel.send(':one::two::three:' + '\n' +
-                ':four::five::six:' + '\n' +
-                ':seven::eight::nine:')
-.then((new_message) => {
-grid_message = new_message;
-})
-.then(console.log("Successful xo game initialization"))
-.catch(console.error);
-message.channel.send('يتم تحميل... انتظر الريئاكشن :ok:')
-.then(async (new_message) => {
-await new_message.react('1⃣');
-await new_message.react('2⃣');
-await new_message.react('3⃣');
-await new_message.react('4⃣');
-await new_message.react('5⃣');
-await new_message.react('6⃣');
-await new_message.react('7⃣');
-await new_message.react('8⃣');
-await new_message.react('9⃣');
-await new_message.react('🆗');
-await new_message.edit(`انه دور <@${turn_id}> علامتك هي${symbol}`)
-.then((new_new_message) => {
-require('./alpha.js')(client, message, new_new_message, player1_id, player2_id, turn_id, symbol, symbols, grid_message);
-})
-.then(console.log("Successful xo listener initialization"))
-.catch(console.error);
-})
-.then(console.log("Successful xo react initialization"))
-.catch(console.error);
-}
-else {
-message.reply(`_مهلا مهلا_ :anger: \`(استعمل هذا: ${prefix}xo @player1 @player2)\``)
-.then(console.log("Successful error reply"))
-.catch(console.error);
-}
-}
-});
-client.on('message', message => {
-let args = message.content.split(' ').slice(1);
-if(message.content.split(' ')[0] == 'd!color'){
-const embedd = new Discord.RichEmbed()
-.setFooter('Requested by '+message.author.username, message.author.avatarURL)
-.setDescription(`**لا يوجد لون بهذا الأسم ** :x: `)
-.setColor(`ff0000`)
-
-if(!isNaN(args) && args.length > 0)
-
-
-if    (!(message.guild.roles.find("name",`${args}`))) return  message.channel.sendEmbed(embedd);
-
-
-var a = message.guild.roles.find("name",`${args}`)
- if(!a)return;
-const embed = new Discord.RichEmbed()
-
-.setFooter('Requested by '+message.author.username, message.author.avatarURL)
-.setDescription(`**Done , تم تغير لونك . :white_check_mark: **`)
-
-.setColor(`${a.hexColor}`)
-message.channel.sendEmbed(embed);
-if (!args)return;
-setInterval(function(){})
-   let count = 0;
-   let ecount = 0;
-for(let x = 1; x < 201; x++){
-
-message.member.removeRole(message.guild.roles.find("name",`${x}`))
-
-}
- message.member.addRole(message.guild.roles.find("name",`${args}`));
-
-
-}
-});
-
-
-client.on('message', message => {
-if (message.content.startsWith("d!botinfo")) {
-message.channel.send({
-embed: new Discord.RichEmbed()
-   .setAuthor(client.user.username,client.user.avatarURL)
-   .setThumbnail(client.user.avatarURL)
-   .setColor('RANDOM')
-   .setTitle('``INFO  Dragon Bot`` ')
-   .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
-   .addField('``servers``', [client.guilds.size], true)
-   .addField('``channels``' , `[ ${client.channels.size} ]` , true)
-   .addField('``Users``' ,`[ ${client.users.size} ]` , true)
-   .addField('``My Name``' , `[ ${client.user.tag} ]` , true)
-   .addField('``My ID``' , `[ ${client.user.id} ]` , true)
-         .addField('``My Prefix``' , `[ d! ]` , true)
-         .addField('``My Language``' , `[ JavaScript ]` , true)
-         .addField('``Bot Version``' , `[ v0.1 ]` , true)
-         .setFooter('By | <@429972030092476437>')
-})
-}
-});
-
-
-
-
-
-const request = require('request')
-var Canvas = require('canvas')
-var jimp = require('jimp')
 
 
 
 console.log('hello')
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
            client.on("message", async msg => {
@@ -6646,17 +6595,6 @@ if (err) console.error(err);
       });
     }})})
     
-  
-client.on("message", message => {
-	if (message.content === "d!support") {
-		 message.channel.send(":white_check_mark: I've DMed you with my support server");
-	 const embed = new Discord.RichEmbed()
-		 .setColor("RANDOM")
-		 .setFooter('© DragonBot 🐲 جميع الحقوق محفوظة 2018 لــبوت')
-		 .addField('سيرفر الدعم الفني', `https://discord.gg/eHV24X`)
-	 message.author.send({embed});
-	}
-   });
 
    
  
