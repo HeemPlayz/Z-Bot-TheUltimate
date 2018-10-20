@@ -476,7 +476,7 @@ client.on('message',message =>{
 const mmss = require('ms');
 client.on('message', async message => {
   let helpembed = new Discord.RichEmbed()
-  .setImage('https://c.top4top.net/p_1021nbiq71.png')
+  .setImage('https://f.top4top.net/p_1023gdj8r1.png')
     let muteReason = message.content.split(" ").slice(3).join(" ");
     let mutePerson = message.mentions.users.first();
     let messageArray = message.content.split(" ");
