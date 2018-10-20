@@ -77,6 +77,7 @@ client.on('message', async message =>{
           if (!muteRole) return message.reply("**I Cant Find Muted Role **").then(msg => {msg.delete(5000)});
           if (message.mentions.users.size < 1) return message.reply('**Mention Someone**').then(msg => {msg.delete(5000)});
           let reason = message.content.split(" ").slice(2).join(" ");
+          if(!reason) reason = "Null";
           message.guild.member(user).addRole(muteRole);
           let muteEmbed = new Discord.RichEmbed()
           .setTitle(`New Perm Muted User`)
@@ -555,7 +556,7 @@ client.on('message', async message => {
         if(!muteRole) return message.guild.createRole({ name: "Muted", permissions: [] });
         if(!time) return message.channel.send("**- اكتب الوقت**");
         if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');
-        if(!muteReason) return message.channel.send("**- اكتب السبب**");
+        if(!muteReason) muteReason = "Null";
         message.guild.member(mutePerson).addRole(muteRole);
         message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
         message.delete()
@@ -594,7 +595,7 @@ client.on('message', async message => {
      if(User.id === message.guild.owner.id) return message.channel.send("**Nice try man :> you cant ban the ownership**");
      if(!time) return message.channel.send("**- اكتب الوقت**");
      if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this Duration**');
-     if(!Reason) message.channel.send("**- اكتب Reason**");
+    if(!Reason) Reason = "Null";
      let banEmbed = new Discord.RichEmbed()
      .setAuthor(`New Banned User !`)
      .setThumbnail(message.guild.iconURL || message.guild.avatarURL)
@@ -639,7 +640,7 @@ client.on('message', message => {
     let reason = message.content.split(" ").slice(2).join(" ");
   
     if (message.mentions.users.size < 1) return message.reply("Mention Someone");
-    if(!reason) return message.reply ("Type The Reason Please");
+    if(!reason) reason = "Null";
     if (!message.guild.member(user)
     .bannable) return message.reply("I can not be higher than my rank");
   
@@ -681,7 +682,7 @@ client.on('message', message => {
 
   if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
   if (message.mentions.users.size < 1) return message.reply("**Mention Someone**");
-  if(!reason) return;
+  if(!reason) reason = "Null";
   if (!message.guild.member(user)
   .bannable) return message.reply("**This person has a grade higher than his bot rank**");
 
