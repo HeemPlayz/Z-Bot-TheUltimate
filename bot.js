@@ -35,7 +35,7 @@ let command = message.content.split(" ")[0];
 if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I donot Have Permission Mute_Members**").then(msg => msg.delete(6000))
 
   let kinggamer = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
-     if(!kinggamer) return message.channel.send('').then(msg => {
+     if(!kinggamer) return message.channel.send('Mention Someone').then(msg => {
       msg.delete(3500);
       message.delete(3500); 
     });
