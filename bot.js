@@ -26,6 +26,34 @@ let done = {};
 const Token = process.env.BOT_TOKEN
 
 
+client.on('message', async message =>{
+    if (message.author.boss) return;  
+  if (!message.content.startsWith(prefix)) return;
+      let command = message.content.split(" ")[0];
+       command = command.slice(prefix.length);
+      let args = message.content.split(" ").slice(1);
+      if (command == "mute") {
+          if (!message.channel.guild) return;
+          if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.reply("You Dont Have Permissions To Do That :x:").then(msg => msg.delete(5000));
+          if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.reply("I Dont Have Permissions To Do That :x:").then(msg => msg.delete(5000));;
+          let user = message.mentions.users.first();
+          let muteRole = message.guild.roles.find("name", "Muted");
+          if (!muteRole) return message.reply("**I Cant Find Muted Role **").then(msg => {msg.delete(5000)});
+          if (message.mentions.users.size < 1) return message.reply('**Mention Someone**').then(msg => {msg.delete(5000)});
+          let reason = message.content.split(" ").slice(2).join(" ");
+          message.guild.member(user).addRole(muteRole);
+          let muteEmbed = new Discord.RichEmbed()
+          .setTitle(`New Perm Muted User`)
+          .setThumbnail(message.guild.iconURL)
+          .addField('- Muted By:',message.author,true)
+          .addField('- Muted User:', `${user}`)
+          .addField('- Reason:',reason,true)
+          .setFooter(message.author.username,message.author.avatarURL);
+          let incidentchannel = message.guild.channels.find(`name`, "incidents");
+          if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+          incidentchannel.sendEmbed(muteEmbed)
+          mutePerson.send(`**You Are has been permanently muted in ${message.guild.name} reason: ${reason}**`) 
+}})
   
 client.on("message", message => {
 	if (message.content === "d!support") {
@@ -496,7 +524,7 @@ client.on('message', async message => {
         message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
         message.delete()
         let muteEmbed = new Discord.RichEmbed()
-        .setTitle(`New Muted User`)
+        .setTitle(`New Temp Muted User`)
         .setThumbnail(message.guild.iconURL)
         .addField('- Muted By:',message.author,true)
         .addField('- Muted User:', `${mutePerson}`)
@@ -506,7 +534,7 @@ client.on('message', async message => {
         let incidentchannel = message.guild.channels.find(`name`, "incidents");
         if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
         incidentchannel.sendEmbed(muteEmbed)
-        mutePerson.send(`**You Are has been muted in ${message.guild.name} reason: ${muteReason}**`)
+        mutePerson.send(`**You Are has been temp muted in ${message.guild.name} reason: ${muteReason}**`)
         .then(() => { setTimeout(() => {
            message.guild.member(mutePerson).removeRole(muteRole);
        }, mmss(time));
