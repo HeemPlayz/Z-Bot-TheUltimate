@@ -24,6 +24,127 @@ const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
+client.on("message", message => {
+  if (message.content === ">help") {
+message.author.send(`**
+╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+╰╮╭╮┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+╱┃┃┃┣━┳━━┳━━┳━━┳━╮╱┃╰╯╰┳━┻╮╭╯
+╱┃┃┃┃╭┫╭╮┃╭╮┃╭╮┃╭╮╮┃╭━╮┃╭╮┃┃
+╭╯╰╯┃┃┃╭╮┃╰╯┃╰╯┃┃┃┃┃╰━╯┃╰╯┃╰╮
+╰━━━┻╯╰╯╰┻━╮┣━━┻╯╰╯╰━━━┻━━┻━╯
+╱╱╱╱╱╱╱╱╱╭━╯┃
+╱╱╱╱╱╱╱╱╱╰━━╯
+
+${prefix}
+:record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
+:fire: __Action Commands:__
+❯ >new → create ticket for you (need support-team role)
+❯ >close → close the ticket
+❯ >slap → slap someone
+❯ >hug → hug someone
+❯ >tickle → tickle someone
+❯ >poke → poke someone
+❯ >cuddle → cuddle someone
+❯ >pat → cuddle someone
+❯ >botinvite → To add a bot link inside the server
+❯ >afk → To make in afk status
+:video_game: __Game Commands:__
+❯ >xo → xo game
+❯ >صراحه → Frankly Game
+❯ >عواصم → Capitals Game
+❯ >حجرة أو ورقة أو مقص → Paper scissors game
+❯ >كت تويت → Tweets Game
+❯ >لو خيروك → If they made you choose game
+❯ >قرعة → Lot game
+❯ >فكك → Decrypt game
+❯ >لغز → Gas game
+❯ >شقلب → Chuckle game
+❯ >اسرع → The fastest writing game
+❯ >ركب → Synthesis assembly game
+❯ >رياضيات → Math game
+:globe_with_meridians: __General Commands:__
+❯ >8ball → Ask magic 8ball something
+❯ >avatar → Shows yours or the user avatar
+❯ >invite → Invite PlusBot ✨ to your guild
+❯ >membercount → Shows membercount in your server
+❯ >support → Dah It's support!?
+❯ >td → Get the date in nice looking way!
+:information_source: __Info Commands:__
+❯ >ping → Shows the bot ping.
+❯ >botinfo → Shows informations about the bot.
+❯ >server → Shows informations about the server.
+❯ >userinfo → Shows informations about the user.
+**`)
+      message.channel.send(":white_check_mark: I've DMed you with my help list")
+  }
+  });
+
+  client.on("message", message => {
+    if (message.content === ">membercount") {
+      if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
+      const memberc = new Discord.RichEmbed()
+      .addField('Members:', `${message.guild.memberCount}`)
+ message.channel.sendEmbed(memberc)
+    }})
+
+    client.on("message", message => {
+      if (message.content === ">help") {
+    message.author.send(`**
+  :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
+❯ >setwelcomer → To setwelcome channel
+❯ >autorole → autorole options **(to set the role type >autorole set rolename
+and to turn on the autorole type >autorole toggle)** 
+❯ >prune → To clear the chat (you can use >clear)
+❯ >bans → Shows a bans size
+❯ >ban → To ban a member **Permanently**
+❯ >allunban → **To Unban All Members**
+❯ >role → To give someone a role (you can use >role all to give everyone the rank of your choice)
+❯ >-role → To Pull the rank of a particular person (you can use >-role all to Pull everyone the rank of your choice)
+❯ >temp on → To Turn on the temporary rooms 
+❯ >temp off → To Turn off the temporary rooms 
+❯ >tempban → To ban a member **Temporary**
+❯ >mute → To mute a member **Permanently**
+❯ >tempmute → To mute a member **Temporary**
+❯ >kick → To kick a member
+❯ >unban → Unban member by id
+❯ >unmute → Unmutes a member
+❯ >warn → Warns a member
+❯ >setTime → Create Hour Room 
+❯ >setDate → Create Date Room 
+❯ >setDays → Create Day Room 
+❯ >setCount → Member Count Room 
+❯ >setVoice → Create Voice Online Room 
+    **`)
+  }
+});
+
+client.on("message", message => {
+  if (message.content === ">help") {
+message.author.send(`**
+:busts_in_silhouette: __Social Commands:__
+❯ >credit → Shows your credit card balance
+❯ >daily → Get your daily credits
+❯ >profile → To View Your Profile
+❯ >store → To View The Profile Background Store
+❯ >buy → To Buy A Background Profile
+❯ >note → To Type A Text In The Information Profile
+❯ >rep → To Give Someone A Like
+❯ >transfer → To Transfer A Credits To Someone
+❯ >id → Shows the user ID card.
+❯ >rep → Give someone a reputation point!
+:high_brightness: Ulti Commands:
+❯ >short → Shorten the url provided
+:barber: __Colors Commands:__
+❯ >deletecolors → delete 132 colors
+❯ >createcolors → create 132 colors
+❯ >colors → View the colors menu
+❯ >color → To give the color you want
+صفحه البوت : https://plusbot.site123.me/
+**BOT VERSION : v1.0**
+**`)
+}
+});
 
 client.on("message", message => {
     if(!message.channel.guild) return;
