@@ -24,121 +24,40 @@ const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
+
 client.on("message", message => {
-    if (message.content === ">help") {
-  message.author.send(`**
-  ╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-  ┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-  ┃╰━╯┃┃╭╮╭┳━━┫╰╯╰┳━┻╮╭╯
-  ┃╭━━┫┃┃┃┃┃━━┫╭━╮┃╭╮┃┃
-  ┃┃╱╱┃╰┫╰╯┣━━┃╰━╯┃╰╯┃╰╮
-  ╰╯╱╱╰━┻━━┻━━┻━━━┻━━┻━╯
-  
-  ${prefix}
-  :record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
-  :fire: __Action Commands:__
-  ❯ >new → create ticket for you (need support-team role)
-  ❯ >close → close the ticket
-  ❯ >slap → slap someone
-  ❯ >hug → hug someone
-  ❯ >tickle → tickle someone
-  ❯ >poke → poke someone
-  ❯ >cuddle → cuddle someone
-  ❯ >pat → cuddle someone
-  ❯ >botinvite → To add a bot link inside the server
-  ❯ >afk → To make in afk status
-  :video_game: __Game Commands:__
-  ❯ >xo → xo game
-  ❯ >صراحه → Frankly Game
-  ❯ >عواصم → Capitals Game
-  ❯ >حجرة أو ورقة أو مقص → Paper scissors game
-  ❯ >كت تويت → Tweets Game
-  ❯ >لو خيروك → If they made you choose game
-  ❯ >قرعة → Lot game
-  ❯ >فكك → Decrypt game
-  ❯ >لغز → Gas game
-  ❯ >شقلب → Chuckle game
-  ❯ >اسرع → The fastest writing game
-  ❯ >ركب → Synthesis assembly game
-  ❯ >رياضيات → Math game
-  :globe_with_meridians: __General Commands:__
-  ❯ >8ball → Ask magic 8ball something
-  ❯ >avatar → Shows yours or the user avatar
-  ❯ >invite → Invite PlusBot ✨ to your guild
-  ❯ >membercount → Shows membercount in your server
-  ❯ >support → Dah It's support!?
-  ❯ >td → Get the date in nice looking way!
-  :information_source: __Info Commands:__
-  ❯ >ping → Shows the bot ping.
-  ❯ >botinfo → Shows informations about the bot.
-  ❯ >server → Shows informations about the server.
-  ❯ >userinfo → Shows informations about the user.
-  **`)
-       let helpembeds = new Discord.RichEmbed()
-       .setTitle('**✅ تم ارسال قائمه الهيلب في الخاص ❤**')
-       message.channel.sendEmbed(helpembeds)
-    }
-    });
-  
-    client.on("message", message => {
-      if (message.content === ">membercount") {
-        if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
-        const memberc = new Discord.RichEmbed()
-        .addField('Members:', `${message.guild.memberCount}`)
-   message.channel.sendEmbed(memberc)
-      }})
-  
-      client.on("message", message => {
-        if (message.content === ">help") {
-      message.author.send(`**
-  :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
-  ❯ >setwelcomer → To setwelcome channel
-  ❯ >autorole → autorole options **(to set the role type >autorole set rolename
-  and to turn on the autorole type >autorole toggle)** 
-  ❯ >prune → To clear the chat (you can use >clear)
-  ❯ >bans → Shows a bans size
-  ❯ >ban → To ban a member **Permanently**
-  ❯ >allunban → **To Unban All Members**
-  ❯ >role → To give someone a role (you can use >role all to give everyone the rank of your choice)
-  ❯ >-role → To Pull the rank of a particular person (you can use >-role all to Pull everyone the rank of your choice)
-  ❯ >temp on → To Turn on the temporary rooms 
-  ❯ >temp off → To Turn off the temporary rooms 
-  ❯ >tempban → To ban a member **Temporary**
-  ❯ >mute → To mute a member **Permanently**
-  ❯ >tempmute → To mute a member **Temporary**
-  ❯ >kick → To kick a member
-  ❯ >unban → Unban member by id
-  ❯ >unmute → Unmutes a member
-  ❯ >warn → Warns a member
-  ❯ >setTime → Create Hour Room 
-  ❯ >setDate → Create Date Room 
-  ❯ >setDays → Create Day Room 
-  ❯ >setCount → Member Count Room 
-  ❯ >setVoice → Create Voice Online Room 
-  :busts_in_silhouette: __Social Commands:__
-  ❯ >credit → Shows your credit card balance
-  ❯ >daily → Get your daily credits
-  ❯ >profile → To View Your Profile
-  ❯ >store → To View The Profile Background Store
-  ❯ >buy → To Buy A Background Profile
-  ❯ >note → To Type A Text In The Information Profile
-  ❯ >rep → To Give Someone A Like
-  ❯ >transfer → To Transfer A Credits To Someone
-  ❯ >id → Shows the user ID card.
-  ❯ >rep → Give someone a reputation point!
-  :high_brightness: Ulti Commands:
-  ❯ >short → Shorten the url provided
-  :barber: __Colors Commands:__
-  ❯ >deletecolors → delete 132 colors
-  ❯ >createcolors → create 132 colors
-  ❯ >colors → View the colors menu
-  ❯ >color → To give the color you want
-  صفحه البوت : https://dragonbot.site123.me/
-  **BOT VERSION : v1.0**
-  **`)
-    }
-  });
-  
+    if(!message.channel.guild) return;
+if(message.author.bot) return;
+if(message.content === prefix + "image"){
+    const embed = new Discord.RichEmbed()
+
+.setTitle(`This is  ** ${message.guild.name} **  Photo !`)
+.setAuthor(message.author.username, message.guild.iconrURL)
+.setColor(0x164fe3)
+.setImage(message.guild.iconURL)
+.setURL(message.guild.iconrURL)
+              .setTimestamp()
+
+message.channel.send({embed});
+}
+});
+client.on('message', message => {
+if (message.content.startsWith(">avatar")) {
+  var mentionned = message.mentions.users.first();
+var x5bzm;
+if(mentionned){
+    var x5bzm = mentionned;
+} else {
+    var x5bzm = message.author;
+
+}
+  const embed = new Discord.RichEmbed()
+  .setColor("RANDOM")
+  .setImage(`${x5bzm.avatarURL}`)
+message.channel.sendEmbed(embed);
+ }
+});
+
 client.on('message',async message => {
     if(message.content === '>allunban') {
         if( !message.member.hasPermission('ADMINISTRATO')) return message.reply('You Need ADMINSTRATOR Permission To Do This !');
@@ -465,13 +384,13 @@ function play(guild, song) {
 
 
 client.on('message', async message => {
-    let mention = message.mentions.users.first();
-    let command = message.content.split(" ")[0];
+  let mention = message.mentions.members.first();
+let command = message.content.split(" ")[0];
    command = command.slice(prefix.length);
   let args = message.content.split(" ").slice(1);	 
 	if (message.content === ">unmute") {
-    if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**You Donot Have Permission Mute_Members**").then(m => m.delete(5000));
-if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I dont Have Permission Mute_Members**").then(msg => msg.delete(6000))
+    if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**You Donot HavePermission Mute_Members**").then(m => m.delete(5000));
+if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I donot Have Permission Mute_Members**").then(msg => msg.delete(6000))
 
   let kinggamer = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
      if(!kinggamer) return message.channel.send('Mention Someone')
@@ -479,7 +398,7 @@ if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return mess
 
   let role = message.guild.roles.find (r => r.name === "Muted");
   
-  if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source: ${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
+  if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source:${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
 
   await kinggamer.removeRole(role) 
   message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmute> **`);
@@ -487,7 +406,7 @@ if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return mess
 .setDescription("New UnMute User")
 .setThumbnail(message.guild.iconURL)
 .setColor("#bc0000")
-.addField("Unmuted", `${mention} with ID ${mention.id}`)
+.addField("Unmuted", `${Warned} with ID ${Warned.id}`)
 .addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
 .addField("Unmuted In", message.channel)
 .addField("Time & Date", `${message.createdAt}`)
@@ -4562,8 +4481,14 @@ u.guild.members.get(ss.executor.id).roles.forEach(r => {
         if (err) console.log(err.message);
     });
 })
-
-
+client.on("ready", () => {
+	  console.log(`Status Changed !`)
+  client.user.setGame("On " + client.guilds.size + " guilds")
+}).on("guildCreate", () => {
+  client.user.setGame("On " + client.guilds.size + " guilds")
+}).on("guildDelete", () => {
+  client.user.setGame("On " + client.guilds.size + " guilds")
+})
 
 
 
@@ -4578,6 +4503,16 @@ client.on("guildMemberAdd", member => {
 
 
 
+client.on('message', message => {
+  if (message.content === ">ping") {
+   const embed = new Discord.RichEmbed()
+
+.setColor("#FF0000")
+.addField('``سرعة أتصال الــبوت`` ' , `${Date.now() - message.createdTimestamp}` + ' ms`')
+
+message.channel.sendEmbed(embed);
+ }
+});
 client.on('messageDelete', message => {
 
 	if(message.author.bot) return;
@@ -5783,57 +5718,6 @@ client.on("guildMemberAdd", member => {
      )}
 
 
-client.on("guildMemberAdd", user => {
-  user.createDM().then(function (channel) {
-
-let embeddd = new Discord.RichEmbed()
-    .setImage('https://media.giphy.com/media/xUPGGDNsLvqsBOhuU0/giphy.gif') //هنا حط الصوره الي تبيها
-    .setTitle('عضو جديد!')
-    .setDescription('مرحبا بك بالسيرفر')
-    .addField('``ايدي العضو``:',"" +  `${user.user.id}`)
-    .addField('``تاق العضو``', `${user.user.discriminator}`)
-    .addField('``تم الانشاء في``', `${user.user.createdAt}`)
-    .addField(' 👤  انت رقم',`${user.guild.memberCount}`,true)
-    .setColor('RANDOM')
-    .setFooter(user.guild.name, user.guild.iconURL, true)
-user.send(embeddd)
-
-  })
-})
-
-
-client.on("message", message => {
-        if(!message.channel.guild) return;
- if(message.author.bot) return;
-    if(message.content === prefix + "image"){
-        const embed = new Discord.RichEmbed()
-
-    .setTitle(`This is  ** ${message.guild.name} **  Photo !`)
-.setAuthor(message.author.username, message.guild.iconrURL)
-  .setColor(0x164fe3)
-  .setImage(message.guild.iconURL)
-  .setURL(message.guild.iconrURL)
-                  .setTimestamp()
-
- message.channel.send({embed});
-    }
-});
-client.on('message', message => {
-  if (message.content.startsWith(">avatar")) {
-      var mentionned = message.mentions.users.first();
-  var x5bzm;
-    if(mentionned){
-        var x5bzm = mentionned;
-    } else {
-        var x5bzm = message.author;
-
-    }
-      const embed = new Discord.RichEmbed()
-      .setColor("RANDOM")
-      .setImage(`${x5bzm.avatarURL}`)
-    message.channel.sendEmbed(embed);
-     }
-});
 
 
 
@@ -6918,14 +6802,6 @@ if (err) console.error(err);
     }})})
     
 
-    client.on("ready", () => {
-        console.log(`Status Changed !`)
-    client.user.setGame("On " + client.guilds.size + " guilds")
-  }).on("guildCreate", () => {
-    client.user.setGame("On " + client.guilds.size + " guilds")
-  }).on("guildDelete", () => {
-    client.user.setGame("On " + client.guilds.size + " guilds")
-  })
-  
+   
  
 client.login(Token)
