@@ -76,6 +76,7 @@ client.on("message", message => {
   **`)
        let helpembeds = new Discord.RichEmbed()
        .setTitle('**✅ تم ارسال قائمه الهيلب في الخاص ❤**')
+       message.channel.sendEmbed(helpembeds)
     }
     });
   
