@@ -21,16 +21,341 @@ const queue = new Map();
 const bane = JSON.parse(fs.readFileSync('./alpha.json', 'utf8'));
 const dataPro = JSON.parse(fs.readFileSync('./walls.json', 'utf8'));
 const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
-const prefix = "d!";
+const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
+
+client.on('message',async message => {
+    if(message.content === '>allunban') {
+        if( !message.member.hasPermission('ADMINISTRATO')) return message.reply('You Need ADMINSTRATOR Permission To Do This !');
+    message.guild.fetchBans().then(ba => {
+    ba.forEach(ns => {
+    message.guild.unban(ns);
+    });
+    });
+    }
+    });
+
+/*
+البكجآت
+npm install discord.js
+npm install ytdl-core
+npm install get-youtube-id
+npm install youtube-info
+npm install simple-youtube-api
+npm install queue
+*/
+
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`in ${client.guilds.size} servers `)
+    console.log(`[ ] ${client.users.size}`)
+    client.user.setStatus("idle")
+});
+client.on('ready', () => {
+     client.user.setActivity("you",{type: 'WATCHING'});
+
+});
+
+client.on('message', async msg => {
+	if (msg.author.bot) return undefined;
+	if (!msg.content.startsWith(prefix)) return undefined;
+	const args = msg.content.split(' ');
+	const searchString = args.slice(1).join(' ');
+	const url = args[1] ? args[1] .replace(/<(.+)>/g, '$1') : '';
+	const serverQueue = queue.get(msg.guild.id);
+	let command = msg.content.toLowerCase().split(" ")[0];
+	command = command.slice(prefix.length)
+	if (command === `play`) {
+		const voiceChannel = msg.member.voiceChannel;
+		if (!voiceChannel) return msg.channel.send('يجب توآجد حضرتك بروم صوتي .');
+		const permissions = voiceChannel.permissionsFor(msg.client.user);
+		if (!permissions.has('CONNECT')) {
+			return msg.channel.send('لا يتوآجد لدي صلاحية للتكلم بهذآ الروم');
+		}
+		if (!permissions.has('SPEAK')) {
+			return msg.channel.send('لا يتوآجد لدي صلاحية للتكلم بهذآ الروم');
+		}
+
+		if (!permissions.has('EMBED_LINKS')) {
+			return msg.channel.sendMessage("**يجب توآفر برمشن `EMBED LINKS`لدي **rl")
+			}
+
+		if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
+			const playlist = await youtube.getPlaylist(url);
+			const videos = await playlist.getVideos();
+			for (const video of Object.values(videos)) {
+				const video2 = await youtube.getVideoByID(video.id);
+				await handleVideo(video2, msg, voiceChannel, true);
+			}
+			return msg.channel.send(` **${playlist.title}** تم الإضآفة إلى قأئمة التشغيل`);
+		} else {
+			try {
+
+				var video = await youtube.getVideo(url);
+
+			} catch (error) {
+				try {
+				    					    var fast = {};
+					var videos = await youtube.searchVideos(searchString, 10);
+					let index = 0;
+					const embed1 = new Discord.RichEmbed()
+			        .setDescription(`**الرجآء من حضرتك إختيآر رقم المقطع** :
+${videos.map(video2 => `[**${++index}**] **${video2.title}**`).join('\n')}`)
+					.setFooter(`${msg.guild.name}`)
+					msg.channel.sendEmbed(embed1).then(message =>{
+
+						message.delete(15000)
+
+					});
+					try {
+						var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
+							maxMatches: 1,
+							time: 20000,
+							errors: ['time']
+						})
+
+						}catch(err) {
+						console.error(err);
+						return msg.channel.send('لم يتم إختيآر مقطع صوتي');
+						}
+					const videoIndex = parseInt(response.first().content);
+					var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+				} catch (err) {
+					console.error(err);
+					return msg.channel.send(':x: لا يتوفر نتآئج بحث ');
+				}
+		}
+
+			return handleVideo(video, msg, voiceChannel);
+		}
+	} else if (command === `skip`) {
+		if (!msg.member.voiceChannel) return msg.channel.send('أنت لست بروم صوتي .');
+		if (!serverQueue) return msg.channel.send('لا يتوفر مقطع لتجآوزه');
+		serverQueue.connection.dispatcher.end('تم تجآوز هذآ المقطع');
+		return undefined;
+	} else if (command === `stop`) {
+		if (!msg.member.voiceChannel) return msg.channel.send('أنت لست بروم صوتي .');
+		if (!serverQueue) return msg.channel.send('لا يتوفر مقطع لإيقآفه');
+		serverQueue.songs = [];
+		serverQueue.connection.dispatcher.end('تم إيقآف هذآ المقطع');
+		return undefined;
+	} else if (command === `vol`) {
+		if (!msg.member.voiceChannel) return msg.channel.send('أنت لست بروم صوتي .');
+		if (!serverQueue) return msg.channel.send('لا يوجد شيء شغآل.');
+		if (!args[1]) return msg.channel.send(`:loud_sound: مستوى الصوت **${serverQueue.volume}**`);
+		serverQueue.volume = args[1];
+		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 50);
+		return msg.channel.send(`:speaker: تم تغير الصوت الي **${args[1]}**`);
+	} else if (command === `np`) {
+		if (!serverQueue) return msg.channel.send('لا يوجد شيء حالي ف العمل.');
+		const embedNP = new Discord.RichEmbed()
+	.setDescription(`:notes: الان يتم تشغيل : **${serverQueue.songs[0].title}**`)
+		return msg.channel.sendEmbed(embedNP);
+	} else if (command === `replay`) {
+		if (!serverQueue) return msg.channel.send('لا يوجد شيء حالي ف العمل.');
+		const embedNP = new Discord.RichEmbed()
+	.setDescription(`سيتم اعاده تشغيل الفديو :**${serverQueue.songs[0].title}**`)
+	msg.channel.send({embed: embedNP})
+  	 return handleVideo(video, msg, msg.member.voiceChannel);
+
+	} else if (command === `queue`) {
+		if (!serverQueue) return msg.channel.send('لا يوجد شيء حالي ف العمل.');
+		let index = 0;
+		const embedqu = new Discord.RichEmbed()
+.setDescription(`**Songs Queue**
+${serverQueue.songs.map(song => `**${++index} -** ${song.title}`).join('\n')}
+**الان يتم تشغيل** ${serverQueue.songs[0].title}`)
+		return msg.channel.sendEmbed(embedqu);
+	} else if (command === `pause`) {
+		if (serverQueue && serverQueue.playing) {
+			serverQueue.playing = false;
+			serverQueue.connection.dispatcher.pause();
+			return msg.channel.send('تم إيقاف الموسيقى مؤقتا!');
+		}
+		return msg.channel.send('لا يوجد شيء حالي ف العمل.');
+	} else if (command === "resume") {
+		if (serverQueue && !serverQueue.playing) {
+			serverQueue.playing = true;
+			serverQueue.connection.dispatcher.resume();
+			return msg.channel.send('استأنفت الموسيقى بالنسبة لك !');
+		}
+		return msg.channel.send('لا يوجد شيء حالي في العمل.');
+	}
+
+	return undefined;
+async function handleVideo(video, msg, voiceChannel, playlist = false) {
+	const serverQueue = queue.get(msg.guild.id);
+	const song = {
+		id: video.id,
+		title: Util.escapeMarkdown(video.title),
+		url: `https://www.youtube.com/watch?v=${video.id}`,
+		time:`${video.duration.hours}:${video.duration.minutes}:${video.duration.seconds}`,
+		eyad:`${video.thumbnails.high.url}`,
+		best:`${video.channel.title}`,
+		bees:`${video.raw.snippet.publishedAt}`,
+		shahd:`${video.raw.kind}`,
+		zg:`${video.raw.snippet.channelId}`,
+        views:`${video.raw.views}`,
+        like:`${video.raw.likeCount}`,
+        dislike:`${video.raw.dislikeCount}`,
+        hi:`${video.raw.id}`
+	};
+	if (!serverQueue) {
+		const queueConstruct = {
+			textChannel: msg.channel,
+			voiceChannel: voiceChannel,
+			connection: null,
+			songs: [],
+			volume: 5,
+			playing: true
+		};
+		queue.set(msg.guild.id, queueConstruct);
+		queueConstruct.songs.push(song);
+		try {
+			var connection = await voiceChannel.join();
+			queueConstruct.connection = connection;
+			play(msg.guild, queueConstruct.songs[0]);
+		} catch (error) {
+			console.error(`I could not join the voice channel: ${error}`);
+			queue.delete(msg.guild.id);
+			return msg.channel.send(`لا أستطيع دخول هذآ الروم ${error}`);
+		}
+	} else {
+		serverQueue.songs.push(song);
+		console.log(serverQueue.songs);
+		if (playlist) return undefined;
+		else return msg.channel.send(` **${song.title}** تم اضافه الاغنية الي القائمة!`);
+	}
+	return undefined;
+}
+
+function play(guild, song) {
+	const serverQueue = queue.get(guild.id);
+
+	if (!song) {
+		serverQueue.voiceChannel.leave();
+		queue.delete(guild.id);
+		return;
+	}
+	console.log(serverQueue.songs);
+	const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
+		.on('end', reason => {
+			if (reason === 'Stream is not generating quickly enough.') console.log('Song ended.');
+			else console.log(reason);
+			serverQueue.songs.shift();
+			play(guild, serverQueue.songs[0]);
+		})
+		.on('error', error => console.error(error));
+	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+		fetchVideoInfo(`${song.hi}`, function (err,  idk) {
+  if (err) throw new Error(err);
+  console.log( idk);
+  	  const yyyy = {}
+  if(!yyyy[msg.guild.id]) yyyy[msg.guild.id] = {
+    like: `${ idk.likeCount}`,
+    dislike: `${ idk.dislikeCount}`
+  }
+	serverQueue.textChannel.send({embed : new Discord.RichEmbed()
+  .setTitle(`**${ idk.title}**`)
+  .setURL( idk.url)
+  .addField('Time The Video :' , `${song.time}`, true)
+  .addField('Channel Name :' , `${song.best}`, true)
+  .addField('Channel ID :' , `${song.zg}`, true)
+  .addField('Video Created at :' , `${ idk.datePublished}`, true)
+  .addField('Views :' , `${ idk.views}`, true)
+  .addField('Like👍 :' , `${ idk.likeCount}`, true)
+  .addField('dislike👎 :' , `${ idk.dislikeCount}`, true)
+  .addField('comments :' , `${ idk.commentCount}`, true)
+	.setImage(`${song.eyad}`)
+	.setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
+	.setColor('#ff0000')
+	.setTimestamp()
+	}).then(love => {
+		love.react('👍').then(r=>{
+		love.react('👎').then(r =>{
+		love.react('🙌').then(r=> {
+    let likee = (reaction, user) => reaction.emoji.name === '👍' && user.id === msg.author.id;
+    let dislikee = (reaction, user) => reaction.emoji.name === '👎' && user.id === msg.author.id;
+    let cnn = (reaction, user) => reaction.emoji.name === '🙌' && user.id === msg.author.id;
+
+    let ll = love.createReactionCollector(likee , {max:5});
+    let dd = love.createReactionCollector(dislikee , {max:5});
+    let cn = love.createReactionCollector(cnn , {max:5});
+
+		    ll.on("collect", r => {
+		      yyyy[msg.guild.id].like++;
+	love.edit({embed : new Discord.RichEmbed()
+  .setTitle(`**${ idk.title}**`)
+  .setURL( idk.url)
+  .addField('Time The Video :' , `${song.time}`, true)
+  .addField('Channel Name :' , `${song.best}`, true)
+  .addField('Channel ID :' , `${song.zg}`, true)
+  .addField('Video Created at :' , `${ idk.datePublished}`, true)
+  .addField('Views :' , `${ idk.views}`, true)
+  .addField('Like👍 :' , `${yyyy[msg.guild.id].like}`, true)
+  .addField('dislike👎 :' , `${ idk.dislikeCount}`, true)
+  .addField('comments :' , `${ idk.commentCount}`, true)
+	.setImage(`${song.eyad}`)
+	.setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
+	.setColor('#ff0000')
+	.setTimestamp()
+});
+    })
+
+    dd.on("collect", r => {
+      yyyy[msg.guild.id].dislike++;
+	love.edit({embed : new Discord.RichEmbed()
+  .setTitle(`**${ idk.title}**`)
+  .setURL( idk.url)
+  .addField('Time The Video :' , `${song.time}`, true)
+  .addField('Channel Name :' , `${song.best}`, true)
+  .addField('Channel ID :' , `${song.zg}`, true)
+  .addField('Video Created at :' , `${ idk.datePublished}`, true)
+  .addField('Views :' , `${ idk.views}`, true)
+  .addField('Like👍 :' , `${ idk.likeCount}`, true)
+  .addField('dislike👎 :' , `${yyyy[msg.guild.id].dislike}`, true)
+  .addField('comments :' , `${ idk.commentCount}`, true)
+	.setImage(`${song.eyad}`)
+	.setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
+	.setColor('#ff0000')
+	.setTimestamp()
+});
+})
+    cn.on("collect", r => {
+	love.edit({embed : new Discord.RichEmbed()
+  .setTitle(`**${ idk.title}**`)
+  .setURL( idk.url)
+  .addField('Time The Video :' , `${song.time}`, true)
+  .addField('Channel Name :' , `${song.best}`, true)
+  .addField('Channel ID :' , `${song.zg}`, true)
+  .addField('Video Created at :' , `${ idk.datePublished}`, true)
+  .addField('Views :' , `${ idk.views}`, true)
+  .addField('Like👍 :' , `${ idk.likeCount}`, true)
+  .addField('dislike👎 :' , `${ idk.dislikeCount}`, true)
+  .addField('comments :' , `${ idk.commentCount}`, true)
+	.setImage(`${song.eyad}`)
+	.setThumbnail('http://cdn.akhbaar24.com/430e061a-f89a-43c7-86d9-82fae5f7c495.jpg')
+	.setColor('#ff0000')
+	.setTimestamp()
+});
+})
+})
+})
+})
+})
+})
+}
+});
+
+
 
 client.on('message', async message => {
   let mention = message.mentions.members.first();
 let command = message.content.split(" ")[0];
    command = command.slice(prefix.length);
   let args = message.content.split(" ").slice(1);	 
-	if (message.content === "d!unmute") {
+	if (message.content === ">unmute") {
     if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**You Donot HavePermission Mute_Members**").then(m => m.delete(5000));
 if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I donot Have Permission Mute_Members**").then(msg => msg.delete(6000))
 
@@ -43,7 +368,7 @@ if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return mess
   if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source:${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
 
   await kinggamer.removeRole(role) 
-  message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmuted! **`);
+  message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmute> **`);
   let mutedEmbed = new Discord.RichEmbed()
 .setDescription("New UnMute User")
 .setThumbnail(message.guild.iconURL)
@@ -52,7 +377,7 @@ if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return mess
 .addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
 .addField("Unmuted In", message.channel)
 .addField("Time & Date", `${message.createdAt}`)
-.setFooter("DragonBot 🐲")
+.setFooter("PlusBot ✨")
 let incidentchannel = message.guild.channels.find(`name`, "incidents");
 if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
 
@@ -68,7 +393,7 @@ client.on('message', async message =>{
       let command = message.content.split(" ")[0];
        command = command.slice(prefix.length);
       let args = message.content.split(" ").slice(1);
-      if (message.content === "d!mute") {
+      if (message.content === ">mute") {
         if (!message.channel.guild) return;
           if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.reply("You Dont Have Permissions To Do That :x:").then(msg => msg.delete(5000));
           if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.reply("I Dont Have Permissions To Do That :x:").then(msg => msg.delete(5000));;
@@ -85,7 +410,7 @@ client.on('message', async message =>{
           .addField('- Muted By:',message.author,true)
           .addField('- Muted User:', `${user}`)
           .addField('- Reason:',reason,true)
-          .setFooter("DragonBot 🐲")
+          .setFooter("PlusBot ✨")
           let incidentchannel = message.guild.channels.find(`name`, "incidents");
           if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
           incidentchannel.sendEmbed(muteEmbed)
@@ -93,11 +418,11 @@ client.on('message', async message =>{
 }})
   
 client.on("message", message => {
-	if (message.content === "d!support") {
+	if (message.content === ">support") {
 		 message.channel.send(":white_check_mark: I've DMed you with my support server");
 	 const embed = new Discord.RichEmbed()
 		 .setColor("RANDOM")
-		 .setFooter('© DragonBot 🐲 جميع الحقوق محفوظة 2018 لــبوت')
+		 .setFooter('© PlusBot ✨ جميع الحقوق محفوظة 2018 لــبوت')
 		 .addField('سيرفر الدعم الفني', `https://discord.gg/eHV24X`)
 	 message.author.send({embed});
 	}
@@ -105,7 +430,7 @@ client.on("message", message => {
 
 
 client.on('message' , message => {
-  var prefix = "d!";
+  var prefix = ">";
   if(message.author.bot) return;
   
   if(message.content.startsWith(prefix + "xo")) {
@@ -170,7 +495,7 @@ client.on('message' , message => {
   });
   client.on('message', message => {
   let args = message.content.split(' ').slice(1);
-  if(message.content.split(' ')[0] == 'd!color'){
+  if(message.content.split(' ')[0] == '>color'){
   const embedd = new Discord.RichEmbed()
   .setFooter('Requested by '+message.author.username, message.author.avatarURL)
   .setDescription(`**لا يوجد لون بهذا الأسم ** :x: `)
@@ -208,20 +533,20 @@ client.on('message' , message => {
   
   
   client.on('message', message => {
-  if (message.content.startsWith("d!botinfo")) {
+  if (message.content.startsWith(">botinfo")) {
   message.channel.send({
   embed: new Discord.RichEmbed()
      .setAuthor(client.user.username,client.user.avatarURL)
      .setThumbnail(client.user.avatarURL)
      .setColor('RANDOM')
-     .setTitle('``INFO  Dragon Bot`` ')
+     .setTitle('``INFO  PlusBot ✨`` ')
      .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
      .addField('``servers``', [client.guilds.size], true)
      .addField('``channels``' , `[ ${client.channels.size} ]` , true)
      .addField('``Users``' ,`[ ${client.users.size} ]` , true)
      .addField('``My Name``' , `[ ${client.user.tag} ]` , true)
      .addField('``My ID``' , `[ ${client.user.id} ]` , true)
-           .addField('``My Prefix``' , `[ d! ]` , true)
+           .addField('``My Prefix``' , `[ > ]` , true)
            .addField('``My Language``' , `[ JavaScript ]` , true)
            .addField('``Bot Version``' , `[ v0.1 ]` , true)
            .setFooter('By | <@429972030092476437>')
@@ -239,18 +564,18 @@ client.on('message', async message => {
      category : 'click here',
       channel : 'click here'
        }
-        if(message.content.startsWith('d!temp on')){
+        if(message.content.startsWith('>temp on')){
          if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
           var ggg= message.guild.createChannel('click here', 'category').then(cg => {
            var ccc =message.guild.createChannel('click here', 'voice').then(ch => {
             ch.setParent(cg)
-             message.channel.send('**Done ,**')
+             message.channel.send('**تم ,**')
               client.on('message' , message => {
-               if(message.content === 'd!temp off') {
+               if(message.content === '>temp off') {
                 if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
                  cg.delete()
                   ch.delete()
-                   message.channel.send('**Done ,**')
+                   message.channel.send('**تم ,**')
                     }
                      });
                       const time = temp[message.guild.id].time
@@ -262,7 +587,7 @@ client.on('message', async message => {
 	                 if(isNaN(newTime)) return message.reply(`** The Time Be Nambers :face_palm: **`);
 	                if(newTime < 1) return message.reply(`**The Time Be Up \`3000s\`**`)
                        temp[message.guild.id].time = newTime
-                      message.channel.send(`**Temp Rooms Time Change To \`${newTime}\`**`);
+                      message.channel.send(`**تم تغير روم الرومات المؤقته الى روم \`${newTime}\`**`);
                      }
                     });
                    client.on('voiceStateUpdate', (old, neww) => {
@@ -310,7 +635,7 @@ client.on('message', async message => {
       });
 const hastebins = require('hastebin-gen');
 client.on('message', message => {
-var PREFIX = 'd!';
+var PREFIX = '>';
     if(message.content.startsWith(PREFIX + 'discrim')) {
             var args = message.content.split(' ').slice(1).join(' ');
 	    if(!args) return message.reply('Please Type The Discrim Tag')
@@ -332,7 +657,7 @@ hastebins(`${array.slice(0, 30).join('\n')}`, 'txt').then(l => {
 }).catch(console.error);
 });
 client.on('message' , message => {
-var PREFIX = 'd!';
+var PREFIX = '>';
 if(message.content === `${PREFIX}discrim`) {
 	            var args = message.content.split(' ').slice(1).join(' ');
 	    if(!args) return message.reply('Please Type The Discrim Tag')
@@ -484,10 +809,10 @@ client.on('message', message => {
     let role = new Discord.RichEmbed()
   .setDescription(`
   أمثله على الأوامر : 
-  d!role @mention rolename : لأعطاء رتبة لعضو معين
-  d!role all rolename : لأعطاء رتبة للجميع 
-  d!role humans rolename : لأعطاء رتبة للاشخاص فقط
-  d!role bots rolename : لأعطاء رتبة لجميع البوتات`)
+  >role @mention rolename : لأعطاء رتبة لعضو معين
+  >role all rolename : لأعطاء رتبة للجميع 
+  >role humans rolename : لأعطاء رتبة للاشخاص فقط
+  >role bots rolename : لأعطاء رتبة لجميع البوتات`)
   .setFooter('Requested by '+message.author.username, message.author.avatarURL)
 message.channel.sendEmbed(role)
   }})
@@ -498,10 +823,10 @@ client.on('message', message => {
     let role = new Discord.RichEmbed()
   .setDescription(`
   أمثله على الأوامر : 
-  d!-role @mention rolename : لسحب رتبة لعضو معين
-  d!-role all rolename : لسحب رتبة للجميع 
-  d!-role humans rolename : لسحب رتبة للاشخاص فقط
-  d!-role bots rolename : لسحب رتبة لجميع البوتات`)
+  >-role @mention rolename : لسحب رتبة لعضو معين
+  >-role all rolename : لسحب رتبة للجميع 
+  >-role humans rolename : لسحب رتبة للاشخاص فقط
+  >-role bots rolename : لسحب رتبة لجميع البوتات`)
   .setFooter('Requested by '+message.author.username, message.author.avatarURL)
 message.channel.sendEmbed(role)
   }})
@@ -555,7 +880,7 @@ client.on('message', async message => {
         if(message.guild.member(mutePerson).roles.has(muteRole.id)) return message.channel.send('**- هذا الشخص ميوتد بالفعل**');
         if(!muteRole) return message.guild.createRole({ name: "Muted", permissions: [] });
         if(!time) return message.channel.send("**- اكتب الوقت**");
-        if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this duration maybe the bot not support this duration**');
+        if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- البوت لا يدعم هذا الوقت**');
         if(!muteReason) muteReason = "Null";
         message.guild.member(mutePerson).addRole(muteRole);
         message.channel.send(`**:white_check_mark: ${mutePerson} has been muted ! :zipper_mouth: **`)
@@ -589,12 +914,12 @@ client.on('message', async message => {
   let time = messageArray[2];
   if(message.content.startsWith(prefix + "tempban")) {
     if (!message.channel.guild) return;
-     if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**You dont have ban_members permission :/ **");
+     if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**ماعندك برمشن :X:**");
      if(!User) message.channel.send("Mention Someone");
-     if(User.id === client.user.id) return message.channel.send("**Why you want to ban me ? :/**");
-     if(User.id === message.guild.owner.id) return message.channel.send("**Nice try man :> you cant ban the ownership**");
+     if(User.id === client.user.id) return message.channel.send("** :X: ماتقدر تبند البوت**");
+     if(User.id === message.guild.owner.id) return message.channel.send("** :X:لااستطيع تبنيد الاونر **");
      if(!time) return message.channel.send("**- اكتب الوقت**");
-     if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('**- Error in this Duration**');
+     if(!time.match(/[1-60][s,m,h,d,w]/g)) return message.channel.send('** :X: البوت لايدعم هذا الوقت**');
     if(!Reason) Reason = "Null";
      let banEmbed = new Discord.RichEmbed()
      .setAuthor(`New Banned User !`)
@@ -622,7 +947,7 @@ User.send(`**:airplane: You are has been banned in ${message.guild.name} reason:
 
 
 client.on('message', message => {
-  var prefix = "d!";
+  var prefix = ">";
     if (message.author.kick) return;
     if (!message.content.startsWith(prefix)) return;
   
@@ -655,7 +980,7 @@ client.on('message', message => {
     .addField("Reason:", `${reason}`)
     .addField("Kicked In :", `${message.channel.name}`)
     .addField("Time & Date :", `${message.createdAt}`)
-    .setFooter('DragonBot 🐲');
+    .setFooter('PlusBot ✨');
     message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
   message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
   user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
@@ -703,7 +1028,7 @@ user.send(`You Are Has Been Banned Permanently In ${message.guild.name} reason: 
   }})
 
 client.on('message', message => {
-  var prefix = "d!"
+  var prefix = ">"
   let args = message.content.split(' ').slice(1);
   if(message.content.startsWith(prefix + 'role')) {
       if(!message.member.hasPermission('MANAGE_ROLES')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `MANAGE_ROLES`' );
@@ -711,7 +1036,7 @@ client.on('message', message => {
   let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
   console.log(role);
   if(member) {
-       if(role.startsWith('-')) {
+       if(role.startsWith('>')) {
          let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
          console.log(roleRe);
          let role1 = message.guild.roles.find('name', roleRe);
@@ -727,7 +1052,7 @@ client.on('message', message => {
          .setFooter('Requested By '+message.author.username,message.author.avatarURL)
          .setColor('BLACK')
           message.channel.send(e)
-     } else if(!role.startsWith('-')) {
+     } else if(!role.startsWith('>')) {
          let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
          let role1 = message.guild.roles.find('name', roleRe);
   const ee =new Discord.RichEmbed()
@@ -745,7 +1070,7 @@ client.on('message', message => {
      }
   }
   else if(args[0] == 'all') {
-  if(role.startsWith('d!')) {
+  if(role.startsWith('>')) {
   let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
   let role1 = message.guild.roles.find('name', roleRe);
             message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
@@ -766,7 +1091,7 @@ client.on('message', message => {
   });
   }
   } else if(args[0] == 'humans') {
-  if(role.startsWith('d!')) {
+  if(role.startsWith('>')) {
   let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
   let role1 = message.guild.roles.find('name', roleRe);
             message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
@@ -792,7 +1117,7 @@ client.on('message', message => {
   });
   }
   } else if(args[0] == 'bots') {
-  if(role.startsWith('d!')) {
+  if(role.startsWith('>')) {
   let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
   let role1 = message.guild.roles.find('name', roleRe);
             message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
@@ -820,7 +1145,7 @@ client.on('message', message => {
   });
 
   client.on('message', message => {
-    var prefix = "d!"
+    var prefix = ">"
     let args = message.content.split(' ').slice(1);
     if(message.content.startsWith(prefix + '-role')) {
         if(!message.member.hasPermission('MANAGE_ROLES')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `MANAGE_ROLES`' );
@@ -828,7 +1153,7 @@ client.on('message', message => {
     let role = args.join(' ').replace(member, '').replace(args[0], '').replace(' ', '');
     console.log(role);
     if(member) {
-         if(role.startsWith('-')) {
+         if(role.startsWith('>')) {
            let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
            console.log(roleRe);
            let role1 = message.guild.roles.find('name', roleRe);
@@ -844,7 +1169,7 @@ client.on('message', message => {
            .setFooter('Requested By '+message.author.username,message.author.avatarURL)
            .setColor('BLACK')
             message.channel.send(e)
-       } else if(!role.startsWith('-')) {
+       } else if(!role.startsWith('>')) {
            let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
            let role1 = message.guild.roles.find('name', roleRe);
     const ee =new Discord.RichEmbed()
@@ -862,7 +1187,7 @@ client.on('message', message => {
        }
     }
     else if(args[0] == 'all') {
-    if(role.startsWith('d!')) {
+    if(role.startsWith('>')) {
     let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
     let role1 = message.guild.roles.find('name', roleRe);
               message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
@@ -883,7 +1208,7 @@ client.on('message', message => {
     });
     }
     } else if(args[0] == 'humans') {
-    if(role.startsWith('d!')) {
+    if(role.startsWith('>')) {
     let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
     let role1 = message.guild.roles.find('name', roleRe);
               message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
@@ -909,7 +1234,7 @@ client.on('message', message => {
     });
     }
     } else if(args[0] == 'bots') {
-    if(role.startsWith('d!')) {
+    if(role.startsWith('>')) {
     let roleRe = args.join(' ').replace(member, '').replace(args[0], '').replace('-', '').replace(' ', '');
     let role1 = message.guild.roles.find('name', roleRe);
               message.channel.send(`الرجاء الانتظار حتى يتم الانتهاء من الامر`).then(msg =>{
@@ -951,7 +1276,7 @@ const definedReactionRole = null
     const command = args.shift().toLowerCase();
     if(message.author.bot) return;
     if(message.content.indexOf(prefix) !== 0) return;
- if (message.content === 'd!autoC') {
+ if (message.content === '>autoC') {
       if(!message.channel.guild) return message.reply(`**this ~~command~~ __for servers only__**`);
       if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("sorry you can't do this");
       if(!args[0] || args[1]) return message.channel.send(`\`\`\`${prefix}autoC <role-name>\`\`\``);
@@ -1000,7 +1325,7 @@ client.on('messageReactionRemove', (reaction, user) => {
  
  
   client.on('message', msg => {//msg
-    if (msg.content === 'd!colors') {
+    if (msg.content === '>colors') {
       msg.channel.send({file : "https://cdn.discordapp.com/attachments/501774006966419458/501774646467887105/colors.png"})
     }
   });;
@@ -1009,7 +1334,7 @@ client.on('messageReactionRemove', (reaction, user) => {
 client.on('message', message => {
   if(message.content === prefix + 'createcolors') {
                        if(!message.channel.guild) return message.channel.send('**This Commnad only For Servers !**'); 
-       if(!message.member.hasPermission('ADMINISTRATOR')) return    message.channel.send('**You Dont Have** `ADMINISTRATOR` **premission**').then(msg => msg.delete(6000))
+       if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('**You Dont Have** `ADMINISTRATOR` **premission**').then(msg => msg.delete(6000))
     message.guild.createRole({
                 name: "1",
                   color: "#FFB6C1",
@@ -1713,7 +2038,7 @@ client.on('message', message => {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '1');
   
@@ -1724,7 +2049,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '2');
   
@@ -1736,7 +2061,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '3');
   
@@ -1747,7 +2072,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '4');
   
@@ -1759,7 +2084,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '5');
   
@@ -1771,7 +2096,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '6');
   
@@ -1783,7 +2108,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '7');
   
@@ -1795,7 +2120,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '8');
   
@@ -1807,7 +2132,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '9');
   
@@ -1819,7 +2144,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '10');
   
@@ -1831,7 +2156,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '11');
   
@@ -1843,7 +2168,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '12');
   
@@ -1855,7 +2180,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '13');
   
@@ -1867,7 +2192,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '14');
   
@@ -1879,7 +2204,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '15');
   
@@ -1891,7 +2216,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '16');
   
@@ -1903,7 +2228,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '17');
   
@@ -1917,7 +2242,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '18');
   
@@ -1929,7 +2254,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '19');
   
@@ -1941,7 +2266,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '20');
   
@@ -1964,7 +2289,7 @@ if (message.content.startsWith("+!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '22');
   
@@ -1976,7 +2301,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '23');
   
@@ -1990,7 +2315,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '24');
   
@@ -2004,7 +2329,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '25');
   
@@ -2018,7 +2343,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '26');
   
@@ -2031,7 +2356,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '27');
   
@@ -2043,7 +2368,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '28');
   
@@ -2056,7 +2381,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '29');
   
@@ -2069,7 +2394,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '30');
   
@@ -2082,7 +2407,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '31');
   
@@ -2094,7 +2419,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '32');
   
@@ -2107,7 +2432,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '33');
   
@@ -2119,7 +2444,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '34');
   
@@ -2132,7 +2457,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '35');
   
@@ -2144,7 +2469,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '36');
   
@@ -2156,7 +2481,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '37');
   
@@ -2168,7 +2493,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '38');
   
@@ -2180,7 +2505,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '39');
   
@@ -2192,7 +2517,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '40');
   
@@ -2204,7 +2529,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '41');
   
@@ -2216,7 +2541,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '42');
   
@@ -2228,7 +2553,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '43');
   
@@ -2240,7 +2565,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '44');
   
@@ -2252,7 +2577,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '45');
   
@@ -2264,7 +2589,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '46');
   
@@ -2276,7 +2601,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '47');
   
@@ -2288,7 +2613,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '48');
   
@@ -2300,7 +2625,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '49');
   
@@ -2312,7 +2637,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '50');
   
@@ -2323,7 +2648,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '51');
   
@@ -2334,7 +2659,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '52');
   
@@ -2345,7 +2670,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '53');
   
@@ -2356,7 +2681,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '54');
   
@@ -2367,7 +2692,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '55');
   
@@ -2378,7 +2703,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '56');
   
@@ -2389,7 +2714,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '57');
   
@@ -2400,7 +2725,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '58');
   
@@ -2411,7 +2736,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '59');
   
@@ -2422,7 +2747,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '60');
   
@@ -2433,7 +2758,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '-61');
   
@@ -2444,7 +2769,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '62');
   
@@ -2455,7 +2780,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '63');
   
@@ -2466,7 +2791,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '64');
   
@@ -2477,7 +2802,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '65');
   
@@ -2488,7 +2813,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '66');
   
@@ -2499,7 +2824,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '67');
   
@@ -2510,7 +2835,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '68');
   
@@ -2521,7 +2846,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '69');
   
@@ -2532,7 +2857,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '70');
   
@@ -2544,7 +2869,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '71');
   
@@ -2556,7 +2881,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '72');
   
@@ -2568,7 +2893,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '73');
   
@@ -2580,7 +2905,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '74');
   
@@ -2592,7 +2917,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '75');
   
@@ -2604,7 +2929,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '76');
   
@@ -2616,7 +2941,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '77');
   
@@ -2628,7 +2953,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '78');
   
@@ -2640,7 +2965,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '79');
   
@@ -2652,7 +2977,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '80');
   
@@ -2664,7 +2989,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '81');
   
@@ -2676,7 +3001,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '82');
   
@@ -2688,7 +3013,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '83');
   
@@ -2700,7 +3025,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '84');
   
@@ -2712,7 +3037,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '85');
   
@@ -2724,7 +3049,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '86');
   
@@ -2736,7 +3061,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '87');
   
@@ -2748,7 +3073,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '88');
   
@@ -2760,7 +3085,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '89');
   
@@ -2772,7 +3097,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '90');
   
@@ -2784,7 +3109,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '91');
   
@@ -2796,7 +3121,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '92');
   
@@ -2808,7 +3133,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '93');
   
@@ -2820,7 +3145,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '94');
   
@@ -2832,7 +3157,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '95');
   
@@ -2844,7 +3169,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '96');
   
@@ -2856,7 +3181,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith ("d!deletecolors")) {
+if (message.content.startsWith (">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '97');
   
@@ -2868,7 +3193,7 @@ if (message.content.startsWith ("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '98');
   
@@ -2880,7 +3205,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '99');
   
@@ -2892,7 +3217,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '100');
   
@@ -2904,7 +3229,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '101');
   
@@ -2916,7 +3241,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '102');
   
@@ -2928,7 +3253,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '103');
   
@@ -2940,7 +3265,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '104');
   
@@ -2952,7 +3277,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '105');
   
@@ -2964,7 +3289,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith ("d!deletecolors")) {
+if (message.content.startsWith (">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '106');
   
@@ -2976,7 +3301,7 @@ if (message.content.startsWith ("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '107');
   
@@ -2988,7 +3313,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '108');
   
@@ -3000,7 +3325,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '109');
   
@@ -3012,7 +3337,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '110');
   
@@ -3024,7 +3349,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '111');
   
@@ -3036,7 +3361,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '112');
   
@@ -3048,7 +3373,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '113');
   
@@ -3060,7 +3385,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '114');
   
@@ -3072,7 +3397,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '115');
   
@@ -3084,7 +3409,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '116');
   
@@ -3096,7 +3421,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '117');
   
@@ -3108,7 +3433,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '118');
   
@@ -3120,7 +3445,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '119');
   
@@ -3132,7 +3457,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '121');
   
@@ -3144,7 +3469,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '122');
   
@@ -3167,7 +3492,7 @@ if (message.content.startsWith("!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '124');
   
@@ -3179,7 +3504,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '125');
   
@@ -3190,7 +3515,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '126');
   
@@ -3202,7 +3527,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '127');
   
@@ -3214,7 +3539,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '128');
   
@@ -3226,7 +3551,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '129');
   
@@ -3238,7 +3563,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '130');
   
@@ -3249,7 +3574,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '131');
   
@@ -3261,7 +3586,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '132');
   
@@ -3272,7 +3597,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '133');
   
@@ -3284,7 +3609,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '134');
   
@@ -3295,7 +3620,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '135');
   
@@ -3307,7 +3632,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '136');
   
@@ -3321,7 +3646,7 @@ if (message.content.startsWith("d!deletecolors")) {
 client.on('message', async message => {
   
     let args = message.content.split(' ').slice(1);
-if (message.content.startsWith("d!deletecolors")) {
+if (message.content.startsWith(">deletecolors")) {
   if(!message.member.hasPermission('ADMINISTRATOR')) return
   let role = message.guild.roles.find('name', '137');
   
@@ -3350,7 +3675,7 @@ if (message.content.startsWith("d!deletecolors")) {
 
 
   client.on('message', message =>{
-    if(message.content === 'd!ping'){
+    if(message.content === '>ping'){
   let start = Date.now(); message.channel.send('pong').then(message => { 
   message.edit(`\`\`\`js
   Time taken: ${Date.now() - start} ms
@@ -3435,9 +3760,9 @@ client.on("message", (message) => {
   if (message.content.toLowerCase().startsWith(prefix + `close`)) {
     if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send(`You can't use the close command outside of a ticket channel.`);
   
-    message.channel.send(`Are you sure? Once confirmed, you cannot reverse this action!\nTo confirm, type \`d!confirm\`. This will time out in 10 seconds and be cancelled.`)
+    message.channel.send(`Are you sure? Once confirmed, you cannot reverse this action!\nTo confirm, type \`>confirm\`. This will time out in 10 seconds and be cancelled.`)
     .then((m) => {
-      message.channel.awaitMessages(response => response.content === 'd!confirm', {
+      message.channel.awaitMessages(response => response.content === '>confirm', {
         max: 1,
         time: 10000,
         errors: ['time'],
@@ -3457,7 +3782,7 @@ client.on("message", (message) => {
 
     client.on('message', msg => {
    //Code By : ‡ ♪ ℬℐℓѦℓ✋ ‡#2026
-   if(msg.content.startsWith('d!suggest')) {
+   if(msg.content.startsWith('>suggest')) {
      if(!msg.channel.guild) return msg.reply('** هاذا الامر فقط للسيرفرات**');
      if(!msg.guild.channels.find('name', 'suggestions')) return msg.reply('**الرجاء إضافة روم بإسم (suggestions)**');
      let args = msg.content.split(" ").slice(1);
@@ -3743,7 +4068,7 @@ client.on('message', message => {
 client.on("message", async message => {
 if(message.author.bot) return;
 if(message.channel.type === "dm") return;
-let prefix = 'd!'
+let prefix = '>'
 let messageArray = message.content.split (" ");
 let args = messageArray.slice(1);
 
@@ -3767,7 +4092,7 @@ message.channel.sendMessage(`${replies[Math.floor(Math.random() * replies.length
 
 
 client.on('message', message => {
-if(message.content.startsWith("d!slots")) {
+if(message.content.startsWith(">slots")) {
 let slot1 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
 let slot2 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
 let slot3 = ['🍏', '🍇', '🍒', '🍍', '🍅', '🍆', '🍑', '🍓'];
@@ -3789,7 +4114,7 @@ message.channel.send(`${slots1} | ${slots2} | ${slots3} - ${we}`)
 
 
 client.on('message', message => {
-if(message.content.startsWith("d!حجرة")) {
+if(message.content.startsWith(">حجرة")) {
 let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
 let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
 let we;
@@ -3805,7 +4130,7 @@ message.channel.send(`${slots1} - ${we}`)
 
 
 client.on('message', message => {
-if(message.content.startsWith("d!ورقة")) {
+if(message.content.startsWith(">ورقة")) {
 let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
 let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
 let we;
@@ -3819,7 +4144,7 @@ message.channel.send(`${slots1} - ${we}`)
 });
 
 client.on('message', message => {
-if (message.content === "d!server") {
+if (message.content === ">server") {
 let embed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setThumbnail(message.guild.iconURL)
@@ -3844,7 +4169,7 @@ message.channel.sendEmbed(embed);
 
 
 client.on('message', message => {
-if(message.content.startsWith("d!مقص")) {
+if(message.content.startsWith(">مقص")) {
 let slot1 = ['✂ورقة📄', '🗿حجرة🗿', '✂مقص📄'];
 let slots1 = `${slot1[Math.floor(Math.random() * slot1.length)]}`;
 let we;
@@ -4132,74 +4457,65 @@ client.on("ready", () => {
   client.user.setGame("On " + client.guilds.size + " guilds")
 })
 
-client.on('message',async message => {
-    if(message.content === '#allunban') {
-        if( !message.member.hasPermission('ADMINISTRATO')) return message.reply('You Need ADMINSTRATOR Permission To Do This !');
-    message.guild.fetchBans().then(ba => {
-    ba.forEach(ns => {
-    message.guild.unban(ns);
-    });
-    });
-    }
-    });
+
 
 client.on("message", message => {
-  if (message.content === "d!help") {
+  if (message.content === ">help") {
 message.author.send(`**
-╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-╰╮╭╮┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-╱┃┃┃┣━┳━━┳━━┳━━┳━╮╱┃╰╯╰┳━┻╮╭╯
-╱┃┃┃┃╭┫╭╮┃╭╮┃╭╮┃╭╮╮┃╭━╮┃╭╮┃┃
-╭╯╰╯┃┃┃╭╮┃╰╯┃╰╯┃┃┃┃┃╰━╯┃╰╯┃╰╮
-╰━━━┻╯╰╯╰┻━╮┣━━┻╯╰╯╰━━━┻━━┻━╯
-╱╱╱╱╱╱╱╱╱╭━╯┃
-╱╱╱╱╱╱╱╱╱╰━━╯
+╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰━╯┃┃╭╮╭┳━━┫╰╯╰┳━┻╮╭╯
+┃╭━━┫┃┃┃┃┃━━┫╭━╮┃╭╮┃┃
+┃┃╱╱┃╰┫╰╯┣━━┃╰━╯┃╰╯┃╰╮
+╰╯╱╱╰━┻━━┻━━┻━━━┻━━┻━╯
 
+${prefix}
 :record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
 :fire: __Action Commands:__
-❯ d!new → create ticket for you (need support-team role)
-❯ d!close → close the ticket
-❯ d!slap → slap someone
-❯ d!hug → hug someone
-❯ d!tickle → tickle someone
-❯ d!poke → poke someone
-❯ d!cuddle → cuddle someone
-❯ d!pat → cuddle someone
-❯ d!botinvite → To add a bot link inside the server
-❯ d!afk → To make in afk status
+❯ >new → create ticket for you (need support-team role)
+❯ >close → close the ticket
+❯ >slap → slap someone
+❯ >hug → hug someone
+❯ >tickle → tickle someone
+❯ >poke → poke someone
+❯ >cuddle → cuddle someone
+❯ >pat → cuddle someone
+❯ >botinvite → To add a bot link inside the server
+❯ >afk → To make in afk status
 :video_game: __Game Commands:__
-❯ d!xo → xo game
-❯ d!صراحه → Frankly Game
-❯ d!عواصم → Capitals Game
-❯ d!حجرة أو ورقة أو مقص → Paper scissors game
-❯ d!كت تويت → Tweets Game
-❯ d!لو خيروك → If they made you choose game
-❯ d!قرعة → Lot game
-❯ d!فكك → Decrypt game
-❯ d!لغز → Gas game
-❯ d!شقلب → Chuckle game
-❯ d!اسرع → The fastest writing game
-❯ d!ركب → Synthesis assembly game
-❯ d!رياضيات → Math game
+❯ >xo → xo game
+❯ >صراحه → Frankly Game
+❯ >عواصم → Capitals Game
+❯ >حجرة أو ورقة أو مقص → Paper scissors game
+❯ >كت تويت → Tweets Game
+❯ >لو خيروك → If they made you choose game
+❯ >قرعة → Lot game
+❯ >فكك → Decrypt game
+❯ >لغز → Gas game
+❯ >شقلب → Chuckle game
+❯ >اسرع → The fastest writing game
+❯ >ركب → Synthesis assembly game
+❯ >رياضيات → Math game
 :globe_with_meridians: __General Commands:__
-❯ d!8ball → Ask magic 8ball something
-❯ d!avatar → Shows yours or the user avatar
-❯ d!invite → Invite DragonBot 🐲 to your guild
-❯ d!membercount → Shows membercount in your server
-❯ d!support → Dah It's support!?
-❯ d!td → Get the date in nice looking way!
+❯ >8ball → Ask magic 8ball something
+❯ >avatar → Shows yours or the user avatar
+❯ >invite → Invite PlusBot ✨ to your guild
+❯ >membercount → Shows membercount in your server
+❯ >support → Dah It's support!?
+❯ >td → Get the date in nice looking way!
 :information_source: __Info Commands:__
-❯ d!ping → Shows the bot ping.
-❯ d!botinfo → Shows informations about the bot.
-❯ d!server → Shows informations about the server.
-❯ d!userinfo → Shows informations about the user.
+❯ >ping → Shows the bot ping.
+❯ >botinfo → Shows informations about the bot.
+❯ >server → Shows informations about the server.
+❯ >userinfo → Shows informations about the user.
 **`)
-      message.channel.send(":white_check_mark: I've DMed you with my help list")
+     let helpembeds = new Discord.RichEmbed()
+     .setTitle('**✅ تم ارسال قائمه الهيلب في الخاص ❤**')
   }
   });
 
   client.on("message", message => {
-    if (message.content === "d!membercount") {
+    if (message.content === ">membercount") {
       if(!message.channel.guild) return message.channel.send("This Command is Just For Servers!")
       const memberc = new Discord.RichEmbed()
       .addField('Members:', `${message.guild.memberCount}`)
@@ -4207,62 +4523,57 @@ message.author.send(`**
     }})
 
     client.on("message", message => {
-      if (message.content === "d!help") {
+      if (message.content === ">help") {
     message.author.send(`**
-  :wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
-❯ d!setwelcomer → To setwelcome channel
-❯ d!autorole → autorole options **(to set the role type d!autorole set rolename
-and to turn on the autorole type d!autorole toggle)** 
-❯ d!prune → To clear the chat (you can use d!clear)
-❯ d!bans → Shows a bans size
-❯ d!ban → To ban a member **Permanently**
-❯ d!allunban → **To Unban All Members**
-❯ d!role → To give someone a role (you can use d!role all to give everyone the rank of your choice)
-❯ d!-role → To Pull the rank of a particular person (you can use d!-role all to Pull everyone the rank of your choice)
-❯ d!temp on → To Turn on the temporary rooms 
-❯ d!temp off → To Turn off the temporary rooms 
-❯ d!tempban → To ban a member **Temporary**
-❯ d!mute → To mute a member **Permanently**
-❯ d!tempmute → To mute a member **Temporary**
-❯ d!kick → To kick a member
-❯ d!unban → Unban member by id
-❯ d!unmute → Unmutes a member
-❯ d!warn → Warns a member
-❯ d!setTime → Create Hour Room 
-❯ d!setDate → Create Date Room 
-❯ d!setDays → Create Day Room 
-❯ d!setCount → Member Count Room 
-❯ d!setVoice → Create Voice Online Room 
-    **`)
-  }
-});
-
-client.on("message", message => {
-  if (message.content === "d!help") {
-message.author.send(`**
+:wrench: __Moderation Commands:__ (ban , mute , warn need channel with incidents channel!)
+❯ >setwelcomer → To setwelcome channel
+❯ >autorole → autorole options **(to set the role type >autorole set rolename
+and to turn on the autorole type >autorole toggle)** 
+❯ >prune → To clear the chat (you can use >clear)
+❯ >bans → Shows a bans size
+❯ >ban → To ban a member **Permanently**
+❯ >allunban → **To Unban All Members**
+❯ >role → To give someone a role (you can use >role all to give everyone the rank of your choice)
+❯ >-role → To Pull the rank of a particular person (you can use >-role all to Pull everyone the rank of your choice)
+❯ >temp on → To Turn on the temporary rooms 
+❯ >temp off → To Turn off the temporary rooms 
+❯ >tempban → To ban a member **Temporary**
+❯ >mute → To mute a member **Permanently**
+❯ >tempmute → To mute a member **Temporary**
+❯ >kick → To kick a member
+❯ >unban → Unban member by id
+❯ >unmute → Unmutes a member
+❯ >warn → Warns a member
+❯ >setTime → Create Hour Room 
+❯ >setDate → Create Date Room 
+❯ >setDays → Create Day Room 
+❯ >setCount → Member Count Room 
+❯ >setVoice → Create Voice Online Room 
 :busts_in_silhouette: __Social Commands:__
-❯ d!credit → Shows your credit card balance
-❯ d!daily → Get your daily credits
-❯ d!profile → To View Your Profile
-❯ d!store → To View The Profile Background Store
-❯ d!buy → To Buy A Background Profile
-❯ d!note → To Type A Text In The Information Profile
-❯ d!rep → To Give Someone A Like
-❯ d!transfer → To Transfer A Credits To Someone
-❯ d!id → Shows the user ID card.
-❯ d!rep → Give someone a reputation point!
+❯ >credit → Shows your credit card balance
+❯ >daily → Get your daily credits
+❯ >profile → To View Your Profile
+❯ >store → To View The Profile Background Store
+❯ >buy → To Buy A Background Profile
+❯ >note → To Type A Text In The Information Profile
+❯ >rep → To Give Someone A Like
+❯ >transfer → To Transfer A Credits To Someone
+❯ >id → Shows the user ID card.
+❯ >rep → Give someone a reputation point!
 :high_brightness: Ulti Commands:
-❯ d!short → Shorten the url provided
+❯ >short → Shorten the url provided
 :barber: __Colors Commands:__
-❯ d!deletecolors → delete 132 colors
-❯ d!createcolors → create 132 colors
-❯ d!colors → View the colors menu
-❯ d!color → To give the color you want
+❯ >deletecolors → delete 132 colors
+❯ >createcolors → create 132 colors
+❯ >colors → View the colors menu
+❯ >color → To give the color you want
 صفحه البوت : https://dragonbot.site123.me/
 **BOT VERSION : v1.0**
 **`)
-}
+  }
 });
+
+
 
 client.on("guildMemberAdd", member => {
   member.createDM().then(function (channel) {
@@ -4275,7 +4586,7 @@ client.on("guildMemberAdd", member => {
 
 
 client.on('message', message => {
-  if (message.content === "d!ping") {
+  if (message.content === ">ping") {
    const embed = new Discord.RichEmbed()
 
 .setColor("#FF0000")
@@ -5259,7 +5570,7 @@ client.on('message', message => {
     var args = message.content.split(' ');
     var command = args[0];
     switch(command) {
-        case "d!prune":
+        case ">prune":
         if (message.channel.type !== "text") return message.reply("** This Command is Only For Servers | :x: **");
         if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("** You Don't Have Access To Do This Command | :x: **");
         if (!args[1]) args[1] = 100;
@@ -5308,7 +5619,7 @@ if(message.content.startsWith(prefix  +  'warn'))  {
 .addField('Reason:',  `${reason}`,  true)
 .addField("Warned  in:",`${message.channel.name}`)
 .addField("Time & Date:",`${message.createdAt}`)
-.setFooter("DragonBot 🐲")
+.setFooter("PlusBot ✨")
 .setColor('#060c37')
 message.guild.channels.find('name',  'incidents').sendEmbed(reportembed)
 message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  msg.delete(3000));
@@ -5326,7 +5637,7 @@ message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  
 client.on('message', message => {
     if(!message.channel.guild) return;
 let args = message.content.split(' ').slice(1).join(' ');
-if (message.content.startsWith('d!ownerbc')){
+if (message.content.startsWith('>ownerbc')){
 if (message.author.id !== '429972030092476437') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
 if(!message.author.id === '429972030092476437') return;
 message.channel.sendMessage('جار ارسال |✅')
@@ -5396,7 +5707,7 @@ if (err) console.error(err)
 const sWlc = {}
 const premium = ['429972030092476437', '', '', '']
 client.on('message', message => {
-var prefix = "d!";
+var prefix = ">";
 if(message.channel.type === "dm") return;
 if(message.author.bot) return;
   if(!sWlc[message.guild.id]) sWlc[message.guild.id] = {
@@ -5525,7 +5836,7 @@ client.on("message", message => {
     }
 });
 client.on('message', message => {
-  if (message.content.startsWith("d!avatar")) {
+  if (message.content.startsWith(">avatar")) {
       var mentionned = message.mentions.users.first();
   var x5bzm;
     if(mentionned){
@@ -5726,7 +6037,7 @@ client.on('message', message => {
  
  
     client.on("message", msg => {
-             var prefix = "d!";
+             var prefix = ">";
     if(msg.content.startsWith (prefix + "id")) {
       if(!msg.channel.guild) return msg.reply('**:x: اسف لكن هذا الامر للسيرفرات فقط **');
         const embed = new Discord.RichEmbed();
@@ -5768,14 +6079,14 @@ client.on('message', message => {
       .setColor("#707070")
       .addField(': دخولك لديسكورد قبل', `${moment(heg.createdTimestamp).format('YYYY/M/D HH:mm:ss')} **\n** \`${moment(heg.createdTimestamp).fromNow()}\`` ,true)
       .addField(': انضمامك لسيرفر قبل', `${moment(h.joinedAt).format('YYYY/M/D HH:mm:ss')} \n \`${moment(h.joinedAt).fromNow()}\``, true)
-      .setFooter(`DragonBot 🐲`, 'https://images-ext-2.discordapp.net/external/JpyzxW2wMRG2874gSTdNTpC_q9AHl8x8V4SMmtRtlVk/https/orcid.org/sites/default/files/files/ID_symbol_B-W_128x128.gif')
+      .setFooter(`PlusBot ✨`, 'https://images-ext-2.discordapp.net/external/JpyzxW2wMRG2874gSTdNTpC_q9AHl8x8V4SMmtRtlVk/https/orcid.org/sites/default/files/files/ID_symbol_B-W_128x128.gif')
       .setThumbnail(heg.avatarURL);
       message.channel.send(id)
   }       });
 
   
     client.on('message' , async (message) => {
-var prefix = "d!"
+var prefix = ">"
     if(message.content.startsWith(prefix + "topinvites")) {
 if(message.author.bot) return;
 if(!message.channel.guild) return message.reply(' Error : \` Server Command \`');
@@ -5816,7 +6127,7 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
-  if (message.content === "d!banslist") {
+  if (message.content === ">banslist") {
   if(!message.channel.guild) return;
       var bans = message.guild.fetchBans().map
       const embed = new Discord.RichEmbed()
@@ -5828,11 +6139,11 @@ client.on('message', message => {
 });
   client.on('message', message => {
             if(!message.channel.guild) return;
-  if(message.content.startsWith('d!bc')) {
+  if(message.content.startsWith('>bc')) {
   if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
 if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
   let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
-  let copy = "Dragon Bot";
+  let copy = "PlusBot ✨";
   let request = `Requested By ${message.author.username}`;
   if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
   msg.react('✅')
@@ -6155,7 +6466,7 @@ reaction1.on("collect", r => {
     message.reply("**# - Done! 🎇**");
 })
 reaction2.on("collect", r => {
-    message.reply("**# - Canceled!**");
+    message.reply("**# - Cancele>**");
 })
 })
 }
@@ -6164,7 +6475,7 @@ reaction2.on("collect", r => {
 
 
 client.on('message', message => {
-     if (message.content === "d!servers") {
+     if (message.content === ">servers") {
 		 if(!message.channel.guild) return;
      let embed = new Discord.RichEmbed()
   .setColor("RANDOM")
@@ -6194,7 +6505,7 @@ message.channel.sendEmbed(cat);
 
 
 client.on('message', message => {
-    if (message.content === "d!roles") {
+    if (message.content === ">roles") {
 		if(!message.channel.guild) return;
         var roles = message.guild.roles.map(roles => `${roles.name}, `).join(' ')
         const embed = new Discord.RichEmbed()
@@ -6342,12 +6653,12 @@ const Za7f = [
 
 
  client.on('message', message => {
-   if (message.content.startsWith("d!عقاب")) {
+   if (message.content.startsWith(">عقاب")) {
                 if(!message.channel.guild) return message.reply('** This command only for servers**');
   var embed = new Discord.RichEmbed()
   .setColor('RANDOM')
    .setThumbnail(message.author.avatarURL)
- .addField('DragonBot 🐲 ♧' ,
+ .addField('PlusBot ✨ ♧' ,
   `${Za7f[Math.floor(Math.random() * Za7f.length)]}`)
   message.channel.sendEmbed(embed);
   console.log('[38ab] Send By: ' + message.author.username)
@@ -6371,7 +6682,7 @@ client.on('message', message => {
         let idembed = new Discord.RichEmbed()
         .setTitle(`https://discordapp.com/oauth2/authorize?client_id=${id}&permissions=2080374975&scope=bot`)
         .setFooter(`Requested By | ${message.author.username}`)
-.addField('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط', `DragonBot 🐲`)
+.addField('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط', `PlusBot ✨`)
 message.channel.sendEmbed(idembed)
 
  const cuttweet = [
@@ -6410,7 +6721,7 @@ message.channel.sendEmbed(idembed)
 ]
 
  client.on('message', message => {
-   if (message.content.startsWith("d!كت تويت")) {
+   if (message.content.startsWith(">كت تويت")) {
                 if(!message.channel.guild) return message.reply('** This command only for servers**');
   var embed = new Discord.RichEmbed()
   .setColor('RANDOM')
@@ -6438,7 +6749,7 @@ const secreT = [
 
 
  client.on('message', message => {
-   if (message.content.startsWith("d!خواطر")) {
+   if (message.content.startsWith(">خواطر")) {
                 if(!message.channel.guild) return message.reply('** This command only for servers**');
   var embed = new Discord.RichEmbed()
   .setColor('RANDOM')
@@ -6457,7 +6768,7 @@ const secreT = [
 
 
 client.on("message", (message) => {
-if (message.content.startsWith("d!setchannel")) {
+if (message.content.startsWith(">setchannel")) {
         let args = message.content.split(" ").slice(1);
     message.guild.createChannel(args.join(' '), 'text');
 message.channel.sendMessage('تـم إنـشاء روم كـتابـي بنجاح|✅')
@@ -6470,7 +6781,7 @@ message.channel.sendMessage('تـم إنـشاء روم كـتابـي بنجا�
 
 
 client.on("message", (message) => {
-if (message.content.startsWith("d!setvoice")) {
+if (message.content.startsWith(">setvoice")) {
         let args = message.content.split(" ").slice(1);
     message.guild.createChannel(args.join(' '), 'voice');
     message.channel.sendMessage('تـم إنـشاء روم صـوتي بنجاح|✅')
@@ -6482,7 +6793,7 @@ if (message.content.startsWith("d!setvoice")) {
 
 
 client.on('message' , message => {
-    var prefix = "d!";
+    var prefix = ">";
 if(message.content.startsWith(prefix+"userinfo")) {
     let user = message.mentions.users.first() || message.author;
     const joineddiscord = (user.createdAt.getDate() + 1) + '-' + (user.createdAt.getMonth() + 1) + '-' + user.createdAt.getFullYear() + ' | ' + user.createdAt.getHours() + ':' + user.createdAt.getMinutes() + ':' + user.createdAt.getSeconds();
@@ -6558,7 +6869,7 @@ if(message.content === prefix + "roomsall"){
 client.on('message', msg => {
     if(msg.author.bot) return;
 
-    if(msg.content === 'd!linkserver') {
+    if(msg.content === '>linkserver') {
       client.guilds.forEach(g => {
 
         let l = g.id
