@@ -27,15 +27,16 @@ const Token = process.env.BOT_TOKEN
 client.on("message", message => {
   if (message.content === ">help") {
 message.author.send(`**
-╭━━━┳╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃╭━╮┃┃╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰━╯┃┃╭╮╭┳━━┫╰╯╰┳━┻╮╭╯
-┃╭━━┫┃┃┃┃┃━━┫╭━╮┃╭╮┃┃
-┃┃╱╱┃╰┫╰╯┣━━┃╰━╯┃╰╯┃╰╮
-╰╯╱╱╰━┻━━┻━━┻━━━┻━━┻━╯
+╭╮╭━╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
+┃┃┃╭╯╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
+┃╰╯╯╭┳━╮╭━━┫╰╯╰┳━┻╮╭╯
+┃╭╮┃┣┫╭╮┫╭╮┃╭━╮┃╭╮┃┃
+┃┃┃╰┫┃┃┃┃╰╯┃╰━╯┃╰╯┃╰╮
+╰╯╰━┻┻╯╰┻━╮┣━━━┻━━┻━╯
+╱╱╱╱╱╱╱╱╭━╯┃
+╱╱╱╱╱╱╱╱╰━━╯
 
-
-${prefix}
+All Commands StartsWith: ${prefix}
 :record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
 :fire: __Action Commands:__
 ❯ >new → create ticket for you (need support-team role)
@@ -65,7 +66,7 @@ ${prefix}
 :globe_with_meridians: __General Commands:__
 ❯ >8ball → Ask magic 8ball something
 ❯ >avatar → Shows yours or the user avatar
-❯ >invite → Invite NukeBot ☣ to your guild
+❯ >invite → Invite KingBot 👑 to your guild
 ❯ >membercount → Shows membercount in your server
 ❯ >support → Dah It's support!?
 ❯ >td → Get the date in nice looking way!
@@ -139,7 +140,7 @@ message.author.send(`**
 ❯ >createcolors → create 132 colors
 ❯ >colors → View the colors menu
 ❯ >color → To give the color you want
-صفحه البوت : https://nukebot.site123.me/
+صفحه البوت : https://kingbot.site123.me/
 **BOT VERSION : v1.0**
 **`)
 }
@@ -530,7 +531,7 @@ if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return mess
 .addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
 .addField("Unmuted In", message.channel)
 .addField("Time & Date", `${message.createdAt}`)
-.setFooter("NukeBot ☣")
+.setFooter("KingBot 👑")
 let incidentchannel = message.guild.channels.find(`name`, "incidents");
 if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
 
@@ -563,7 +564,7 @@ client.on('message', async message =>{
           .addField('- Muted By:',message.author,true)
           .addField('- Muted User:', `${user}`)
           .addField('- Reason:',reason,true)
-          .setFooter("NukeBot ☣")
+          .setFooter("KingBot 👑")
           let incidentchannel = message.guild.channels.find(`name`, "incidents");
           if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
           incidentchannel.sendEmbed(muteEmbed)
@@ -575,7 +576,7 @@ client.on("message", message => {
 		 message.channel.send(":white_check_mark: I've DMed you with my support server");
 	 const embed = new Discord.RichEmbed()
 		 .setColor("RANDOM")
-		 .setFooter('© NukeBot ☣ جميع الحقوق محفوظة 2018 لــبوت')
+		 .setFooter('© KingBot 👑 جميع الحقوق محفوظة 2018 لــبوت')
 		 .addField('سيرفر الدعم الفني', `https://discord.gg/eHV24X`)
 	 message.author.send({embed});
 	}
@@ -692,7 +693,7 @@ client.on('message' , message => {
      .setAuthor(client.user.username,client.user.avatarURL)
      .setThumbnail(client.user.avatarURL)
      .setColor('RANDOM')
-     .setTitle('``INFO  NukeBot ☣`` ')
+     .setTitle('``INFO  KingBot 👑`` ')
      .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
      .addField('``servers``', [client.guilds.size], true)
      .addField('``channels``' , `[ ${client.channels.size} ]` , true)
@@ -1133,7 +1134,7 @@ client.on('message', message => {
     .addField("Reason:", `${reason}`)
     .addField("Kicked In :", `${message.channel.name}`)
     .addField("Time & Date :", `${message.createdAt}`)
-    .setFooter('NukeBot ☣');
+    .setFooter('KingBot 👑');
     message.guild.channels.find('name',  'incidents').sendEmbed(Kickembed)
   message.channel.send(`**:white_check_mark: ${user} has been kicked ! :airplane:**`)
   user.send(`**:airplane: You are has been kicked in ${message.guild.name} reason: ${reason}**`)
@@ -5657,7 +5658,7 @@ if(message.content.startsWith(prefix  +  'warn'))  {
 .addField('Reason:',  `${reason}`,  true)
 .addField("Warned  in:",`${message.channel.name}`)
 .addField("Time & Date:",`${message.createdAt}`)
-.setFooter("NukeBot ☣")
+.setFooter("KingBot 👑")
 .setColor('#060c37')
 message.guild.channels.find('name',  'incidents').sendEmbed(reportembed)
 message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  msg.delete(3000));
@@ -6066,7 +6067,7 @@ client.on('message', message => {
       .setColor("#707070")
       .addField(': دخولك لديسكورد قبل', `${moment(heg.createdTimestamp).format('YYYY/M/D HH:mm:ss')} **\n** \`${moment(heg.createdTimestamp).fromNow()}\`` ,true)
       .addField(': انضمامك لسيرفر قبل', `${moment(h.joinedAt).format('YYYY/M/D HH:mm:ss')} \n \`${moment(h.joinedAt).fromNow()}\``, true)
-      .setFooter(`NukeBot ☣`, 'https://images-ext-2.discordapp.net/external/JpyzxW2wMRG2874gSTdNTpC_q9AHl8x8V4SMmtRtlVk/https/orcid.org/sites/default/files/files/ID_symbol_B-W_128x128.gif')
+      .setFooter(`KingBot 👑`, 'https://images-ext-2.discordapp.net/external/JpyzxW2wMRG2874gSTdNTpC_q9AHl8x8V4SMmtRtlVk/https/orcid.org/sites/default/files/files/ID_symbol_B-W_128x128.gif')
       .setThumbnail(heg.avatarURL);
       message.channel.send(id)
   }       });
@@ -6130,7 +6131,7 @@ client.on('message', message => {
   if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
 if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
   let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
-  let copy = "NukeBot ☣";
+  let copy = "KingBot 👑";
   let request = `Requested By ${message.author.username}`;
   if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
   msg.react('✅')
@@ -6645,7 +6646,7 @@ const Za7f = [
   var embed = new Discord.RichEmbed()
   .setColor('RANDOM')
    .setThumbnail(message.author.avatarURL)
- .addField('NukeBot ☣ ♧' ,
+ .addField('KingBot 👑 ♧' ,
   `${Za7f[Math.floor(Math.random() * Za7f.length)]}`)
   message.channel.sendEmbed(embed);
   console.log('[38ab] Send By: ' + message.author.username)
@@ -6669,7 +6670,7 @@ client.on('message', message => {
         let idembed = new Discord.RichEmbed()
         .setTitle(`https://discordapp.com/oauth2/authorize?client_id=${id}&permissions=2080374975&scope=bot`)
         .setFooter(`Requested By | ${message.author.username}`)
-.addField('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط', `NukeBot ☣`)
+.addField('اذا ما شتغل الرابط يعني الايدي يلي كتبته غلط', `KingBot 👑`)
 message.channel.sendEmbed(idembed)
 
  const cuttweet = [
