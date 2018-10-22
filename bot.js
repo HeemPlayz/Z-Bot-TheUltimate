@@ -24,6 +24,7 @@ const data = JSON.parse(fs.readFileSync('./data.json', 'utf8'));
 const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
+
 client.on("message", message => {
   if (message.content === ">help") {
 message.author.send(`**
