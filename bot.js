@@ -708,86 +708,57 @@ client.on('message' , message => {
   })
   }
   });
+  var temp = {
 
-  
-const temp = JSON.parse(fs.readFileSync('./temp.json', 'utf8'));
-client.on('message', async message => {
- if(message.channel.type === "dm") return;
-  if(message.author.bot) return;
-   if(!temp[message.guild.id]) temp[message.guild.id] = {
-    time: "3000",
-     category : 'click here',
-      channel : 'click here'
-       }
-        if(message.content.startsWith('>temp on')){
-         if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
-          var ggg= message.guild.createChannel('click here', 'category').then(cg => {
-           var ccc =message.guild.createChannel('click here', 'voice').then(ch => {
-            ch.setParent(cg)
-             message.channel.send('**تم ,**')
-              client.on('message' , message => {
-               if(message.content === '>temp off') {
-                if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
-                 cg.delete()
-                  ch.delete()
-                   message.channel.send('**تم ,**')
-                    }
-                     });
-                      const time = temp[message.guild.id].time
-                       client.on('message' , message => {
-                        if (message.content.startsWith(prefix + "temptime")) {
-                         if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
-                          let newTime= message.content.split(' ').slice(1).join(" ")
-                          if(!newTime) return message.reply(`**${prefix}temptime <time>  \`1000 = 1s\`**`)
-	                 if(isNaN(newTime)) return message.reply(`** The Time Be Nambers :face_palm: **`);
-	                if(newTime < 1) return message.reply(`**The Time Be Up \`3000s\`**`)
-                       temp[message.guild.id].time = newTime
-                      message.channel.send(`**تم تغير روم الرومات المؤقته الى روم \`${newTime}\`**`);
-                     }
-                    });
-                   client.on('voiceStateUpdate', (old, neww) => {
-                  let newUserChannel = neww.voiceChannel
-                 let oldUserChannel = old.voiceChannel
-                temp[message.guild.id].category = cg.id
-               temp[message.guild.id].channel = ch.id
-              let channel = temp[message.guild.id].channel
-             let category = temp[message.guild.id].category
-            if(oldUserChannel === undefined && newUserChannel !== undefined && newUserChannel.id == channel) {
-           neww.guild.createChannel(neww.displayName , 'voice').then(c => {
-          c.setParent(category)
-         let scan = setTimeout(()=>{
-        if(!neww.voiceChannel) {
-       c.delete();
-      client.channels.get(channel).overwritePermissions(neww, {
-     CONNECT:true,
-    SPEAK:true
-   })
-  }
- }, temp[neww.guild.id].time);
-  c.overwritePermissions(neww, {
-   CONNECT:true,
-    SPEAK:true,
-     MANAGE_CHANNEL:true,
-      MUTE_MEMBERS:true,
-       DEAFEN_MEMBERS:true,
-	MOVE_MEMBERS:true,
-	 VIEW_CHANNEL:true
-	  })
-	   neww.setVoiceChannel(c)
-            })
-             client.channels.get(channel).overwritePermissions(neww, {
-	      CONNECT:false,
-	       SPEAK:false
-		})
-               }
-              })
-             })
-           })
-          }
-         fs.writeFile("./temp.json", JSON.stringify(temp), (err) => {
-        if(err) console.error(err)
-       })
-      });
+};
+client.on("message",(message) => {
+    if (message.channel.type !== "text") return;
+    if (!message.content.startsWith(prefix)) return;
+    switch(message.content.split(" ")[0].slice(prefix.length)) {
+        case "temp on" :
+            if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** You Don't Have Permission `Manage channels` To Do This Command");
+            temp[message.guild.id] = {
+                work : true,
+                channel : "Not Yet"
+            };
+            message.guild.createChannel("اضغط لصنع روم مؤقت").then(c => {
+                c.setPosition(1);
+                temp[message.guild.id].channel = c.id
+                message.channel.send("** Done.**");
+            });
+        break;
+        case "temp off" :
+        if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** You Don't Have Permission `Manage channels` To Do This Command");
+        message.guild.channels.get(temp[message.guild.id]).delete();
+            temp[message.guild.id] = {
+                work : false,
+                channel : "Not Yet"
+            };
+        message.channel.send("** Done.**");
+    };
+});
+client.on("voiceStateUpdate", (o,n) => {
+    if (!temp[n.guild.id]) return;
+    if (temp[n.guild.id].work == false) return;
+    if (n.voiceChannelID == temp[n.guild.id].channel) {
+        n.guild.createChannel(n.user.username, 'voice').then(c => {
+            n.setVoiceChannel(c);
+            c.overwritePermissions(n.user.id, {
+                CONNECT:true,
+                SPEAK:true,
+                MANAGE_CHANNEL:true,
+                MUTE_MEMBERS:true,
+                DEAFEN_MEMBERS:true,
+                MOVE_MEMBERS:true,
+                VIEW_CHANNEL:true  
+            });
+        })
+    };
+    if (!o.voiceChannel) return;
+    if (o.voiceChannel.name == o.user.username) {
+        o.voiceChannel.delete();
+    };
+});
 const hastebins = require('hastebin-gen');
 client.on('message', message => {
 var PREFIX = '>';
