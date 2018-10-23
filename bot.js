@@ -36,8 +36,7 @@ var temp = {
 client.on("message",(message) => {
     if (message.channel.type !== "text") return;
     if (!message.content.startsWith(prefix)) return;
-    switch(message.content.split(" ")[0].slice(prefix.length)) {
-        case "temp on" :
+        if(message.content.startsWith(prefix + "temp on")) {
             if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** You Don't Have Permission `Manage channels` To Do This Command");
             temp[message.guild.id] = {
                 work : true,
@@ -48,9 +47,8 @@ client.on("message",(message) => {
                 temp[message.guild.id].channel = c.id
                 message.channel.send("** Done.**");
             });
-        break;
-        case "temp off" :
-        if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** You Don't Have Permission `Manage channels` To Do This Command");
+        if(message.content.startsWith(prefix + "temp off")) {
+            if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** You Don't Have Permission `Manage channels` To Do This Command");
         message.guild.channels.get(temp[message.guild.id]).delete();
             temp[message.guild.id] = {
                 work : false,
@@ -58,7 +56,7 @@ client.on("message",(message) => {
             };
         message.channel.send("** Done.**");
     };
-});
+}})
 client.on("voiceStateUpdate", (o,n) => {
     if (!temp[n.guild.id]) return;
     if (temp[n.guild.id].work == false) return;
