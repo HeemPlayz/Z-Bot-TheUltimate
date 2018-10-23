@@ -7007,5 +7007,7 @@ if (err) console.error(err);
     
 
    
- 
+ client.on("error", function() {
+return console.log(arguments[0])
+});
 client.login(Token)
