@@ -42,7 +42,7 @@ client.on("message",(message) => {
                 work : true,
                 channel : "Not Yet"
             };
-            message.guild.createChannel("اضغط لصنع روم مؤقت").then(c => {
+            message.guild.createChannel("اضغط لصنع روم مؤقت", 'voice').then(c => {
                 c.setPosition(1);
                 temp[message.guild.id].channel = c.id
                 message.channel.send("** Done.**");
