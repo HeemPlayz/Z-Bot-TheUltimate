@@ -28,6 +28,19 @@ const stockfish = new Engine('stockfish-8-mac/Mac/stockfish-8-64');
 const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
+const google = require('google-it');
+client.on('message', message => {
+ let args = message.content.split(' ').slice(1);
+    if(message.content.startsWith(prefix + 'google')) {
+    const input = args.join(' ');
+
+google({ query: input, disableConsole: true }).then(results => {
+    return message.channel.send(`\n\n**Title**: ${results[0].title}\n***Link***: ${results[0].link}\nDescription: ${results[0].snippet}`);
+}).catch(error => {
+    if (error) throw error;
+});
+
+}})
 
 var temp = {
 
