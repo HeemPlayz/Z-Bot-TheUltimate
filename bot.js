@@ -37,6 +37,7 @@ client.on("message",(message) => {
             temp[message.guild.id].channel = c.id
             message.channel.send("** Done I Created Channel Named hack-log To Start The AntiHack**");
         });
+	       }})
 var guilds = {};
 client.on('guildBanAdd', function(guild) {
             const rebellog = client.channels.find("name", "hack-log"),
@@ -6988,5 +6989,5 @@ if (err) console.error(err);
  client.on("error", function() {
 return console.log(arguments[0])
 });
-    }})
+ 
 client.login(Token)
