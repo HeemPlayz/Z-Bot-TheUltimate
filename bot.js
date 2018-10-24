@@ -861,7 +861,7 @@ All Commands StartsWith: ${prefix}
 ❯ >setwelcomer → To setwelcome channel
 ❯ >autorole → autorole options **(to set the role type >autorole set rolename
 and to turn on the autorole type >autorole toggle)** 
-❯ >prune → To clear the chat (you can use >clear)
+❯ >prune → To clear the chat 
 ❯ >antihack → To Create Channel Named hack-log And Start The AntiHack
 ❯ >bans → Shows a bans size
 ❯ >ban → To ban a member **Permanently**
@@ -6135,58 +6135,7 @@ client.on('message', message => {
   }       });
 
   
-    client.on('message' , async (message) => {
-var prefix = ">"
-    if(message.content.startsWith(prefix + "topinvites")) {
-if(message.author.bot) return;
-if(!message.channel.guild) return message.reply(' Error : \` Server Command \`');
-  var invites = await message.guild.fetchInvites();
-    invites = invites.array();
-    arraySort(invites, 'uses', { reverse: true });
-    let possibleInvites = ['User Invited |  Uses '];
-    invites.forEach(i => {
-        if (i.uses === 0) { 
-            return;
-        }
-      possibleInvites.push(['\n\ ' +'<@'+ i.inviter.id +'>' + '  :  ' +   i.uses]);
-     //معلومه بسيطه يمديك تكرر العمليهه أكثر من مره
-    })
-    const embed = new Discord.RichEmbed()
- .setColor('RANDOM')
-    .addField("Top Invites." ,`${(possibleInvites)}`)
 
-    message.channel.send(embed)
-    }
-});
-
-
-
-
-
-
-
-
-
-
-client.on('message', message => {
-   if(message.content.startsWith(prefix +"bans")) {
-      message.guild.fetchBans()
-      .then(bans => message.channel.send(`The ban count **${bans.size}** Person`))
-.catch(console.error);
-}
-});
-
-client.on('message', message => {
-  if (message.content === ">banslist") {
-  if(!message.channel.guild) return;
-      var bans = message.guild.fetchBans().map
-      const embed = new Discord.RichEmbed()
-      .setColor('RANDOM')
-      .addField('bans:',`**[${bans.name}]**`)
-      message.channel.sendEmbed(embed);
-
-  }
-});
   client.on('message', message => {
             if(!message.channel.guild) return;
   if(message.content.startsWith('>bc')) {
@@ -6227,61 +6176,7 @@ Discord.RichEmbed()
   })
   }
   })
-
-
-
-
-
-
-console.log('hello')
-
-
-           client.on("message", async msg => {
-           
-               if (msg.channel.type !== "text") return undefined;
-           
-
-           
-               var args = msg.content.split(" ")
-           
-           
-               if (msg.content.toLowerCase().startsWith(prefix + "clear")) {
-           
-               if(!msg.guild.members.get(msg.author.id).hasPermission("MANAGE_MESSAGES")) return msg.channel.send("You lack permissions.")
-           
-               if(!msg.guild.members.get(client.user.id).hasPermission("MANAGE_MESSAGES")) return msg.channel.send("I lack permissions.")
-           
-               if (!args[1]) return msg.channel.send("Type the number of messages you want to delete")
-           
-               var count = parseInt(args[1]);
-           
-               var fetched = msg.channel.fetchMessages({limit : count})
-           
-               if (isNaN(count)) return msg.channel.send("Only numbers are allowed.")
-           
-               if (count < 0) return msg.channel.send("Unvalid numbers.")
-           
-               if (count == 0) return msg.channel.send("0 messages ???")
-           
-               if (count > 100) return msg.channel.send(`cannot delete ${args[1]} message..`)
-           
-               if (fetched.length == 0) return msg.channel.send(`${msg.channel.name} is empty..`)
-           
-               else {
-               try {
-                   fetched.then(async msgs => {
-                     await msg.channel.bulkDelete(msgs)
-                     await msg.channel.send(`Bulked ${msgs.size-=1} message.`).then(msg => {
-                       msg.delete(4000)
-                     })
-                   })
-               } catch (e) {
-                 console.log(e.stack)
-               }
-               }
-             }
-           })
-           
+ 
       
 
    client.on('message', message => {
