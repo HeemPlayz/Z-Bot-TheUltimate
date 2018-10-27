@@ -133,6 +133,7 @@ client.on('message',async message => {
   }
 });
 
+
 client.on('message',async message => {
   var moment = require('moment');
     if(message.content.startsWith(prefix + "setDays")) {
