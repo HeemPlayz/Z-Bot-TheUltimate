@@ -246,7 +246,7 @@ Discord.RichEmbed()
               if (data[ss.executor.id].time <= 3) {
                   data[ss.executor.id].time = 0
               }
-          },60000)
+          })
       };
       });
           const memberkick = client.channels.find("name", "hack-log")
@@ -308,7 +308,7 @@ Discord.RichEmbed()
               if (data[ss.executor.id].time <= 3) {
                   data[ss.executor.id].time = 0
               }
-          },60000)
+          })
              var trying = client.channels.find("name", "hack-log")
       trying.send(`**WARNING : SOMEBOT TRY TO HACKING OUR SERVER !**`)
       };
@@ -321,8 +321,6 @@ Discord.RichEmbed()
       if(message.content.startsWith(prefix + "antihack")) {
           if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.reply("** You Don't Have Permission `Manage channels` To Do This Command");
           message.guild.createChannel("hack-log").then(c => {
-              c.setPosition(1);
-              temp[message.guild.id].channel = c.id
               message.channel.send("** Done I Created Channel Named hack-log To Start The AntiHack**");
           });
            }})
