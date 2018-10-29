@@ -31,6 +31,44 @@ const Token = process.env.BOT_TOKEN
 
 
 
+client.on('message', async message => {
+  let mention = message.mentions.members.first();
+let command = message.content.split(" ")[0];
+   command = command.slice(prefix.length);
+  let args = message.content.split(" ").slice(1);	 
+	if (message.content === ">unmute") {
+    if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**You Donot HavePermission Mute_Members**").then(m => m.delete(5000));
+if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I donot Have Permission Mute_Members**").then(msg => msg.delete(6000))
+
+  let kinggamer = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
+     if(!kinggamer) return message.channel.send('Mention Someone')
+
+
+  let role = message.guild.roles.find (r => r.name === "Muted");
+  
+  if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source:${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
+
+  await kinggamer.removeRole(role) 
+  message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmute> **`);
+  let mutedEmbed = new Discord.RichEmbed()
+.setDescription("New UnMute User")
+.setThumbnail(message.guild.iconURL)
+.setColor("#bc0000")
+.addField("Unmuted", `${Warned} with ID ${Warned.id}`)
+.addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
+.addField("Unmuted In", message.channel)
+.addField("Time & Date", `${message.createdAt}`)
+.setFooter("KingBot 👑")
+let incidentchannel = message.guild.channels.find(`name`, "incidents");
+if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
+
+  return;
+
+  }
+
+});
+
+
 client.on('message',async message => {
   if(message.content.startsWith(prefix + "setVoice")) {
   if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
@@ -1393,42 +1431,6 @@ function play(guild, song) {
 
 
 
-client.on('message', async message => {
-  let mention = message.mentions.members.first();
-let command = message.content.split(" ")[0];
-   command = command.slice(prefix.length);
-  let args = message.content.split(" ").slice(1);	 
-	if (message.content === ">unmute") {
-    if(!message.member.hasPermission("MUTE_MEMBERS")) return message.channel.sendMessage("**You Donot HavePermission Mute_Members**").then(m => m.delete(5000));
-if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**I donot Have Permission Mute_Members**").then(msg => msg.delete(6000))
-
-  let kinggamer = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
-     if(!kinggamer) return message.channel.send('Mention Someone')
-
-
-  let role = message.guild.roles.find (r => r.name === "Muted");
-  
-  if(!role || !kinggamer.roles.has(role.id)) return message.channel.sendMessage(`**:information_source:${mention.user.username} لقد تم فك الميوت عنه مسبقا**`)
-
-  await kinggamer.removeRole(role) 
-  message.channel.sendMessage(`**:white_check_mark: ${mention.user.username}  Unmute> **`);
-  let mutedEmbed = new Discord.RichEmbed()
-.setDescription("New UnMute User")
-.setThumbnail(message.guild.iconURL)
-.setColor("#bc0000")
-.addField("Unmuted", `${Warned} with ID ${Warned.id}`)
-.addField("Unmuted By", `<@${message.member.id}> with ID ${message.member.id}`)
-.addField("Unmuted In", message.channel)
-.addField("Time & Date", `${message.createdAt}`)
-.setFooter("KingBot 👑")
-let incidentchannel = message.guild.channels.find(`name`, "incidents");
-if(!incidentchannel) return message.channel.send("Can't find incidents channel.");
-
-  return;
-
-  }
-
-});
 
 client.on('message', async message =>{
     if (message.author.boss) return;  
