@@ -6021,6 +6021,10 @@ client.on("guildMemberAdd", member => {
         if (member.id == client.user.id) {
             return;
         }
+        var guild;
+        while (!guild)
+        guild.fetchInvites().then((data) => {
+            
             data.forEach((Invite, key, map) => {
                 var Inv = Invite.code;
                 if (dat[Inv])
@@ -6033,13 +6037,11 @@ client.on("guildMemberAdd", member => {
            
            });
         });
-    });
-
-      })
-    }})
-
-
-
+     });
+    })
+   })
+  }
+ })
 
 client.on('message', message => {
 
