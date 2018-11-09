@@ -32,14 +32,13 @@ const Token = process.env.BOT_TOKEN
 client.on('message', message => {
     if(!message.channel.guild) return;
 if(message.content.startsWith('>rolebc')) {
-    var role = najzx.mentions.roles.first();
 if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
 if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
 let args2 = message.content.split(" ").join(" ").slice(2 + prefix.length);
 let args3 = message.content.split("  ").join("  ").slice(3 + prefix.length);
-let role = message.guild.roles.find('name', args2)
+let bcrole = message.guild.roles.find('name', args2)
 if(!args2) return message.channel.send('اكتب اسم الرتبه')
-if(!role) return message.channel.send('I Cant Find This Role')
+if(!bcrole) return message.channel.send('I Cant Find This Role')
 let copy = "Reaper";
 let request = `Requested By ${message.author.username}`;
 if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
@@ -53,7 +52,7 @@ let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
 let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
 reaction1.on("collect", r => {
 message.channel.send(`☑ |   ${message.guild.members.size} يتم ارسال البرودكاست الى عضو `).then(m => m.delete(5000));
-najzx.guild.members.filter(m => m.roles.get(role.id)).forEach(m => {
+najzx.guild.members.filter(m => m.roles.get(bcrole.id)).forEach(m => {
     var bc = new Discord.RichEmbed()
 .setColor('RANDOM')
 .setTitle(':mega: برودكاست')
