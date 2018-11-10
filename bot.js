@@ -1082,6 +1082,8 @@ and to turn on the autorole type >autorole toggle)**
 ❯ >unban → Unban member by id
 ❯ >unmute → Unmutes a member
 ❯ >warn → Warns a member
+❯ >setSug → Set the suggest channel
+❯ >setReport → Set the report channel
 ❯ >setPics → Set The Pictures Text Channel
 ❯ >setTime → Create Hour Room 
 ❯ >setDate → Create Date Room 
@@ -4301,32 +4303,53 @@ client.on("message", (message) => {
   
 });
 
-    client.on('message', msg => {
-   //Code By : ‡ ♪ ℬℐℓѦℓ✋ ‡#2026
-   if(msg.content.startsWith('>suggest')) {
-     if(!msg.channel.guild) return msg.reply('** هاذا الامر فقط للسيرفرات**');
-     if(!msg.guild.channels.find('name', 'suggestions')) return msg.reply('**الرجاء إضافة روم بإسم (suggestions)**');
-     let args = msg.content.split(" ").slice(1);
-     if(!args[1]) return msg.reply(`**الرجاء كتابة اقتراح**`)
-     //غيره على حسب اسم روم الاقتراحات او سوي مثل اسم الروم الموجود هنا
-     if(msg.guild.channels.find('name', 'suggestions')) {
-       //غيره هنا كمان اذا غيرت فوق
-       msg.guild.channels.find('name', 'suggestions').send(`
-     **New Suggestion By** : ${msg.member}
-
-       **The Suggestion** :
-       ${args.join(" ").split(msg.mentions.members.first()).slice(' ')}
-       `)
-       .then(function (message) {
-         message.react('✅')
-         message.react('❌')
-       })
-       }
-     }
-
- });
-
-
+const sug = JSON.parse(fs.readFileSync('./sug.json' , 'utf8'));
+ 
+client.on('message', message => {
+    let room = message.content.split(" ").slice(1);
+    let findroom = message.guild.channels.find('name', `${room}`)
+    if(message.content.startsWith(prefix + "setSug")) {
+        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
+if(!room) return message.channel.send('Please Type The Channel Name')
+if(!findroom) return message.channel.send('Cant Find This Channel')
+let embed = new Discord.RichEmbed()
+.setTitle('**Done The Suggest Code Has Been Setup**')
+.addField('Channel:', `${room}`)
+.addField('Requested By:', `${message.author}`)
+.setThumbnail(message.author.avatarURL)
+.setFooter(`${client.user.username}`)
+message.channel.sendEmbed(embed)
+sug[message.guild.id] = {
+channel: room,
+}
+fs.writeFile("./sug.json", JSON.stringify(sug), (err) => {
+if (err) console.error(err)
+})
+    } else {
+ 
+    if(message.content.startsWith(`${prefix}suggest`)) {
+      if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+      let suggest = message.content.split(" ").slice(1);
+      if(!suggest) return message.reply(`**Please Type The Suggest**`)
+    let findchannel = (message.guild.channels.find('name', `${sug[message.guild.id].channel}`))
+    let sugembed = new Discord.RichEmbed()
+    .setTitle('New Suggest !')
+    .addField('Suggest By:', `${message.author}`)
+    .addField('Suggest:', `${suggest}`)
+    .setFooter('Reaper')
+    findchannel.sendEmbed(sugembed)
+        .then(function (message) {
+          message.react('✅')
+          message.react('❌')
+        })
+        .catch(err => {
+            message.reply(`Error 404: The Suggest Channel Cant Find Or Not Set To Set The Suggest Channel Type: ${prefix}setSug`)
+            console.error(err);
+        });
+        }
+      }
+    })
 
 
  client.on('message', function(message) {
@@ -5873,32 +5896,56 @@ client.on('message', message => {
 
 
 
-client.on('message',  async  message  =>  {
-    let  user  =  message.mentions.users.first();
-    let  reason  =  message.content.split(' ').slice(2).join(' ');
-if(message.content.startsWith(prefix  +  'warn'))  {
-    message.delete();
-    if(!message.member.hasPermission('MUTE_MEMBERS')) return      message.channel.send('**للأسف لا تمتلك صلاحيات' );
-    if(!user)  return  message.channel.send("**  -  mention  a  member  **")//by  orochix
-    if(!reason)  return  message.channel.send("**  -  Type  Reason  **")//by  orochix
-    let  reportembed  =  new  Discord.RichEmbed()
-    .setTitle(`New  Warned User !`)
-    .setThumbnail(message.guild.iconURL)
-.addField("Warned  User:",  `${user}`)//by  orochix
-.addField('Warned  By:',`${message.author.tag} with id ${message.author.id}]`)//by  orochix
-.addField('Reason:',  `${reason}`,  true)
-.addField("Warned  in:",`${message.channel.name}`)
-.addField("Time & Date:",`${message.createdAt}`)
-.setFooter("Reaper")
-.setColor('#060c37')
-message.guild.channels.find('name',  'incidents').sendEmbed(reportembed)
-message.reply(`**:warning: ${user} has been warned !:warning:**`).then(msg  =>  msg.delete(3000));
-  user.send(`**:warning: You are has been warned in ${message.guild.name} reason: ${reason} :warning:**`)
+const reportjson = JSON.parse(fs.readFileSync('./report.json' , 'utf8'));
+ 
+client.on('message', message => {
+    let room = message.content.split(" ").slice(1);
+    let findroom = message.guild.channels.find('name', `${room}`)
+    if(message.content.startsWith(prefix + "setReport")) {
+        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
+if(!room) return message.channel.send('Please Type The Channel Name')
+if(!findroom) return message.channel.send('Cant Find This Channel')
+let embed = new Discord.RichEmbed()
+.setTitle('**Done The report Code Has Been Setup**')
+.addField('Channel:', `${room}`)
+.addField('Requested By:', `${message.author}`)
+.setThumbnail(message.author.avatarURL)
+.setFooter(`${client.user.username}`)
+message.channel.sendEmbed(embed)
+reportjson[message.guild.id] = {
+channel: room,
 }
-
-//coding  by  orochix  !
-
+fs.writeFile("./report.json", JSON.stringify(reportjson), (err) => {
+if (err) console.error(err)
 })
+    } else {
+ 
+    if(message.content.startsWith(`${prefix}report`)) {
+        let  user  =  message.mentions.users.first();
+      if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+      let report = message.content.split(" ").slice(1);
+      if(!user)  return  message.channel.send("**Mention A Person To Report**")//by  orochix
+      if(!report) return message.reply(`**Please Type The Report**`)
+    let findchannel = (message.guild.channels.find('name', `${reportjson[message.guild.id].channel}`))
+    let sugembed = new Discord.RichEmbed()
+    .setTitle('New Report !')
+    .addField('Report By:', `${message.author}`)
+    .addField('Reported User:', `${user}`)
+    .addField('Report Reason:', `${report}`)
+    .setFooter('Reaper')
+    findchannel.sendEmbed(sugembed)
+        .then(function (message) {
+          message.react('✅')
+          message.react('❌')
+        })
+        .catch(err => {
+            message.reply(`Error 404: The report Channel Cant Find Or Not Set To Set The report Channel Type: ${prefix}setSug`)
+            console.error(err);
+        });
+        }
+      }
+    })
 
 
 
