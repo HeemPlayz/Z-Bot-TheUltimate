@@ -45,15 +45,15 @@ client.on('message', message => {
       message.channel.sendEmbed(embed)
       pics[message.guild.id] = {
       channel: room || null
-      },
+      }
       fs.writeFile("./pics.json", JSON.stringify(pics), (err) => {
       if (err) console.error(err)
       })
           } else {
        
   if(message.author.bot) return;
- 
-  if(message.channel.name !== `${pics[message.guild.id].channel}` || `pics`) return;
+
+  if(message.channel.name !== `${pics[message.guild.id].channel}`) return;
 
 
   let types = [
@@ -64,7 +64,7 @@ client.on('message', message => {
 
   if (message.attachments.size <= 0) {
     message.delete();
-    message.channel.send(`${message.author}, This channel for Pic 🖼️ Only`) 
+    message.channel.send(`${message.author}, This channel for Pic 🖼️ Only`) // 
     .then(msg => {
       setTimeout(() => {
         msg.delete();
@@ -91,7 +91,6 @@ client.on('message', message => {
   }
 
 }})
-
 client.on('message', message => {
     if(!message.channel.guild) return;
 if(message.content.startsWith('>rolebc')) {
