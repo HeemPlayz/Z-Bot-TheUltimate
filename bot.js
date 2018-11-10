@@ -29,6 +29,71 @@ const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
 
+const fs = require('fs')
+const pics = JSON.parse(fs.readFileSync('./pics.json' , 'utf8'));
+client.on('message', message => {
+  let room = message.content.split(" ").slice(1);
+  let findroom = message.guild.channels.find('name', `${room}`)
+  if(message.content.startsWith(prefix + "setPics")) {
+      if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+      if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
+      if(!room) return message.channel.send('Please Type The Channel Name')
+      if(!findroom) return message.channel.send('Cant Find This Channel')
+      let embed = new Discord.RichEmbed()
+      .setTitle('**Done The PicsOnly Code Has Been Setup**')
+      .addField('Channel:', `${room}`)
+      .setThumbnail(message.author.avatarURL)
+      .setFooter(`${client.user.username}`)
+      message.channel.sendEmbed(embed)
+      pics[message.guild.id] = {
+      channel: room,
+      }
+      fs.writeFile("./pics.json", JSON.stringify(pics), (err) => {
+      if (err) console.error(err)
+      })
+          } else {
+       
+  if(message.author.bot) return;
+
+  if(message.channel.name !== `${pics[message.guild.id].channel}`) return;
+
+
+  let types = [
+    'jpg',
+    'jpeg',
+    'png'
+  ]
+
+  if (message.attachments.size <= 0) {
+    message.delete();
+    message.channel.send(`${message.author}, This channel for Pic 🖼️ Only`) // 
+    .then(msg => {
+      setTimeout(() => {
+        msg.delete();
+      }, 5000)
+  })
+  return;
+}
+
+  if(message.attachments.size >= 1) {
+    let filename = message.attachments.first().filename
+    console.log(filename);
+    if(!types.some( type => filename.endsWith(type) )) {
+      message.delete();
+      message.channel.send(`${message.author}, This channel for Pic 🖼️ Only`)
+      .then(msg => {
+        setTimeout(() => {
+          msg.delete();
+        }, 5000)
+      })
+      .catch(err => {
+        console.error(err);
+    });
+    }
+  }
+
+}})
+
 client.on('message', message => {
     if(!message.channel.guild) return;
 if(message.content.startsWith('>rolebc')) {
@@ -1082,6 +1147,7 @@ and to turn on the autorole type >autorole toggle)**
 ❯ >unban → Unban member by id
 ❯ >unmute → Unmutes a member
 ❯ >warn → Warns a member
+❯ >setPics → Set The Pictures Text Channel
 ❯ >setTime → Create Hour Room 
 ❯ >setDate → Create Date Room 
 ❯ >setDays → Create Day Room 
