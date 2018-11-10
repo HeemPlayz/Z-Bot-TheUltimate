@@ -28,7 +28,6 @@ const stockfish = new Engine('stockfish-8-mac/Mac/stockfish-8-64');
 const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
-
 const pics = JSON.parse(fs.readFileSync('./pics.json' , 'utf8'));
 client.on('message', message => {
   let room = message.content.split(" ").slice(1);
@@ -45,16 +44,16 @@ client.on('message', message => {
       .setFooter(`${client.user.username}`)
       message.channel.sendEmbed(embed)
       pics[message.guild.id] = {
-      channel: room,
-      }
+      channel: room || null
+      },
       fs.writeFile("./pics.json", JSON.stringify(pics), (err) => {
       if (err) console.error(err)
       })
           } else {
        
   if(message.author.bot) return;
-
-  if(message.channel.name !== `${pics[message.guild.id].channel}`) return;
+ 
+  if(message.channel.name !== `${pics[message.guild.id].channel}` || `pics`) return;
 
 
   let types = [
@@ -65,7 +64,7 @@ client.on('message', message => {
 
   if (message.attachments.size <= 0) {
     message.delete();
-    message.channel.send(`${message.author}, This channel for Pic 🖼️ Only`) // 
+    message.channel.send(`${message.author}, This channel for Pic 🖼️ Only`) 
     .then(msg => {
       setTimeout(() => {
         msg.delete();
