@@ -29,7 +29,6 @@ const prefix = ">";
 let done = {};
 const Token = process.env.BOT_TOKEN
 
-const fs = require('fs')
 const pics = JSON.parse(fs.readFileSync('./pics.json' , 'utf8'));
 client.on('message', message => {
   let room = message.content.split(" ").slice(1);
