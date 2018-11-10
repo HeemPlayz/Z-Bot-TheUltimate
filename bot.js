@@ -44,7 +44,7 @@ client.on('message', message => {
       .setFooter(`${client.user.username}`)
       message.channel.sendEmbed(embed)
       pics[message.guild.id] = {
-      channel: room || null
+      channel: room,
       }
       fs.writeFile("./pics.json", JSON.stringify(pics), (err) => {
       if (err) console.error(err)
