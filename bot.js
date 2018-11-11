@@ -5932,7 +5932,7 @@ if (err) console.error(err)
     .setTitle('New Report !')
     .addField('Report By:', `${message.author}`)
     .addField('Reported User:', `${user}`)
-    .addField('Report Reason:', `${report}`)
+    .addField('Report Reason:', `${reason}`)
     .setFooter('Reaper')
     findchannel.sendEmbed(sugembed)
         .then(function (message) {
