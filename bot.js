@@ -5928,6 +5928,7 @@ if (err) console.error(err)
       if(!user)  return  message.channel.send("**You didn\'t mention the user to report**")
       if(!reason) return message.reply(`**Please provide a reason**`)
     let findchannel = (message.guild.channels.find('name', `${reportjson[message.guild.id].channel}`))
+    if(!findchannel) return message.reply(`Error 404: The report Channel Cant Find Or Not Set To Set The report Channel Type: ${prefix}setReport`)
     let sugembed = new Discord.RichEmbed()
     .setTitle('New Report !')
     .addField('Report By:', `${message.author}`)
@@ -5940,7 +5941,7 @@ if (err) console.error(err)
           message.react('❌')
         })
         .catch(err => {
-            message.reply(`Error 404: The report Channel Cant Find Or Not Set To Set The report Channel Type: ${prefix}setSug`)
+            message.reply(`Error 404: The report Channel Cant Find Or Not Set To Set The report Channel Type: ${prefix}setReport`)
             console.error(err);
         });
         }
