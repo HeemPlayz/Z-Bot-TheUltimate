@@ -5924,9 +5924,9 @@ if (err) console.error(err)
     if(message.content.startsWith(`${prefix}report`)) {
         let  user  =  message.mentions.users.first();
       if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
-      let report = message.content.split(" ").slice(1);
-      if(!user)  return  message.channel.send("**Mention A Person To Report**")//by  orochix
-      if(!report) return message.reply(`**Please Type The Report**`)
+    let reason = message.content.split(" ").slice(2).join(" ");
+      if(!user)  return  message.channel.send("**You didn\'t mention the user to report**")
+      if(!reason) return message.reply(`**Please provide a reason**`)
     let findchannel = (message.guild.channels.find('name', `${reportjson[message.guild.id].channel}`))
     let sugembed = new Discord.RichEmbed()
     .setTitle('New Report !')
