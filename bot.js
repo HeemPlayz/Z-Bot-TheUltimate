@@ -5988,7 +5988,7 @@ channel: room,
 fs.writeFile("./report.json", JSON.stringify(reportjson), (err) => {
 if (err) console.error(err)
 })
-    } else {
+client.on('message', message => {
  
     if(message.content.startsWith(`${prefix}report`)) {
         let  user  =  message.mentions.users.first();
@@ -6016,7 +6016,8 @@ if (err) console.error(err)
         });
         }
       }
-    })
+)}
+})
 
 
 
