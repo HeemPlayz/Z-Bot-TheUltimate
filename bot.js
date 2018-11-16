@@ -5924,44 +5924,29 @@ message.react(":x:")
  }}});
 
 
- const hastebin = require('hastebin.js');
-var h = new hastebin({});
-
-client.on('message', message => {
-    if (!message.content.startsWith(prefix)) return;
-    var args = message.content.split(' ');
-    var command = args[0];
-    switch(command) {
-        case ">prune":
-        if (message.channel.type !== "text") return message.reply("** This Command is Only For Servers | :x: **");
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("** You Don't Have Access To Do This Command | :x: **");
-        if (!args[1]) args[1] = 100;
-        var count = parseInt(args[1]);
-        if (isNaN(count)) return message.reply("** You Have To Type Number | :x: **");
-        message.channel.bulkDelete(count).then(msgs => {
-          message.channel.send("```php\nعدد الرسائل التي تم مسحها: " + msgs.size + "\n```").then(m => m.delete(3000));            
-            var x = 0;
-            var messages = msgs.map(m => `${++x} - ${m.author.tag}  :  ${m.content.split(" ").join(" ")}`).join(`
-`);
-            fs.writeFile(`${message.guild.id}.txt`, messages, (err) => {
-                if (err) console.log(err.message);
-                h.post(messages).then(url => {
-                    var c = message.guild.channels.find("name", "log");
-                    if (!c) return;
-                    var embed = new Discord.RichEmbed()
-                    .setTitle(`Bulk Delete. | ${msgs.size} Messages`)
-                    .setAuthor(client.user.tag, client.user.avatarURL)
-                    .setThumbnail(message.guild.iconURL)
-                    .setColor("RANDOM")
-                    .setDescription(`By \`${message.author.tag}\`\n\n In #${message.channel.name}\n\n [Vew Messages on : \`HasteBin\`](${url})`)
-                    .attachFile(`./${message.guild.id}.txt`);
-                    c.send(`Download Messages : `, {embed : embed});
-                });
-            });
-        });
-        break;
-    };
-});
+ client.on('message', msg => {
+    if (msg.author.bot) return;
+    if (!msg.content.startsWith(prefix)) return;
+    let command = msg.content.split(" ")[0];
+    command = command.slice(prefix.length);
+    let args = msg.content.split(" ").slice(1);
+  
+      if(command === "clear") {
+          const emoji = client.emojis.find("name", "wastebasket")
+      let textxt = args.slice(0).join("");
+      if(msg.member.hasPermission("MANAGE_MESSAGES")) {
+      if (textxt == "") {
+          msg.delete().then
+          msg.channel.bulkDelete(1000).then(m => m.delete(3000));
+  } else {
+      msg.delete().then
+      msg.delete().then
+      msg.channel.bulkDelete(textxt);
+          msg.channel.send("```php\nعدد الرسائل التي تم مسحها: " + textxt + "\n```").then(m => m.delete(3000));
+          }    
+      }
+  }
+  });
 
 
 
