@@ -4392,7 +4392,8 @@ channel: room,
 fs.writeFile("./sug.json", JSON.stringify(sug), (err) => {
 if (err) console.error(err)
 })
-    } else {
+   client.on('message', message => {
+
  
     if(message.content.startsWith(`${prefix}suggest`)) {
       if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
@@ -4414,8 +4415,8 @@ if (err) console.error(err)
             console.error(err);
         });
         }
-      }
-    })
+      })
+    }})
 
 
  client.on('message', function(message) {
