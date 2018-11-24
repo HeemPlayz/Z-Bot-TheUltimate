@@ -190,105 +190,7 @@ let embed = new Discord.RichEmbed()
 .setColor('RANDOM')
 message.channel.sendEmbed(embed)
   }})
-const pics = JSON.parse(fs.readFileSync('./pics.json' , 'utf8'));
 
-client.on('message', message => {
-  let room = message.content.split(" ").slice(1);
-  let findroom = message.guild.channels.find('name', `${room}`)
-  if(message.content.startsWith(prefix + "setMedia")) {
-      if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
-      if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
-      if(!room) return message.channel.send('Please Type The Channel Name')
-      if(!findroom) return message.channel.send('Cant Find This Channel')
-      let embed = new Discord.RichEmbed()
-      .setTitle('**Done The MediaOnly Code Has Been Setup**')
-      .addField('Channel:', `${room}`)
-      .addField('Requested By', `${message.author}`)
-      .setThumbnail(message.author.avatarURL)
-      .setFooter(`${client.user.username}`)
-      message.channel.sendEmbed(embed)
-      pics[message.guild.id] = {
-      channel: room,
-      onoff: 'On'
-      },
-      fs.writeFile("./pics.json", JSON.stringify(pics), (err) => {
-      if (err) console.error(err)
-      
-      })
-    }})
-
-
-      
-client.on('message', message => {
-  
-  if(message.content.startsWith(prefix + "toggleMedia")) {
-      if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
-      if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
-      if(!pics[message.guild.id]) pics[message.guild.id] = {
-        onoff: 'Off'
-      }
-        if(pics[message.guild.id].onoff === 'Off') return [message.channel.send(`**The Autorole Is __𝐎𝐍__ !**`), pics[message.guild.id].onoff = 'On']
-        if(pics[message.guild.id].onoff === 'On') return [message.channel.send(`**The Autorole Is __𝐎𝐅𝐅__ !**`), pics[message.guild.id].onoff = 'Off']
-        fs.writeFile("./pics.json", JSON.stringify(pics), (err) => {
-          if (err) console.error(err)
-          
-          })
-        }
-        
-      })
-      
-
-            client.on('message', message => {
-  if(message.author.bot) return;
- 
-  if(message.channel.name !== `${pics[message.guild.id].channel}`) return;
-  if(pics[message.guild.id].onoff === 'Off') return;
-
-  let types = [
-    'jpg',
-    'jpeg',
-    'png',
-  ]
-
-  if (message.attachments.size <= 0) {
-    message.delete();
-    message.channel.send(`${message.author}, This Channel For Media 🖼️ Only !`) 
-    .then(msg => {
-      setTimeout(() => {
-        msg.delete();
-      }, 5000)
-  })
-  return;
-}
-
-  if(message.attachments.size >= 1) {
-    let filename = message.attachments.first().filename
-    console.log(filename);
-    if(!types.some( type => filename.endsWith(type) )) {
-      message.delete();
-      message.channel.send(`${message.author}, This Channel For Media 🖼️ Only !`)
-      .then(msg => {
-        setTimeout(() => {
-          msg.delete();
-        }, 5000)
-      })
-      .catch(err => {
-        console.error(err);
-    });
-    }
-  }
-
-})
-client.on('message', message => {
-  if(message.content.startsWith(prefix + "infoMedia")) {
-let embed = new Discord.RichEmbed()
-.addField('Channel Status', `${pics[message.guild.id].onoff}`)
-.addField('Media Channel', `${pics[message.guild.id].channel}`)
-.addField('Requested By', `${message.author}`)
-.setThumbnail(message.author.avatarURL)
-.setFooter(`${client.user.username}`)
-message.channel.sendEmbed(embed)
-  }})
   
 const reply = JSON.parse(fs.readFileSync('./replys.json' , 'utf8'));
 client.on('message', async message => {
@@ -1326,14 +1228,14 @@ client.on('message',message =>{
 client.on("message", message => {
   if (message.content === ">help") {
 message.author.send(`**
-╭╮╭━╮╱╱╱╱╱╱╭━━╮╱╱╱╭╮
-┃┃┃╭╯╱╱╱╱╱╱┃╭╮┃╱╱╭╯╰╮
-┃╰╯╯╭┳━╮╭━━┫╰╯╰┳━┻╮╭╯
-┃╭╮┃┣┫╭╮┫╭╮┃╭━╮┃╭╮┃┃
-┃┃┃╰┫┃┃┃┃╰╯┃╰━╯┃╰╯┃╰╮
-╰╯╰━┻┻╯╰┻━╮┣━━━┻━━┻━╯
-╱╱╱╱╱╱╱╱╭━╯┃
-╱╱╱╱╱╱╱╱╰━━╯
+╭━━━╮
+┃╭━╮┃
+┃╰━╯┣━━┳━━┳━━┳━━┳━╮
+┃╭╮╭┫┃━┫╭╮┃╭╮┃┃━┫╭╯
+┃┃┃╰┫┃━┫╭╮┃╰╯┃┃━┫┃
+╰╯╰━┻━━┻╯╰┫╭━┻━━┻╯
+╱╱╱╱╱╱╱╱╱╱┃┃
+╱╱╱╱╱╱╱╱╱╱╰╯
 
 All Commands StartsWith: ${prefix}
 :record_button: ~~__**Create a room named log to start the log**__~~ :record_button: 
@@ -1412,7 +1314,7 @@ and to turn on the autorole type >autorole toggle)**
 ❯ >warn → Warns a member
 ❯ >setSug → Set the suggest channel
 ❯ >setReport → Set the report channel
-❯ >setPics → Set The Pictures Text Channel
+❯ >setLog → Set the log channel
 ❯ >setTime → Create Hour Room 
 ❯ >setDate → Create Date Room 
 ❯ >setDays → Create Day Room 
@@ -5240,14 +5142,88 @@ client.on('message', message => {
 message.channel.sendEmbed(embed);
  }
 });
+
+const log = JSON.parse(fs.readFileSync('./log.json' , 'utf8'));
+//Perfect log Code
+client.on('message', async message => {
+    let messageArray = message.content.split(" ");
+   if(message.content.startsWith(prefix + "setLog")) {
+    let filter = m => m.author.id === message.author.id;
+    let channel;
+ 
+    if(!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send('You don\'t have permission').then(msg => {
+       msg.delete(4500);
+       message.delete(4500);
+    });
+   
+    message.channel.send(':pencil: **| Please Type The Role Required To Type The log Command ... :pencil2: **').then(msg => {
+ 
+        message.channel.awaitMessages(filter, {
+          max: 1,
+          time: 90000,
+          errors: ['time']
+        })
+                .then(collected => {
+                    collected.first().delete();
+                    channel = collected.first().content;
+                    msg.edit('✅ **| Successfully Setup !...  **').then(msg => {
+       
+                      message.channel.awaitMessages(filter, {
+                        max: 1,
+                        time: 90000,
+                        errors: ['time']
+                      })
+                    
+      let embed = new Discord.RichEmbed()
+      .setTitle('**Done The log Code Has Been Setup**')
+      .addField('channel:', `${channel}`)
+      .addField('Requested By:', `${message.author}`)
+      .setThumbnail(message.author.avatarURL)
+      .setFooter(`${client.user.username}`)
+      .setColor('RANDOM')
+      log[message.guild.id] = {
+      onoff: 'On',
+      logchannel: channel,
+      },
+      message.channel.sendEmbed(embed)
+      fs.writeFile("./log.json", JSON.stringify(log), (err) => {
+      if (err) console.error(err)
+    })
+      })
+    })
+   })
+ }})
+
+
+         
+client.on('message', message => {
+  
+    if(message.content.startsWith(prefix + "toggleLog")) {
+        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
+        if(!log[message.guild.id]) log[message.guild.id] = {
+          onoff: 'Off'
+        }
+          if(log[message.guild.id].onoff === 'Off') return [message.channel.send(`**The log Is __𝐎𝐍__ !**`), log[message.guild.id].onoff = 'On']
+          if(log[message.guild.id].onoff === 'On') return [message.channel.send(`**The log Is __𝐎𝐅𝐅__ !**`), log[message.guild.id].onoff = 'Off']
+          fs.writeFile("./log.json", JSON.stringify(log), (err) => {
+            if (err) console.error(err)
+            .catch(err => {
+              console.error(err);
+          });
+            });
+          }
+          
+        })
+
 client.on('messageDelete', message => {
 
 	if(message.author.bot) return;
 	if(message.channel.type === 'dm') return;
 	if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!message.guild.member(client.user).hasPermission('MANAGE_MESSAGES')) return;
-
-	var logChannel = message.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = message.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	let messageDelete = new Discord.RichEmbed()
@@ -5266,8 +5242,8 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 	if(!oldMessage.channel.type === 'dm') return;
 	if(!oldMessage.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!oldMessage.guild.member(client.user).hasPermission('MANAGE_MESSAGES')) return;
-
-	var logChannel = oldMessage.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = oldMessage.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	if(oldMessage.content.startsWith('https://')) return;
@@ -5288,8 +5264,8 @@ client.on('roleCreate', role => {
 
 	if(!role.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!role.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = role.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = role.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	role.guild.fetchAuditLogs().then(logs => {
@@ -5311,8 +5287,8 @@ client.on('roleDelete', role => {
 
 	if(!role.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!role.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = role.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = role.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	role.guild.fetchAuditLogs().then(logs => {
@@ -5334,8 +5310,8 @@ client.on('roleUpdate', (oldRole, newRole) => {
 
 	if(!oldRole.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!oldRole.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = oldRole.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = oldRole.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	oldRole.guild.fetchAuditLogs().then(logs => {
@@ -5343,6 +5319,7 @@ client.on('roleUpdate', (oldRole, newRole) => {
 		var userAvatar = logs.entries.first().executor.avatarURL;
 
 		if(oldRole.name !== newRole.name) {
+            if(log[message.guild.id].onoff === 'Off') return;
 			let roleUpdateName = new Discord.RichEmbed()
 			.setTitle('**[ROLE NAME UPDATE]**')
 			.setThumbnail(userAvatar)
@@ -5363,7 +5340,8 @@ client.on('roleUpdate', (oldRole, newRole) => {
 				var newColor = '`Default`';
 			}else {
 				var newColor = newRole.hexColor;
-			}
+            }
+            if(log[message.guild.id].onoff === 'Off') return;
 			let roleUpdateColor = new Discord.RichEmbed()
 			.setTitle('**[ROLE COLOR UPDATE]**')
 			.setThumbnail(userAvatar)
@@ -5383,8 +5361,8 @@ client.on('channelCreate', channel => {
 	if(!channel.guild) return;
 	if(!channel.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!channel.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = channel.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = channel.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	if(channel.type === 'text') {
@@ -5416,8 +5394,8 @@ client.on('channelDelete', channel => {
 	if(!channel.guild) return;
 	if(!channel.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!channel.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = channel.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = channel.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	if(channel.type === 'text') {
@@ -5447,8 +5425,8 @@ client.on('channelDelete', channel => {
 });
 client.on('channelUpdate', (oldChannel, newChannel) => {
 	if(!oldChannel.guild) return;
-
-	var logChannel = oldChannel.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = oldChannel.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	if(oldChannel.type === 'text') {
@@ -5477,6 +5455,7 @@ client.on('channelUpdate', (oldChannel, newChannel) => {
 			logChannel.send(newName);
 		}
 		if(oldChannel.topic !== newChannel.topic) {
+            if(log[message.guild.id].onoff === 'Off') return;
 			let newTopic = new Discord.RichEmbed()
 			.setTitle('**[CHANNEL EDIT]**')
 			.setThumbnail(userAvatar)
@@ -5495,8 +5474,8 @@ client.on('guildBanAdd', (guild, user) => {
 
 	if(!guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	guild.fetchAuditLogs().then(logs => {
@@ -5519,8 +5498,8 @@ client.on('guildBanAdd', (guild, user) => {
 client.on('guildBanRemove', (guild, user) => {
 	if(!guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	guild.fetchAuditLogs().then(logs => {
@@ -5544,8 +5523,8 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
 
 	if(!oldGuild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!oldGuild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = oldGuild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = oldGuild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	oldGuild.fetchAuditLogs().then(logs => {
@@ -5564,6 +5543,7 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
 			logChannel.send(guildName)
 		}
 		if(oldGuild.region !== newGuild.region) {
+            if(log[message.guild.id].onoff === 'Off') return;
 			let guildRegion = new Discord.RichEmbed()
 			.setTitle('**[CHANGE GUILD REGION]**')
 			.setThumbnail(userAvatar)
@@ -5606,7 +5586,7 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
 			if(newGuild.verificationLevel === 4) {
 				var newVerLvl = 'Very Hard';
 			}
-
+            if(log[message.guild.id].onoff === 'Off') return;
 			let verLog = new Discord.RichEmbed()
 			.setTitle('**[GUILD VERIFICATION LEVEL CHANGE]**')
 			.setThumbnail(userAvatar)
@@ -5621,8 +5601,8 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
 });
 client.on('guildMemberUpdate', (oldMember, newMember) => {
 	if(!oldMember.guild) return;
-
-	var logChannel = oldMember.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = oldMember.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	oldMember.guild.fetchAuditLogs().then(logs => {
@@ -5654,7 +5634,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 		}
 		if(oldMember.roles.size < newMember.roles.size) {
 			let role = newMember.roles.filter(r => !oldMember.roles.has(r.id)).first();
-
+            if(log[message.guild.id].onoff === 'Off') return;
 			let roleAdded = new Discord.RichEmbed()
 			.setTitle('**[ADDED ROLE TO MEMBER]**')
 			.setThumbnail(oldMember.guild.iconURL)
@@ -5667,7 +5647,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 		}
 		if(oldMember.roles.size > newMember.roles.size) {
 			let role = oldMember.roles.filter(r => !newMember.roles.has(r.id)).first();
-
+            if(log[message.guild.id].onoff === 'Off') return;
 			let roleRemoved = new Discord.RichEmbed()
 			.setTitle('**[REMOVED ROLE FROM MEMBER]**')
 			.setThumbnail(oldMember.guild.iconURL)
@@ -5680,7 +5660,8 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 		}
 	})
 	if(oldMember.guild.owner.id !== newMember.guild.owner.id) {
-		let newOwner = new Discord.RichEmbed()
+        if(log[message.guild.id].onoff === 'Off') return;
+        let newOwner = new Discord.RichEmbed()
 		.setTitle('**[UPDATE GUILD OWNER]**')
 		.setThumbnail(oldMember.guild.iconURL)
 		.setColor('GREEN')
@@ -5697,8 +5678,8 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 
 	if(!voiceOld.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
 	if(!voiceOld.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
-
-	var logChannel = voiceOld.guild.channels.find(c => c.name === 'log');
+    if(log[message.guild.id].onoff === 'Off') return;
+	var logChannel = voiceOld.guild.channels.find(c => c.name === `${log[message.guild.id].channel}`);
 	if(!logChannel) return;
 
 	voiceOld.guild.fetchAuditLogs().then(logs => {
@@ -5718,6 +5699,7 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 			logChannel.send(serverMutev);
 		}
 		if(voiceOld.serverMute === true && voiceNew.serverMute === false) {
+            if(log[message.guild.id].onoff === 'Off') return;
 			let serverUnmutev = new Discord.RichEmbed()
 			.setTitle('**[VOICE UNMUTE]**')
 			.setThumbnail('https://images-ext-1.discordapp.net/external/u2JNOTOc1IVJGEb1uCKRdQHXIj5-r8aHa3tSap6SjqM/https/cdn.pg.sa/Iy4t8H4T7n.png')
@@ -5729,6 +5711,7 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 			logChannel.send(serverUnmutev);
 		}
 		if(voiceOld.serverDeaf === false && voiceNew.serverDeaf === true) {
+            if(log[message.guild.id].onoff === 'Off') return;
 			let serverDeafv = new Discord.RichEmbed()
 			.setTitle('**[VOICE DEAF]**')
 			.setThumbnail('https://images-ext-1.discordapp.net/external/7ENt2ldbD-3L3wRoDBhKHb9FfImkjFxYR6DbLYRjhjA/https/cdn.pg.sa/auWd5b95AV.png')
@@ -5740,6 +5723,7 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 			logChannel.send(serverDeafv);
 		}
 		if(voiceOld.serverDeaf === true && voiceNew.serverDeaf === false) {
+            if(log[message.guild.id].onoff === 'Off') return;
 			let serverUndeafv = new Discord.RichEmbed()
 			.setTitle('**[VOICE UNDEAF]**')
 			.setThumbnail('https://images-ext-2.discordapp.net/external/s_abcfAlNdxl3uYVXnA2evSKBTpU6Ou3oimkejx3fiQ/https/cdn.pg.sa/i7fC8qnbRF.png')
@@ -5753,6 +5737,7 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 	})
 	
 	if(voiceOld.voiceChannelID !== voiceNew.voiceChannelID && voiceNew.voiceChannel && voiceOld.voiceChannel != null) {
+        if(log[message.guild.id].onoff === 'Off') return;
 		let voiceLeave = new Discord.RichEmbed()
 		.setTitle('**[CHANGED VOICE ROOM]**')
 		.setColor('GREEN')
